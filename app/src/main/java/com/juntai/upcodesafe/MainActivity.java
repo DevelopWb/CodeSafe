@@ -5,20 +5,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.juntai.disabled.basecomponent.utils.ActionConfig;
@@ -29,22 +24,23 @@ import com.juntai.upcodesafe.base.customview.CustomViewPager;
 import com.juntai.upcodesafe.base.customview.MainPagerAdapter;
 import com.juntai.upcodesafe.entrance.LoginActivity;
 import com.juntai.upcodesafe.home_page.HomePageFragment;
+import com.juntai.upcodesafe.home_page.QRScanActivity;
 import com.juntai.upcodesafe.mine.MyCenterFragment;
 
 public class MainActivity extends BaseAppActivity<MainPagePresent> implements ViewPager.OnPageChangeListener,
         View.OnClickListener, MainPageContract.IMainPageView {
     private MainPagerAdapter adapter;
-    private LinearLayout mainLayout;
     private CustomViewPager mainViewpager;
 
     private TabLayout mainTablayout;
-    private String[] title = new String[]{"首页", "添加","我的"};
-    private int[] tabDrawables = new int[]{R.drawable.home_index,R.drawable.home_index,R.drawable.home_msg};
+    private String[] title = new String[]{"首页", "", "我的"};
+    private int[] tabDrawables = new int[]{R.drawable.home_index, R.drawable.empty_drawable, R.drawable.home_msg};
     private SparseArray<Fragment> mFragments = new SparseArray<>();
     //
     CGBroadcastReceiver broadcastReceiver = new CGBroadcastReceiver();
 
     PopupWindow popupWindow;
+    private ImageView mAaa;
 
 
     @Override
@@ -56,21 +52,21 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
     public void initView() {
         mainViewpager = findViewById(R.id.main_viewpager);
         mainTablayout = findViewById(R.id.main_tablayout);
-        mainLayout = findViewById(R.id.main_layout);
         mainViewpager.setScanScroll(false);
         mFragments.append(0, new HomePageFragment());//
-//        mFragments.append(1, new HandlerBusinessFragment());//
-        mFragments.append(1, new MyCenterFragment());//资讯
+        mFragments.append(1, new MyCenterFragment());//
         //
         getToolbar().setVisibility(View.GONE);
         mBaseRootCol.setFitsSystemWindows(false);
-        mainViewpager.setOffscreenPageLimit(4);
+        mainViewpager.setOffscreenPageLimit(2);
         initTab();
         //注册广播
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ActionConfig.BROAD_LOGIN);
         intentFilter.addAction(ActionConfig.BROAD_CASE_DETAILS);
         registerReceiver(broadcastReceiver, intentFilter);
+        mAaa = (ImageView) findViewById(R.id.scan_home_iv);
+        mAaa.setOnClickListener(this);
     }
 
     @Override
@@ -101,13 +97,7 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
         mainTablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 1) {
-                    //条件弹窗
-                    add(mainTablayout);
-                } else {
-                    mainViewpager.setCurrentItem(tab.getPosition(), false);
-
-                }
+                mainViewpager.setCurrentItem(tab.getPosition(), false);
 
             }
 
@@ -118,10 +108,6 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 1) {
-                    //条件弹窗
-                    add(mainTablayout);
-                }
             }
         });
 
@@ -144,40 +130,6 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
     public void onPageScrollStateChanged(int i) {
 
     }
-    /**
-     * 添加
-     *
-     * @param view
-     */
-    public void add(View view) {
-        View viewPop = LayoutInflater.from(mContext).inflate(R.layout.pop_add, null);
-        //背景颜色
-        view.setBackgroundColor(Color.WHITE);
-        TextView shadowTv = viewPop.findViewById(R.id.shadow_tv);
-        shadowTv.setOnClickListener(this);
-        popupWindow = new PopupWindow(viewPop, ViewGroup.LayoutParams.MATCH_PARENT,
-                MyApp.HEIGHT - mainTablayout.getLayoutParams().height - MyApp.statusBarH, true);
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                mImmersionBar.statusBarColor(R.color.white).statusBarDarkFont(true).init();
-            }
-        });
-        //显示（自定义位置）
-        popupWindow.showAtLocation(mainTablayout, Gravity.TOP, 0, 0);
-        if (popupWindow.isShowing()) {
-            mImmersionBar.statusBarColor(R.color.gray_light).statusBarDarkFont(true).init();
-        }
-        viewPop.findViewById(R.id.anjian_btn).setOnClickListener(v -> {
-            popupWindow.dismiss();
-        });
-        viewPop.findViewById(R.id.zixun_btn).setOnClickListener(v -> {
-            popupWindow.dismiss();
-        });
-        viewPop.findViewById(R.id.site_iv).setOnClickListener(v -> {
-            popupWindow.dismiss();
-        });
-    }
 
     @Override
     public void onSuccess(String tag, Object o) {
@@ -190,7 +142,13 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.scan_home_iv:
+                startActivity(new Intent(mContext, QRScanActivity.class));
+                break;
+            default:
+                break;
+        }
     }
 
 
@@ -271,7 +229,6 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
     public void onPause() {
         super.onPause();
     }
-
 
 
 }

@@ -6,6 +6,7 @@
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#ffffff</color>
     <color name="gray_light">#f2f2f2</color>
+    <color name="gray_lighter">#ECECEC</color>
     <color name="background2">#22cccccc</color>
     <color name="gray">#AAAAAA</color>
     <color name="divider_color">#eeeeee</color>

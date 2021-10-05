@@ -2,6 +2,7 @@ package com.juntai.upcodesafe.mine;
 
 
 import com.juntai.disabled.basecomponent.mvp.IView;
+import com.juntai.upcodesafe.bean.MultipleItem;
 import com.juntai.upcodesafe.bean.MyMenuBean;
 
 import java.util.List;
@@ -29,6 +30,6 @@ public interface MyCenterContract {
     interface ICenterPresent {
         void initList();
 
-        List<MyMenuBean> getMenuBeans();
+        List<MultipleItem> getMenuBeans();
     }
 }

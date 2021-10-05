@@ -4,6 +4,7 @@ package com.juntai.upcodesafe.mine;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -60,28 +61,13 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
         mMenuRecycler = getView(R.id.menu_recycler);
         mLoginOut = getView(R.id.login_out);
         mLoginOut.setOnClickListener(this);
-        myMenuAdapter = new MyMenuAdapter(R.layout.my_center_menu_item, mPresenter.getMenuBeans());
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext,3);
-        myMenuAdapter.setGridLayoutManager(gridLayoutManager);
-        mMenuRecycler.setLayoutManager(gridLayoutManager);
-        mMenuRecycler.addItemDecoration(new GridDividerItemDecoration(mContext));
-        mMenuRecycler.setAdapter(myMenuAdapter);
+        myMenuAdapter = new MyMenuAdapter(mPresenter.getMenuBeans());
+        getBaseActivity().initRecyclerview(mMenuRecycler,myMenuAdapter, LinearLayoutManager.VERTICAL);
         mStatusTopTitle.setText("个人中心");
 
         myMenuAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//                if (!MyApp.isLogin()){
-//                    MyApp.goLogin();
-//                    return;
-//                }
-                if (myMenuAdapter.getData().get(position).getCls() != null) {
-                    switch (myMenuAdapter.getData().get(position).getTag()) {
-                        default:
-                            startActivity(new Intent(mContext, myMenuAdapter.getData().get(position).getCls()));
-                            break;
-                    }
-                }
             }
         });
     }
