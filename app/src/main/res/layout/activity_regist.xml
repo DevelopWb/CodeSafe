@@ -56,12 +56,13 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_white_only_bottom_accent_shape_5dp"
             android:paddingBottom="5dp"
-            android:text="登录"
+            android:text="注册"
             android:textSize="26dp"></TextView>
 
 
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
+            android:orientation="vertical"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
 
@@ -69,12 +70,42 @@
             <EditText
                 android:id="@+id/regist_phone_et"
                 style="@style/login_edit_tv_style"
-                android:layout_width="match_parent"
-                android:hint="账号"
-                android:maxLength="11"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginTop="10dp"
+                android:hint="注册手机号"
+                android:inputType="phone"
+                android:maxLength="11" />
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center">
+
+
+                <EditText
+                    android:id="@+id/regist_check_code_et"
+                    style="@style/login_edit_tv_style"
+                    android:layout_weight="1"
+                    android:hint="短信验证码"
+                    android:inputType="number"
+                    android:maxLength="6" />
+
+                <TextView
+                    android:id="@+id/regist_send_check_code_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/stroke_blue_square_bg"
+                    android:paddingLeft="7dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="7dp"
+                    android:paddingBottom="5dp"
+                    android:text="获取验证码"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16dp" />
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/password"
@@ -84,51 +115,15 @@
                 android:hint="密码"
                 android:inputType="textPassword"
                 android:maxLength="16"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/regist_phone_et" />
+                 />
 
-        </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:id="@+id/login_tv"
-                style="@style/bt_bg_style"
-                android:text="登录"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingConstraints" />
-
-            <TextView
-                android:id="@+id/forget_pwd_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:text="忘记密码"
-                android:textColor="@color/colorAccent"
-                android:textSize="18dp"
-                app:layout_constraintEnd_toStartOf="@+id/regist_tv"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/login_tv"></TextView>
-
-            <TextView
-                android:id="@+id/regist_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:text="注册"
-                android:textColor="@color/colorAccent"
-                android:textSize="18dp"
-                app:layout_constraintBottom_toBottomOf="@+id/forget_pwd_tv"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/forget_pwd_tv"
-                app:layout_constraintTop_toTopOf="@+id/forget_pwd_tv"></TextView>
-        </android.support.constraint.ConstraintLayout>
-
+        <TextView
+            android:id="@+id/regist_tv"
+            style="@style/bt_bg_style"
+            android:layout_marginTop="5dp"
+            android:text="注册" />
 
     </LinearLayout>
 

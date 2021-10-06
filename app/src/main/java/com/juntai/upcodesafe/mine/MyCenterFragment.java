@@ -15,6 +15,8 @@ import com.juntai.disabled.basecomponent.base.BaseMvpFragment;
 import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.upcodesafe.R;
+import com.juntai.upcodesafe.bean.MultipleItem;
+import com.juntai.upcodesafe.bean.MyMenuBean;
 import com.juntai.upcodesafe.bean.UserBean;
 import com.juntai.upcodesafe.utils.GridDividerItemDecoration;
 import com.juntai.upcodesafe.utils.UserInfoManager;
@@ -68,6 +70,20 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
         myMenuAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                MultipleItem multipleItem = (MultipleItem) adapter.getData().get(position);
+                switch (multipleItem.getItemType()) {
+                    case MultipleItem.ITEM_MENUS:
+                        MyMenuBean myMenuBean = (MyMenuBean) multipleItem.getObject();
+                        switch (myMenuBean.getTag()) {
+                            case MyCenterContract.MENU_NEWS:
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
         });
     }
@@ -88,8 +104,6 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
         super.onResume();
         if (UserInfoManager.isLogin()){
             mLoginOut.setVisibility(View.VISIBLE);
-//            mPresenter.getUserData(MyCenterContract.USER_DATA_TAG);
-            //            mPresenter.getUnReadCount(MyCenterContract.GET_UNREAD_COUNT);
         }else {
             mLoginOut.setVisibility(View.GONE);
         }

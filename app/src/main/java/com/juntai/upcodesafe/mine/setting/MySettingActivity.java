@@ -26,7 +26,6 @@ import com.juntai.upcodesafe.base.BaseAppActivity;
 import com.juntai.upcodesafe.bean.MyMenuBean;
 import com.juntai.upcodesafe.entrance.EntranceContract;
 import com.juntai.upcodesafe.entrance.EntrancePresent;
-import com.juntai.upcodesafe.mine.AboutActivity;
 import com.juntai.upcodesafe.mine.MyCenterContract;
 
 import java.lang.ref.WeakReference;
@@ -149,7 +148,7 @@ public class MySettingActivity extends BaseAppActivity<EntrancePresent> implemen
 //                            bindQQOrWeChat(QQ.NAME);
 //                        }
                         break;
-                    case MyCenterContract.SET_UPDATE_PSD_TAG://修改密码
+                    case MyCenterContract.MODIFY_PWD://修改密码
 //                        startActivity(new Intent(mContext, settingMenuAdapter.getData().get(position).getCls()).putExtra("pageType", 2));
                         break;
                     default:

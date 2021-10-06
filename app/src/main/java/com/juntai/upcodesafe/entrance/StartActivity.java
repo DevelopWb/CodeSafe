@@ -44,7 +44,7 @@ public class StartActivity extends RxAppCompatActivity {
                         } else {
                             //有一个权限没通过
                         }
-                        startActivity(new Intent(StartActivity.this, MainActivity.class));
+                        startActivity(new Intent(StartActivity.this, LoginActivity.class));
                         finish();
 //                        if (SPTools.getBoolean(StartActivity.this, "first_start", true)) {
 //                            startActivity(new Intent(StartActivity.this, GuideActivity.class));
