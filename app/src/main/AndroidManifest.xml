@@ -54,7 +54,8 @@
                 tools:replace="android:name,android:resource" />
         </provider>
 
-        <activity android:name=".entrance.LoginActivity" />
+        <activity android:name=".entrance.LoginActivity"
+            android:windowSoftInputMode="adjustPan"/>
 
         <meta-data
             android:name="android.max_aspect"

@@ -70,22 +70,32 @@
                 android:id="@+id/regist_phone_et"
                 style="@style/login_edit_tv_style"
                 android:layout_width="match_parent"
-                android:hint="账号"
+                android:hint="请输入你的账号"
                 android:maxLength="11"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
             <EditText
-                android:id="@+id/password"
+                android:id="@+id/password_et"
                 style="@style/login_edit_tv_style"
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
-                android:hint="密码"
+                android:hint="请输入你的密码"
                 android:inputType="textPassword"
                 android:maxLength="16"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/regist_phone_et" />
+
+            <ImageView
+                android:id="@+id/hide_show_iv"
+                android:layout_width="40dp"
+                android:padding="10dp"
+                app:layout_constraintRight_toRightOf="@+id/password_et"
+                app:layout_constraintTop_toTopOf="@+id/password_et"
+                app:layout_constraintBottom_toBottomOf="@+id/password_et"
+                android:src="@mipmap/qq_icon"
+                android:layout_height="35dp"></ImageView>
 
         </android.support.constraint.ConstraintLayout>
 

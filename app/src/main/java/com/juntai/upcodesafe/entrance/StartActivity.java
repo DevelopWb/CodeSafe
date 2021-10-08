@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.juntai.upcodesafe.MainActivity;
+import com.juntai.upcodesafe.utils.HawkProperty;
+import com.orhanobut.hawk.Hawk;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
@@ -32,6 +34,7 @@ public class StartActivity extends RxAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Hawk.put(HawkProperty.ACCOUNT_TYPE,0);
         new RxPermissions(this)
                 .request(permissions)
                 .delay(1, TimeUnit.SECONDS)

@@ -23,9 +23,12 @@ import com.juntai.upcodesafe.base.BaseAppActivity;
 import com.juntai.upcodesafe.base.customview.CustomViewPager;
 import com.juntai.upcodesafe.base.customview.MainPagerAdapter;
 import com.juntai.upcodesafe.entrance.LoginActivity;
-import com.juntai.upcodesafe.home_page.HomePageFragment;
+import com.juntai.upcodesafe.home_page.HomePageEnterpriseFragment;
+import com.juntai.upcodesafe.home_page.HomePageMornitorFragment;
 import com.juntai.upcodesafe.home_page.QRScanActivity;
 import com.juntai.upcodesafe.mine.MyCenterFragment;
+import com.juntai.upcodesafe.utils.HawkProperty;
+import com.orhanobut.hawk.Hawk;
 
 public class MainActivity extends BaseAppActivity<MainPagePresent> implements ViewPager.OnPageChangeListener,
         View.OnClickListener, MainPageContract.IMainPageView {
@@ -53,11 +56,15 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
         mainViewpager = findViewById(R.id.main_viewpager);
         mainTablayout = findViewById(R.id.main_tablayout);
         mainViewpager.setScanScroll(false);
-        mFragments.append(0, new HomePageFragment());//
+       int accountType =  Hawk.get(HawkProperty.ACCOUNT_TYPE,0);
+        if (0==accountType) {
+            mFragments.append(0, new HomePageEnterpriseFragment());
+        }else {
+            mFragments.append(0, new HomePageMornitorFragment());//
+        }
         mFragments.append(1, new MyCenterFragment());//
         //
-        getToolbar().setVisibility(View.GONE);
-        mBaseRootCol.setFitsSystemWindows(false);
+        initToolbarAndStatusBar(false);
         mainViewpager.setOffscreenPageLimit(2);
         initTab();
         //注册广播
@@ -110,9 +117,6 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-
-        //        mainTablayout.newTab();
-        /*viewpager切换默认第一个*/
         mainViewpager.setCurrentItem(0);
     }
 
@@ -123,7 +127,12 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
 
     @Override
     public void onPageSelected(int i) {
+        if (0==i) {
+            mImmersionBar.reset().statusBarDarkFont(false).init();
+        }else {
+            mImmersionBar.reset().statusBarDarkFont(true).init();
 
+        }
     }
 
     @Override

@@ -22,17 +22,15 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
 
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
+
 
 public abstract class BaseApplication extends MultiDexApplication {
     public static int HEIGHT, width, statusBarH;
     public static int navigationBarH;
     public static BaseApplication app;
-    private RefWatcher mRefWatcher;
     ArrayList<Activity> activities = new ArrayList<>();
     public static boolean isReLoadWarn = true;//登录被顶，是否提示
 
@@ -61,73 +59,15 @@ public abstract class BaseApplication extends MultiDexApplication {
             LogUtil.logInit(true);
             com.juntai.disabled.basecomponent.utils.Logger.LOG_ENABLE = true;
         }
-        initLeakCanary();
         registerActivityLifecycleCallbacks(mCallbacks);
-//        hotFix();
     }
 
-//    private void hotFix() {
-//        // 设置是否开启热更新能力，默认为true
-//        Beta.enableHotfix = true;
-//        // 设置是否自动下载补丁，默认为true
-//        Beta.canAutoDownloadPatch = true;
-//        // 设置是否自动合成补丁，默认为true
-//        Beta.canAutoPatch = true;
-//        // 设置是否提示用户重启，默认为false
-//        Beta.canNotifyUserRestart = true;
-//        // 补丁回调接口
-//        Beta.betaPatchListener = new BetaPatchListener() {
-//            @Override
-//            public void onPatchReceived(String patchFile) {
-//                Toast.makeText(getApplicationContext(), "补丁下载地址" + patchFile, Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onDownloadReceived(long savedLength, long totalLength) {
-//                Toast.makeText(getApplicationContext(), String.format(Locale.getDefault(), "%s %d%%", Beta.strNotificationDownloading, (int) (totalLength == 0 ? 0 : savedLength * 100 / totalLength)), Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onDownloadSuccess(String msg) {
-//                Toast.makeText(getApplicationContext(), "补丁下载成功", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onDownloadFailure(String msg) {
-//                Toast.makeText(getApplicationContext(), "补丁下载失败", Toast.LENGTH_SHORT).show();
-//
-//            }
-//
-//            @Override
-//            public void onApplySuccess(String msg) {
-//                Toast.makeText(getApplicationContext(), "补丁应用成功", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onApplyFailure(String msg) {
-//                Toast.makeText(getApplicationContext(), "补丁应用失败", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onPatchRollback() {
-//
-//            }
-//        };
-//
-//        // 设置开发设备，默认为false，上传补丁如果下发范围指定为“开发设备”，需要调用此接口来标识开发设备
-//        Bugly.setIsDevelopmentDevice(getApplicationContext(), true);
-//        // 调试时，将第三个参数改为true
-//        Bugly.init(this, getTinkerId(), false);
-//    }
-//
 
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         // you must install multiDex whatever tinker is installed!
         MultiDex.install(base);
-        //  安装tinker
-//        Beta.installTinker(this);
     }
 
     /**
@@ -161,16 +101,7 @@ public abstract class BaseApplication extends MultiDexApplication {
         }
     }
 
-    private void initLeakCanary() {
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            return;
-        }
-        mRefWatcher = LeakCanary.install(this);
-    }
 
-    public static RefWatcher getRefWatcher(Context context) {
-        return app.mRefWatcher;
-    }
 
     /**
      * 下拉刷新
@@ -242,20 +173,6 @@ public abstract class BaseApplication extends MultiDexApplication {
         }
     };
 
-    /**
-     * 清理当前的所有activity
-     */
-    public void clearActivitys() {
-        for (Activity a : activities) {
-            //LogUtil.d("Activity-clearActivitys = " + a.getClass().getName());
-            a.finish();
-        }
-    }
 
 
-    @Override
-    public void onTerminate() {
-        super.onTerminate();
-//        Beta.unInit();
-    }
 }

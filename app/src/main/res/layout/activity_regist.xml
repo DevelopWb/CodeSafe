@@ -62,9 +62,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
 
 
             <EditText
@@ -95,8 +95,8 @@
                     android:id="@+id/regist_send_check_code_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
                     android:background="@drawable/stroke_blue_square_bg"
                     android:paddingLeft="7dp"
                     android:paddingTop="5dp"
@@ -107,22 +107,38 @@
                     android:textSize="16dp" />
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/password"
-                style="@style/login_edit_tv_style"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
-                android:hint="密码"
-                android:inputType="textPassword"
-                android:maxLength="16"
-                 />
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/password_et"
+                    style="@style/login_edit_tv_style"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:hint="密码"
+                    android:inputType="textPassword"
+                    android:maxLength="16"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/hide_show_iv"
+                    android:layout_width="40dp"
+                    android:layout_height="35dp"
+                    android:padding="10dp"
+                    android:src="@mipmap/qq_icon"
+                    app:layout_constraintBottom_toBottomOf="@+id/password_et"
+                    app:layout_constraintRight_toRightOf="@+id/password_et"
+                    app:layout_constraintTop_toTopOf="@+id/password_et"></ImageView>
+            </android.support.constraint.ConstraintLayout>
+
 
         </LinearLayout>
 
         <TextView
             android:id="@+id/regist_tv"
             style="@style/bt_bg_style"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="20dp"
             android:text="注册" />
 
     </LinearLayout>

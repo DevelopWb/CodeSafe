@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.juntai.disabled.basecomponent.app.BaseApplication;
 import com.juntai.disabled.basecomponent.utils.DisplayUtil;
-import com.squareup.leakcanary.RefWatcher;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
 
@@ -70,19 +69,9 @@ public abstract class BaseFragment extends RxFragment {
     @Override
     public void onDestroyView() {
         //        EventBus.getDefault().unregister(this);//解除订阅
-        initLeakCanary();
         super.onDestroyView();
         this.mContext = null;
         this.mRootView = null;
-    }
-    /**
-     * 用来检测所有Fragment的内存泄漏
-     */
-    private void initLeakCanary() {
-        RefWatcher refWatcher = BaseApplication.getRefWatcher(mContext);
-        if (refWatcher != null){
-            refWatcher.watch(this);
-        }
     }
 
 

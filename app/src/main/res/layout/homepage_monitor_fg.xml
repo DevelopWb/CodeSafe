@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/map_top_cl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/home_top_bg"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/police_icon_iv"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="35dp"
+            android:src="@mipmap/police_icon"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/app_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="智慧管理 精准服务"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="@+id/police_icon_iv"
+            app:layout_constraintRight_toRightOf="@+id/police_icon_iv"
+            app:layout_constraintTop_toBottomOf="@+id/police_icon_iv"></TextView>
+
+
+        <LinearLayout
+            android:id="@+id/search_ll"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:background="@mipmap/home_search_bg"
+            android:gravity="center|left"
+            android:padding="5dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/app_name_tv">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/search_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:hint="搜索你想要的内容"></TextView>
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/scan_iv"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:padding="20dp"
+            android:src="@mipmap/scan_sel"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/police_icon_iv" />
+    </android.support.constraint.ConstraintLayout>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/map_top_cl"
+        layout="@layout/recycleview_layout"></include>
+</android.support.constraint.ConstraintLayout>

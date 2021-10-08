@@ -11,20 +11,20 @@ import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.basecomponent.base.BaseMvpFragment;
+import com.juntai.disabled.basecomponent.utils.AppUtils;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.bean.HomePageMenuBean;
 import com.juntai.upcodesafe.mine.MyCenterContract;
 import com.juntai.upcodesafe.securityCheck.SecurityCheckSiteActivity;
-import com.juntai.disabled.basecomponent.utils.AppUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 /**
  * @aouther tobato
- * @description 描述  homepage
+ * @description 描述  homepage  监管
  * @date 2021/4/18 14:59
  */
-public class HomePageFragment extends BaseMvpFragment<HomePagePresent> implements MyCenterContract.ICenterView,
+public class HomePageMornitorFragment extends BaseMvpFragment<HomePagePresent> implements MyCenterContract.ICenterView,
         View.OnClickListener {
 
     private View view;
@@ -36,7 +36,7 @@ public class HomePageFragment extends BaseMvpFragment<HomePagePresent> implement
 
     @Override
     protected int getLayoutRes() {
-        return R.layout.homepage_fg;
+        return R.layout.homepage_monitor_fg;
     }
 
     @Override
