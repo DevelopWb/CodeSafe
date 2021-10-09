@@ -20,14 +20,14 @@ public class HomePagePresent extends BasePresenter<IModel, HomePageContract.IHom
 
 
 
-    protected List<HomePageMenuBean> getMenuList(){
+    public List<HomePageMenuBean> getMenuList(){
 
         List<HomePageMenuBean> arrays = new ArrayList<>();
 
-        arrays.add(new HomePageMenuBean(HomePageContract.HOMEPAGE_MENU_FIRE_CHECK, R.drawable.sp_filled_gray_circle));
-        arrays.add(new HomePageMenuBean(HomePageContract.HOMEPAGE_MENU_IMPORTANTER, R.drawable.sp_filled_gray_circle));
-        arrays.add(new HomePageMenuBean(HomePageContract.HOMEPAGE_MENU_SECURITY_CHECK, R.drawable.sp_filled_gray_circle));
-        arrays.add(new HomePageMenuBean(HomePageContract.HOMEPAGE_MENU_FLOATING_POPULATION, R.drawable.sp_filled_gray_circle));
+        arrays.add(new HomePageMenuBean(HomePageContract.HOMEPAGE_MENU_NOTICE, "Message\nNotification",R.drawable.sp_filled_gray_circle));
+        arrays.add(new HomePageMenuBean(HomePageContract.HOMEPAGE_MENU_ENTERPRISE_CHECK, "Enterprise\nComprehensive", R.drawable.sp_filled_gray_circle));
+        arrays.add(new HomePageMenuBean(HomePageContract.HOMEPAGE_MENU_WRING, "The accident\nWarning", R.drawable.sp_filled_gray_circle));
+        arrays.add(new HomePageMenuBean(HomePageContract.HOMEPAGE_MENU_EDUCATION, "Online\nEducation", R.drawable.sp_filled_gray_circle));
 
         return arrays;
     }

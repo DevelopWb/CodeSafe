@@ -23,7 +23,7 @@ import com.juntai.upcodesafe.base.BaseAppActivity;
 import com.juntai.upcodesafe.base.customview.CustomViewPager;
 import com.juntai.upcodesafe.base.customview.MainPagerAdapter;
 import com.juntai.upcodesafe.entrance.LoginActivity;
-import com.juntai.upcodesafe.home_page.HomePageEnterpriseFragment;
+import com.juntai.upcodesafe.home_page.enterprise.HomePageEnterpriseFragment;
 import com.juntai.upcodesafe.home_page.HomePageMornitorFragment;
 import com.juntai.upcodesafe.home_page.QRScanActivity;
 import com.juntai.upcodesafe.mine.MyCenterFragment;

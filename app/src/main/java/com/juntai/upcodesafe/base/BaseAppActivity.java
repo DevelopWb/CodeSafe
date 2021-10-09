@@ -49,7 +49,15 @@ public abstract class BaseAppActivity<P extends BasePresenter> extends BaseSelec
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+    @Override
+    protected String getTitleRightName() {
+        return null;
+    }
 
+    @Override
+    protected String getDownLoadPath() {
+        return null;
+    }
     /**
      * 导航
      *

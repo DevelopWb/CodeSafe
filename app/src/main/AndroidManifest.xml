@@ -30,7 +30,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".entrance.RegistActivity"></activity>
+        <activity android:name=".home_page.enterprise.educateOnline.EducateOnlineActivity"></activity>
+        <activity android:name=".home_page.enterprise.accidentWarn.AccidentWarnActivity" />
+        <activity android:name=".home_page.enterprise.notice.EnterpriseNoticeActivity" />
+        <activity android:name=".home_page.enterprise.BaseSearchAndListActivity" />
+        <activity android:name=".home_page.enterprise.selfcheck.SelfCheckActivity" />
+        <activity android:name=".entrance.RegistActivity" />
         <activity android:name=".securityCheck.EditSecurityInspectSiteActivity" />
         <activity android:name=".securityCheck.SecurityInspectionSiteMoreInfoActivity" />
         <activity android:name=".securityCheck.SecurityInspectionInfoActivity" />
@@ -54,8 +59,9 @@
                 tools:replace="android:name,android:resource" />
         </provider>
 
-        <activity android:name=".entrance.LoginActivity"
-            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".entrance.LoginActivity"
+            android:windowSoftInputMode="adjustPan" />
 
         <meta-data
             android:name="android.max_aspect"

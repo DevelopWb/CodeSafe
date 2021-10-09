@@ -74,11 +74,11 @@ public class HomePageMornitorFragment extends BaseMvpFragment<HomePagePresent> i
                     //                        //消防检查
                     //                        intent.setClass(mContext,)
                     //                        break;
-                    case HomePageContract.HOMEPAGE_MENU_SECURITY_CHECK:
+                    case HomePageContract.HOMEPAGE_MENU_WRING:
                         //消防检查
                         intent.setClass(mContext, SecurityCheckSiteActivity.class);
                         break;
-                    case HomePageContract.HOMEPAGE_MENU_FIRE_CHECK:
+                    case HomePageContract.HOMEPAGE_MENU_NOTICE:
                         //消防检查
                         //                        intent.setClass(mContext,)
                         break;

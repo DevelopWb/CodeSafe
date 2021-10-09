@@ -1,4 +1,4 @@
-package com.juntai.upcodesafe.home_page;
+package com.juntai.upcodesafe.home_page.enterprise;
 
 
 import android.content.Intent;
@@ -6,7 +6,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -14,6 +13,14 @@ import com.juntai.disabled.basecomponent.base.BaseMvpFragment;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.bean.HomePageMenuBean;
+import com.juntai.upcodesafe.home_page.HomePageContract;
+import com.juntai.upcodesafe.home_page.HomePageMenuAdapter;
+import com.juntai.upcodesafe.home_page.HomePagePresent;
+import com.juntai.upcodesafe.home_page.QRScanActivity;
+import com.juntai.upcodesafe.home_page.enterprise.accidentWarn.AccidentWarnActivity;
+import com.juntai.upcodesafe.home_page.enterprise.educateOnline.EducateOnlineActivity;
+import com.juntai.upcodesafe.home_page.enterprise.notice.EnterpriseNoticeActivity;
+import com.juntai.upcodesafe.home_page.enterprise.selfcheck.SelfCheckActivity;
 import com.juntai.upcodesafe.mine.MyCenterContract;
 import com.juntai.upcodesafe.securityCheck.SecurityCheckSiteActivity;
 import com.juntai.disabled.basecomponent.utils.AppUtils;
@@ -27,7 +34,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 public class HomePageEnterpriseFragment extends BaseMvpFragment<HomePagePresent> implements MyCenterContract.ICenterView,
         View.OnClickListener {
 
-    private View view;
     private LinearLayout mSearchLl;
     private RecyclerView mRecyclerview;
     private SmartRefreshLayout mSmartrefreshlayout;
@@ -48,7 +54,7 @@ public class HomePageEnterpriseFragment extends BaseMvpFragment<HomePagePresent>
         mSmartrefreshlayout = (SmartRefreshLayout) getView(R.id.smartrefreshlayout);
         mSmartrefreshlayout.setEnableLoadMore(false);
         mSmartrefreshlayout.setEnableRefresh(false);
-        menuAdapter = new HomePageMenuAdapter(R.layout.homepage_menu_item);
+        menuAdapter = new HomePageMenuAdapter(R.layout.homepage_enterprise_menu_item);
         GridLayoutManager manager = new GridLayoutManager(mContext, 2);
         mRecyclerview.setLayoutManager(manager);
         mRecyclerview.setAdapter(menuAdapter);
@@ -63,21 +69,19 @@ public class HomePageEnterpriseFragment extends BaseMvpFragment<HomePagePresent>
                 }
                 Intent intent = new Intent();
                 switch (menuName) {
-                    //                    case HomePageContract.HOMEPAGE_MENU_FIRE_CHECK:
-                    //                        //消防检查
-                    //                        intent.setClass(mContext,)
-                    //                        break;
-                    //                    case HomePageContract.HOMEPAGE_MENU_FIRE_CHECK:
-                    //                        //消防检查
-                    //                        intent.setClass(mContext,)
-                    //                        break;
-                    case HomePageContract.HOMEPAGE_MENU_SECURITY_CHECK:
-                        //消防检查
-                        intent.setClass(mContext, SecurityCheckSiteActivity.class);
+                    case HomePageContract.HOMEPAGE_MENU_NOTICE:
+                        intent.setClass(mContext, EnterpriseNoticeActivity.class);
                         break;
-                    case HomePageContract.HOMEPAGE_MENU_FIRE_CHECK:
-                        //消防检查
-                        //                        intent.setClass(mContext,)
+                    case HomePageContract.HOMEPAGE_MENU_ENTERPRISE_CHECK:
+                        intent.setClass(mContext, SelfCheckActivity.class);
+                        break;
+                    case HomePageContract.HOMEPAGE_MENU_WRING:
+                        // 跳转到事故警示
+                        intent.setClass(mContext, AccidentWarnActivity.class);
+                        break;
+                    case HomePageContract.HOMEPAGE_MENU_EDUCATION:
+                        //   跳转到在线教育
+                        intent.setClass(mContext, EducateOnlineActivity.class);
                         break;
                     default:
                         break;

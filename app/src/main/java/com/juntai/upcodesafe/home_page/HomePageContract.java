@@ -11,10 +11,10 @@ import com.juntai.disabled.basecomponent.mvp.IView;
 public interface HomePageContract {
 
 
-    public  static String HOMEPAGE_MENU_FIRE_CHECK = "消防检查";
-    public  static String HOMEPAGE_MENU_IMPORTANTER = "重点人员";
-    public  static String HOMEPAGE_MENU_SECURITY_CHECK = "治安检查";
-    public  static String HOMEPAGE_MENU_FLOATING_POPULATION = "流动人口";
+     String HOMEPAGE_MENU_NOTICE = "通知公告";
+     String HOMEPAGE_MENU_ENTERPRISE_CHECK = "企业自查";
+     String HOMEPAGE_MENU_WRING = "事故警示";
+     String HOMEPAGE_MENU_EDUCATION = "在线教育";
 
 
     interface IHomePageView extends IView {

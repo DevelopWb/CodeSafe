@@ -166,7 +166,26 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
         }
 
     }
+    /**
+     * 初始化recyclerview LinearLayoutManager
+     */
+    public void initRecyclerviewNoScroll(RecyclerView recyclerView, BaseQuickAdapter baseQuickAdapter,
+                                         @RecyclerView.Orientation int orientation) {
+        LinearLayoutManager managere = new LinearLayoutManager(this, orientation, false){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
 
+            @Override
+            public boolean canScrollHorizontally() {
+                return false;
+            }
+        };
+        //        baseQuickAdapter.setEmptyView(getAdapterEmptyView("一条信息也没有",0));
+        recyclerView.setLayoutManager(managere);
+        recyclerView.setAdapter(baseQuickAdapter);
+    }
     public Toolbar getToolbar() {
         return toolbar;
     }
