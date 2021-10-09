@@ -17,21 +17,24 @@ public interface AppServer {
      *
      * @param account
      * @param password
-     * @param weChatId
-     * @param qqId
      * @return
      */
     @POST(AppHttpPath.LOGIN)
-    Observable<UserBean> login(@Query("account") String account, @Query("password") String password,
-                               @Query("weChatId") String weChatId, @Query("qqId") String qqId);
+    Observable<UserBean> login(@Query("account") String account, @Query("password") String password
+    );
 
     /**
-     * 上传轨迹
+     * 注册
+     *
+     * @param account
+     * @param password
+     * @param code
+     * @return
      */
-    @POST(AppHttpPath.USER_HISTORY_UPLOAD)
-    Observable<BaseResult> uploadHistory(@Query("account") String account, @Query("token") String token, @Query(
-            "userId") int userId,
-                                         @Query("source") int source, @Query("json") String json);
+    @POST(AppHttpPath.REGIST)
+    Observable<BaseResult> regist(@Query("account") String account, @Query("password") String password, @Query("code") String code
+    );
+
 
     /**
      * account  手机号

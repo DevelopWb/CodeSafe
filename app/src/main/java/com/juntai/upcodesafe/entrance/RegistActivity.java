@@ -2,6 +2,7 @@ package com.juntai.upcodesafe.entrance;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -9,6 +10,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.juntai.disabled.basecomponent.utils.MD5;
+import com.juntai.disabled.basecomponent.utils.RuleTools;
+import com.juntai.disabled.basecomponent.utils.ToastUtils;
+import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.sendcode.SmsCheckCodeActivity;
 
@@ -73,8 +78,21 @@ public class RegistActivity extends SmsCheckCodeActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.regist_tv:
-                // TODO: 2021-10-08 调用注册的接口  成功后跳转到登录界面
-                startActivity(new Intent(mContext, LoginActivity.class));
+                // 调用注册的接口  成功后跳转到登录界面
+                if (!RuleTools.isMobileNO(getTextViewValue(mRegistPhoneEt))) {
+                    ToastUtils.error(mContext, "手机号码格式不正确");
+                    return;
+                }
+                if (TextUtils.isEmpty(getTextViewValue(mRegistCheckCodeEt))) {
+                    ToastUtils.error(mContext, "请输入验证码");
+                    return;
+                }
+                if (TextUtils.isEmpty(getTextViewValue(mPasswordEt))) {
+                    ToastUtils.error(mContext, "请输入密码");
+                    return;
+                }
+                mPresenter.regist(getTextViewValue(mRegistPhoneEt), MD5.md5(String.format("%s#%s", getTextViewValue(mRegistPhoneEt), getTextViewValue(mPasswordEt)))
+                ,getTextViewValue(mRegistCheckCodeEt), AppHttpPath.REGIST);
                 break;
             default:
                 break;
@@ -82,7 +100,12 @@ public class RegistActivity extends SmsCheckCodeActivity implements View.OnClick
                 finish();
                 break;
             case R.id.regist_send_check_code_tv:
-                // TODO: 2021-10-08 注册界面发送验证码
+                // 注册界面发送验证码
+                if (!RuleTools.isMobileNO(getTextViewValue(mRegistPhoneEt))) {
+                    ToastUtils.error(mContext, "手机号码格式不正确");
+                    return;
+                }
+                sendCheckCode(getTextViewValue(mRegistPhoneEt));
                 break;
             case R.id.hide_show_iv:
                 if (isHide) {
@@ -101,7 +124,22 @@ public class RegistActivity extends SmsCheckCodeActivity implements View.OnClick
 
     @Override
     protected TextView getSendCodeTv() {
-        return null;
+        return mRegistSendCheckCodeTv;
     }
 
+
+    @Override
+    public void onSuccess(String tag, Object o) {
+        super.onSuccess(tag, o);
+        switch (tag) {
+            case AppHttpPath.REGIST:
+                ToastUtils.toast(mContext,"注册成功");
+                startActivity(new Intent(mContext, LoginActivity.class));
+                finish();
+                break;
+            default:
+
+                break;
+        }
+    }
 }

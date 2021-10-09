@@ -21,10 +21,6 @@ import io.reactivex.functions.Consumer;
  * @UpdateDate: 2020/3/5 15:55
  */
 public class EntrancePresent extends BasePresenter<IModel, EntranceContract.IEntranceView> implements EntranceContract.IEntrancePresent {
-    private IView iView;
-    public void  setCallBack(IView iView) {
-        this.iView = iView;
-    }
 
     @Override
     protected IModel createModel() {
@@ -34,36 +30,25 @@ public class EntrancePresent extends BasePresenter<IModel, EntranceContract.IEnt
 
     @SuppressLint("CheckResult")
     @Override
-    public void login(String account, String password, String weChatId, String qqId,String tag) {
-        IView viewCallBack = null;
-        if (getView()==null) {
-            if (iView != null) {
-                viewCallBack = iView;
-                viewCallBack.showLoading();
-            }
-        }else{
-            viewCallBack = getView();
-            viewCallBack.showLoading();
-        }
-        IView finalViewCallBack = viewCallBack;
+    public void login(String account, String password,String tag) {
         AppNetModule
                 .createrRetrofit()
-                .login(account, password, weChatId, qqId)
-                .compose(RxScheduler.ObsIoMain(viewCallBack))
+                .login(account, password)
+                .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new Consumer<UserBean>() {
                     @Override
                     public void accept(UserBean userBean) throws Exception {
-                        if (finalViewCallBack != null) {
-                            finalViewCallBack.hideLoading();
-                            finalViewCallBack.onSuccess(tag, userBean);
+                        if (getView() != null) {
+                            getView().hideLoading();
+                            getView().onSuccess(tag, userBean);
                         }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        if (finalViewCallBack != null) {
-                            finalViewCallBack.hideLoading();
-                            finalViewCallBack.onError(tag, PubUtil.ERROR_NOTICE);
+                        if (getView() != null) {
+                            getView().hideLoading();
+                            getView().onError(tag, PubUtil.ERROR_NOTICE);
                         }
                     }
                 });

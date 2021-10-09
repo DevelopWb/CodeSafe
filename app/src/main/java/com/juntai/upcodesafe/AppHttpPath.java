@@ -2,17 +2,16 @@ package com.juntai.upcodesafe;
 
 public class AppHttpPath {
 
-    //            public static final String BASE = "http://192.168.124.115:8080/disabledPersonsFederation/u/app";
-    public static final String BASE = "https://wx.juntaikeji.com:19153/disabledPersonsFederation/u/app";
+    public static final String BASE = "http://192.168.124.118:8080/EmergencyBureau";
     /**
      * 登录
      */
-    public static final String LOGIN = BASE + "/appLogin.shtml";
-
+    public static final String LOGIN = BASE + "/u/appUserStaff/login.shtml";
     /**
-     * 修改人员定位位置（历史轨迹）上传人员得位置信息
+     * 注册
      */
-    public static final String USER_HISTORY_UPLOAD = BASE + "/addStaffHistoryLocation.shtml";
+    public static final String REGIST = BASE + "/u/appUserStaff/register.shtml";
+
 
     /**
      * 检查更新
@@ -23,5 +22,5 @@ public class AppHttpPath {
     /**
      * 获取短信验证码
      */
-    public static final String GET_SMS_CODE = BASE + "getSMSCode.shtml";
+    public static final String GET_SMS_CODE = BASE + "/u/appUserStaff/getSMSCode.shtml";
 }

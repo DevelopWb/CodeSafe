@@ -17,26 +17,6 @@ public class UserInfoManager {
     public static String OTHER_NICK_NAME = null;//第三方昵称
 
     /**
-     * 获取账号的状态  0 代表游客登录 1代表手机号登录 2代表第三方登录（未绑定手机号）
-     *
-     * @return
-     */
-    public static int getAccountStatus() {
-        int status = -1;
-        if (isLogin()) {
-            String phoneNum = getUser().getData().getPhoneNumber();
-            if ("未绑定".equals(phoneNum)) {
-                status = 2;
-            } else {
-                status = 1;
-            }
-        } else {
-            status = 0;
-        }
-        return status;
-    }
-
-    /**
      * 获取用户信息
      *
      * @return
@@ -58,14 +38,6 @@ public class UserInfoManager {
         }
     }
 
-    /**
-     * 获取用户信息
-     *
-     * @return
-     */
-    public static String getPhoneNumber() {
-        return getUser() != null && getUser().getData() != null ? getUser().getData().getPhoneNumber() : "";
-    }
     /**
      * 获取账户
      *
@@ -90,23 +62,6 @@ public class UserInfoManager {
      */
     public static int getUserId() {
         return getUser() != null && getUser().getData() != null ? getUser().getData().getUserId() : -1;
-    }
-
-    /**
-     * 获取getUserId
-     *
-     * @return
-     */
-    public static int getRealNameStatus() {
-        return getUser() != null && getUser().getData() != null ? getUser().getData().getRealNameStatus() : 0;
-    }
-    /**
-     * 获取用户信息
-     *
-     * @return
-     */
-    public static String getScore() {
-        return getUser() != null && getUser().getData() != null ? String.valueOf(getUser().getData().getScore()) : "";
     }
 
 

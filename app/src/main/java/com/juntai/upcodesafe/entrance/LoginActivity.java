@@ -11,8 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.juntai.disabled.basecomponent.base.BaseMvpActivity;
+import com.juntai.disabled.basecomponent.utils.AppUtils;
+import com.juntai.disabled.basecomponent.utils.MD5;
+import com.juntai.disabled.basecomponent.utils.RuleTools;
+import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.upcodesafe.MainActivity;
 import com.juntai.upcodesafe.R;
+import com.juntai.upcodesafe.bean.UserBean;
+import com.orhanobut.hawk.Hawk;
 
 /**
  * @aouther tobato
@@ -69,6 +75,15 @@ public class LoginActivity extends BaseMvpActivity<EntrancePresent> implements E
     @Override
     public void onSuccess(String tag, Object o) {
         switch (tag) {
+            case EntranceContract.LOGIN_TAG:
+                UserBean loginBean = (UserBean) o;
+                ToastUtils.success(mContext, "登录成功");
+                Hawk.put(AppUtils.SP_KEY_USER, loginBean);
+                Hawk.put(AppUtils.SP_KEY_TOKEN, loginBean.getData().getToken());
+                startActivity(new Intent(mContext, MainActivity.class));
+//                EventManager.sendStringMsg(ActionConfig.BROAD_LOGIN_AFTER);
+                onBackPressed();
+                break;
             default:
                 break;
         }
@@ -80,8 +95,19 @@ public class LoginActivity extends BaseMvpActivity<EntrancePresent> implements E
             default:
                 break;
             case R.id.login_tv:
-                // TODO: 2021-10-08 调用登录的接口
-                startActivity(new Intent(this, MainActivity.class));
+                // 调用登录的接口
+               String account = mRegistPhoneEt.getText().toString();
+               String password = mPassword.getText().toString();
+                if (!RuleTools.isMobileNO(account)) {
+                    ToastUtils.error(mContext, "手机号码格式不正确");
+                    return;
+                }
+                if (password.isEmpty()) {
+                    ToastUtils.error(mContext, "登录密码不能为空");
+                    return;
+                }
+                mPresenter.login(account, MD5.md5(String.format("%s#%s", account, password)),
+                        EntranceContract.LOGIN_TAG);
                 break;
             case R.id.close_iv:
                 finish();

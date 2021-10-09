@@ -5,9 +5,11 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.juntai.upcodesafe.MainActivity;
 import com.juntai.upcodesafe.utils.HawkProperty;
+import com.juntai.upcodesafe.utils.UserInfoManager;
 import com.orhanobut.hawk.Hawk;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.trello.rxlifecycle2.android.ActivityEvent;
@@ -47,7 +49,12 @@ public class StartActivity extends RxAppCompatActivity {
                         } else {
                             //有一个权限没通过
                         }
-                        startActivity(new Intent(StartActivity.this, MainActivity.class));
+                        if (UserInfoManager.isLogin()) {
+                            startActivity(new Intent(StartActivity.this, MainActivity.class));
+                        }else {
+                            startActivity(new Intent(StartActivity.this, LoginActivity.class));
+                        }
+
                         finish();
 //                        if (SPTools.getBoolean(StartActivity.this, "first_start", true)) {
 //                            startActivity(new Intent(StartActivity.this, GuideActivity.class));

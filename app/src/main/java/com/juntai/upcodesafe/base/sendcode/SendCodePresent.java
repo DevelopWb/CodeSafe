@@ -47,6 +47,32 @@ public class SendCodePresent extends BasePresenter<SendCodeModel, SendCodeContra
                     }
                 });
     }
+    /**
+     * 从网络获取验证码
+     *
+     */
+    public void regist(String account,String pwd,String code,String tag) {
+        //获取验证码
+        AppNetModule.createrRetrofit()
+                .regist(account,pwd,code)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
 
     @Override
     public void startTiming(long value) {
@@ -94,5 +120,10 @@ public class SendCodePresent extends BasePresenter<SendCodeModel, SendCodeContra
     public void initGetTestCodeButtonStatus() {
         getModel().initGetTestCodeButtonStatus();
     }
+
+
+
+
+
 
 }
