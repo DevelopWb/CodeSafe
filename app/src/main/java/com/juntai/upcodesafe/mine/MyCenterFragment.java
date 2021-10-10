@@ -3,6 +3,7 @@ package com.juntai.upcodesafe.mine;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,23 +15,24 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.basecomponent.base.BaseMvpFragment;
 import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
+import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
+import com.juntai.upcodesafe.base.BaseAppFragment;
 import com.juntai.upcodesafe.bean.MultipleItem;
 import com.juntai.upcodesafe.bean.MyMenuBean;
-import com.juntai.upcodesafe.bean.UserBean;
-import com.juntai.upcodesafe.utils.GridDividerItemDecoration;
+import com.juntai.upcodesafe.entrance.LoginActivity;
+import com.juntai.upcodesafe.utils.HawkProperty;
 import com.juntai.upcodesafe.utils.UserInfoManager;
+import com.orhanobut.hawk.Hawk;
 
 /**
  * @aouther tobato
  * @description 描述
  * @date 2021/4/17 16:12
  */
-public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implements MyCenterContract.ICenterView, View.OnClickListener {
+public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implements MyCenterContract.ICenterView, View.OnClickListener {
 
-    private UserBean userBean;
     MyMenuAdapter myMenuAdapter;
-    private String headUrl = "";
 
     private TextView mStatusTopTitle;
     private ImageView mHeadImage;
@@ -44,7 +46,7 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
      * 退出账号
      */
     private TextView mLoginOut;
-    private int imUnReadCount;
+    private AlertDialog dialog;
 
     @Override
     protected int getLayoutRes() {
@@ -90,7 +92,6 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
 
     @Override
     protected void initData() {
-        mPresenter.initList();
         mHeadImage.setImageResource(R.mipmap.default_user_head_icon);
     }
 
@@ -102,9 +103,11 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
     @Override
     public void onResume() {
         super.onResume();
-        if (UserInfoManager.isLogin()){
+        if (UserInfoManager.isLogin()) {
             mLoginOut.setVisibility(View.VISIBLE);
-        }else {
+            // TODO: 2021-10-10 获取用户基本信息的接口
+//            mPresenter.getUserInfo(getBaseAppActivity().getBaseBuilder().build(), AppHttpPath.GET_USER_INFO);
+        } else {
             mLoginOut.setVisibility(View.GONE);
         }
     }
@@ -132,18 +135,38 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
                 break;
             case R.id.login_out:
                 //退出登录
-                DialogUtil.getMessageDialog(mContext, "是否退出登录", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
+                dialog = getBaseActivity().setAlertDialogHeightWidth( DialogUtil.getMessageDialog(mContext, "是否退出登录", new DialogInterface.OnClickListener() {
+                     @Override
+                     public void onClick(DialogInterface dialog, int which) {
+                         //  调用退出登录接口
+                         mPresenter.logout(getBaseAppActivity().getBaseBuilder().build(), AppHttpPath.LOGOUT);
+
+                     }
+                 }).show(),-1,0);
                 break;
         }
     }
 
     @Override
     public void onSuccess(String tag, Object o) {
+        switch (tag) {
+            case AppHttpPath.LOGOUT:
+                dialog.dismiss();
+                ToastUtils.success(mContext, "退出成功");
+                Hawk.delete(HawkProperty.LOGIN_KEY);
+                Hawk.delete(HawkProperty.TOKEN_KEY);
+                startActivity(new Intent(mContext, LoginActivity.class));
+
+//                //重置界面
+//                mNickname.setText("点击登录");
+//                mNickname.setAlpha(0.3f);
+//                mTelNumber.setVisibility(View.GONE);
+//                mLoginOut.setVisibility(View.GONE);
+//                mHeadImage.setImageResource(R.mipmap.default_user_head_icon);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

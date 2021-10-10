@@ -11,6 +11,10 @@ public class AppHttpPath {
      * 注册
      */
     public static final String REGIST = BASE + "/u/appUserStaff/register.shtml";
+    /**
+     *
+     */
+    public static final String LOGOUT = BASE + "/u/appUserStaff/logout.shtml";
 
 
     /**

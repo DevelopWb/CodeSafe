@@ -1,6 +1,5 @@
 package com.juntai.upcodesafe.utils;
 
-import com.juntai.disabled.basecomponent.utils.AppUtils;
 import com.juntai.upcodesafe.bean.UserBean;
 import com.orhanobut.hawk.Hawk;
 
@@ -22,7 +21,7 @@ public class UserInfoManager {
      * @return
      */
     public static UserBean getUser() {
-        return Hawk.get(AppUtils.SP_KEY_USER);
+        return Hawk.get(HawkProperty.LOGIN_KEY);
     }
 
     /**
@@ -52,7 +51,7 @@ public class UserInfoManager {
      * @return
      */
     public static String getUserToken() {
-        return Hawk.get(AppUtils.SP_KEY_TOKEN);
+        return Hawk.get(HawkProperty.TOKEN_KEY);
     }
 
     /**
@@ -63,6 +62,5 @@ public class UserInfoManager {
     public static int getUserId() {
         return getUser() != null && getUser().getData() != null ? getUser().getData().getUserId() : -1;
     }
-
 
 }

@@ -1,5 +1,6 @@
 package com.juntai.upcodesafe.utils;
 
+
 /**
  * @Author: tobato
  * @Description: 作用描述
@@ -11,4 +12,8 @@ public class HawkProperty {
 
     //0 代表企业  1代表非企业  监督部门
     public static String  ACCOUNT_TYPE = "account_type";
+    public final static String LOGIN_KEY = "login_bean";
+    public final static String TOKEN_KEY = "token_key";
+
+
 }

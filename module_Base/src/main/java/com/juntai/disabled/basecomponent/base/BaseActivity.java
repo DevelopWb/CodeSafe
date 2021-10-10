@@ -19,11 +19,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
@@ -88,6 +90,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
     public FrameLayout frameLayout;
     public static int ActivityResult = 1001;//activity返回值
     public static int BASE_REQUEST_RESULT = 10086;//请求的回执
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,7 +135,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
             mImmersionBar.statusBarColor(R.color.white)
                     .statusBarDarkFont(true)
                     .init();
-        }else{
+        } else {
             getToolbar().setVisibility(View.GONE);
             //状态栏配置
             mBaseRootCol.setFitsSystemWindows(false);
@@ -166,12 +169,13 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
         }
 
     }
+
     /**
      * 初始化recyclerview LinearLayoutManager
      */
     public void initRecyclerviewNoScroll(RecyclerView recyclerView, BaseQuickAdapter baseQuickAdapter,
                                          @RecyclerView.Orientation int orientation) {
-        LinearLayoutManager managere = new LinearLayoutManager(this, orientation, false){
+        LinearLayoutManager managere = new LinearLayoutManager(this, orientation, false) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -186,6 +190,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
         recyclerView.setLayoutManager(managere);
         recyclerView.setAdapter(baseQuickAdapter);
     }
+
     public Toolbar getToolbar() {
         return toolbar;
     }
@@ -379,7 +384,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
 
     @Override
     public boolean onKeyLongPress(int keyCode, KeyEvent event) {
-        ToastUtils.info(mContext,"长按");
+        ToastUtils.info(mContext, "长按");
         return super.onKeyLongPress(keyCode, event);
     }
 
@@ -409,7 +414,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
      * @return
      */
     public List<String> getTestData() {
-        return Arrays.asList(new String[]{ "test2", "test3", "test4", "test5", "测试很测试很多数据的测试很多数据的多数据的XXXXXXXXXXXXX", "测试很测试很多数据的测试很多数据的多数据的"});
+        return Arrays.asList(new String[]{"test2", "test3", "test4", "test5", "测试很测试很多数据的测试很多数据的多数据的XXXXXXXXXXXXX", "测试很测试很多数据的测试很多数据的多数据的"});
     }
 
     /**
@@ -421,7 +426,6 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
     public String getTextViewValue(TextView textView) {
         return textView.getText().toString().trim();
     }
-
 
 
     /**
@@ -447,6 +451,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
         recyclerView.setLayoutManager(managere);
         recyclerView.setAdapter(baseQuickAdapter);
     }
+
     /**
      * 添加分割线
      *
@@ -490,9 +495,9 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
         TextView noticeTv = view.findViewById(R.id.none_tv);
         noticeTv.setText(text);
         ImageView imageView = view.findViewById(R.id.none_image);
-        if (-1==imageId) {
+        if (-1 == imageId) {
             imageView.setVisibility(View.GONE);
-        }else {
+        } else {
             imageView.setImageResource(imageId);
         }
         return view;
@@ -508,8 +513,11 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
         bm.recycle();
         bm = null;
     }
+
     //单点登录
-    public  void singleLogin(){}
+    public void singleLogin() {
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN) //在ui线程执行
     public void receiveBaseStringMsg(String msg) {
         switch (msg) {
@@ -521,6 +529,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
                 break;
         }
     }
+
     /**
      * 配置view的margin属性
      */
@@ -533,6 +542,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
         layoutParams.setMargins(left, top, right, bottom);
         view.setLayoutParams(layoutParams);
     }
+
     /**
      * 隐藏软键盘  view 可以是当前点击的view 没必要全是edittext
      */
@@ -542,14 +552,16 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
             imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
+
     /**
      * view获取焦点
      */
-    public  void getViewFocus(View view) {
+    public void getViewFocus(View view) {
         view.setFocusable(true);
         view.setFocusableInTouchMode(true);
         view.requestFocus();
     }
+
     /**
      * 显示软键盘
      *
@@ -609,15 +621,17 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
             }
         });
     }
+
     /**
      * 压缩图片
-     * @param path  图片路径
-     * @param saveDirName  保存本地图片的目录
+     *
+     * @param path                  图片路径
+     * @param saveDirName           保存本地图片的目录
      * @param onImageCompressedPath
-     * @param saveFileName  保存文件的名称
+     * @param saveFileName          保存文件的名称
      */
-    public void  compressImage(String path, String saveDirName,
-                               String saveFileName,OnImageCompressedPath onImageCompressedPath) {
+    public void compressImage(String path, String saveDirName,
+                              String saveFileName, OnImageCompressedPath onImageCompressedPath) {
         //        showLoadingDialog(mContext);
         Luban.with(mContext).load(path).ignoreBy(100)
                 .setTargetDir(FileCacheUtils.getAppImagePath(saveDirName))
@@ -629,8 +643,8 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
                 }).setRenameListener(new OnRenameListener() {
             @Override
             public String rename(String filePath) {
-                return TextUtils.isEmpty(saveFileName)||saveFileName==null?System.currentTimeMillis()+".jpg":
-                        saveFileName+".jpg";
+                return TextUtils.isEmpty(saveFileName) || saveFileName == null ? System.currentTimeMillis() + ".jpg" :
+                        saveFileName + ".jpg";
             }
         })
                 .setCompressListener(new OnCompressListener() {
@@ -661,11 +675,12 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
      * 图片压缩成功回调
      */
     public interface OnImageCompressedPath {
-        void  compressedImagePath(File file);
+        void compressedImagePath(File file);
     }
 
     /**
      * 设置左边图标
+     *
      * @param textView
      * @param drawableId
      */
@@ -677,6 +692,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
 
     /**
      * 设置顶部图标
+     *
      * @param textView
      * @param drawableId
      */
@@ -698,5 +714,61 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
         textView.setCompoundDrawables(null, null, drawable, null);//只放右边
     }
 
+    /**
+     * 设置alertdialog的宽高
+     * 这个是为了类似锤子手机 对话框显示不全的问题
+     * 需要在dialog  show()方法调用之后 调用此方法
+     *
+     * @param dialog
+     * @param width  -1代表屏幕宽度  0 代表 wrap_content  其他就是自定义值了
+     * @param height
+     */
+    public AlertDialog setAlertDialogHeightWidth(AlertDialog dialog, int width, int height) {
+        // 设置dialog的宽度
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        if (-1 == width) {
+            params.width = getScreenWidth();
+        } else if (0 == width) {
+            params.width = params.width;
+        } else {
+            params.width = width;
+        }
+        if (-1 == height) {
+            params.height = getScreenHeight();
+        } else if (0 == height) {
+            params.height = params.height;
+        } else {
+            params.height = height;
+        }
+        dialog.getWindow().setAttributes(params);
+        return dialog;
+    }
 
+    /**
+     * 获取屏幕宽度(px)
+     *
+     * @param
+     * @return
+     */
+    public int getScreenWidth() {
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+
+        return width;
+    }
+
+    /**
+     * 获取屏幕高度(px)
+     *
+     * @param
+     * @return
+     */
+    public int getScreenHeight() {
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int height = dm.heightPixels;
+
+        return height;
+    }
 }

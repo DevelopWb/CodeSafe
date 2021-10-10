@@ -1,15 +1,21 @@
 package com.juntai.upcodesafe.mine;
 
 
+import com.juntai.disabled.basecomponent.base.BaseObserver;
+import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.disabled.basecomponent.mvp.BasePresenter;
 import com.juntai.disabled.basecomponent.mvp.IModel;
 import com.juntai.disabled.basecomponent.mvp.IView;
+import com.juntai.disabled.basecomponent.utils.RxScheduler;
+import com.juntai.upcodesafe.AppNetModule;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.bean.MultipleItem;
 import com.juntai.upcodesafe.bean.MyMenuBean;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.RequestBody;
 
 /**
  * Describe:
@@ -27,11 +33,32 @@ public class MyCenterPresent extends BasePresenter<IModel, MyCenterContract.ICen
     }
 
 
+    /**
+     * 注销
+     *
+     */
+    public void logout(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .logout(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
 
+                    }
 
-    @Override
-    public void initList() {
-       }
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
 
     @Override
     public List<MultipleItem> getMenuBeans(){

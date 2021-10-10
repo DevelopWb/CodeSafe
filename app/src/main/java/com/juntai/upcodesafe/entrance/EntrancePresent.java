@@ -3,6 +3,8 @@ package com.juntai.upcodesafe.entrance;
 
 import android.annotation.SuppressLint;
 
+import com.juntai.disabled.basecomponent.base.BaseObserver;
+import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.disabled.basecomponent.mvp.IView;
 import com.juntai.disabled.basecomponent.mvp.BasePresenter;
 import com.juntai.disabled.basecomponent.mvp.IModel;
@@ -35,20 +37,19 @@ public class EntrancePresent extends BasePresenter<IModel, EntranceContract.IEnt
                 .createrRetrofit()
                 .login(account, password)
                 .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new Consumer<UserBean>() {
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
                     @Override
-                    public void accept(UserBean userBean) throws Exception {
+                    public void onSuccess(BaseResult o) {
                         if (getView() != null) {
-                            getView().hideLoading();
-                            getView().onSuccess(tag, userBean);
+                            getView().onSuccess(tag, o);
                         }
+
                     }
-                }, new Consumer<Throwable>() {
+
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
+                    public void onError(String msg) {
                         if (getView() != null) {
-                            getView().hideLoading();
-                            getView().onError(tag, PubUtil.ERROR_NOTICE);
+                            getView().onError(tag, msg);
                         }
                     }
                 });
