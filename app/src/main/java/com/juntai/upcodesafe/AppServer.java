@@ -3,6 +3,7 @@ package com.juntai.upcodesafe;
 
 import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.upcodesafe.bean.IdNameBean;
+import com.juntai.upcodesafe.bean.NoticeBean;
 import com.juntai.upcodesafe.bean.TownListBean;
 import com.juntai.upcodesafe.bean.UnitsBean;
 import com.juntai.upcodesafe.bean.UserBean;
@@ -101,4 +102,25 @@ public interface AppServer {
      */
     @POST(AppHttpPath.MANUAL_ADD_UNIT)
     Observable<BaseResult> manualAddUnit(@Body RequestBody requestBody);
+
+
+
+
+
+        /*====================================================    首页   ==============================================================*/
+
+    /**
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.HOMEPAGE_NOTICE)
+    Observable<NoticeBean> getHomePageNotice(@Body RequestBody requestBody);
+    /**
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.HOMEPAGE_ACCIDENT)
+    Observable<NoticeBean> getHomePageAccident(@Body RequestBody requestBody);
 }

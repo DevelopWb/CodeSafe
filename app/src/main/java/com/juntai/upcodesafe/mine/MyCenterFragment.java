@@ -15,7 +15,10 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.basecomponent.base.BaseActivity;
 import com.juntai.disabled.basecomponent.utils.DialogUtil;
+import com.juntai.disabled.basecomponent.utils.FileCacheUtils;
 import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
+import com.juntai.disabled.basecomponent.utils.RxScheduler;
+import com.juntai.disabled.basecomponent.utils.RxTask;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.MainActivity;
@@ -86,12 +89,44 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
                     case MultipleItem.ITEM_MENUS:
                         MyMenuBean myMenuBean = (MyMenuBean) multipleItem.getObject();
                         switch (myMenuBean.getTag()) {
-                            case MyCenterContract.MENU_NEWS:
+                            case MyCenterContract.MODIFY_PWD:
+                                startActivity(new Intent(mContext, ModifyPwdActivity.class));
+                                break;
+
+                            case MyCenterContract.SET_ABOUT_TAG:
+                                // 关于我们
+                                startActivity(new Intent(mContext, AboutActivity.class));
+                                break;
+                            case MyCenterContract.SET_CLEAR_TAG:
+                                // 清理缓存
+                                getBaseActivity().setAlertDialogHeightWidth( DialogUtil.getMessageDialog(mContext, "将清理掉应用本地的图片和视频缓存文件",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                RxScheduler.doTask(getBaseAppActivity(), new RxTask<String>() {
+                                                    @Override
+                                                    public String doOnIoThread() {
+                                                        FileCacheUtils.clearAll(mContext.getApplicationContext());
+                                                        return "清理成功";
+                                                    }
+
+                                                    @Override
+                                                    public void doOnUIThread(String s) {
+                                                        ToastUtils.success(mContext.getApplicationContext(), s);
+                                                    }
+                                                });
+                                            }
+                                        }).show(),-1,0);
+                                break;
+                            case MyCenterContract.SET_UPDATE_TAG:
+                                //检查更新
+                                getBaseAppActivity().update(true);
                                 break;
                             default:
                                 break;
                         }
                         break;
+
                     default:
                         break;
                 }

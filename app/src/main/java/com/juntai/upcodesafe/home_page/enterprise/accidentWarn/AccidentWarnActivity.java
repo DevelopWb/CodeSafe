@@ -2,9 +2,11 @@ package com.juntai.upcodesafe.home_page.enterprise.accidentWarn;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.basecomponent.mvp.BasePresenter;
+import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.home_page.enterprise.BaseSearchAndListActivity;
 import com.juntai.upcodesafe.home_page.enterprise.notice.EnterpriseNoticeAdapter;
@@ -16,14 +18,15 @@ import com.juntai.upcodesafe.home_page.enterprise.notice.EnterpriseNoticeAdapter
  */
 public class AccidentWarnActivity extends BaseSearchAndListActivity {
 
-    @Override
-    protected BasePresenter createPresenter() {
-        return null;
-    }
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void startSearch(String s) {
+        if (TextUtils.isEmpty(s)) {
+            mPresenter.getHomePageAccident(getBaseBuilder().build(), AppHttpPath.HOMEPAGE_NOTICE);
+        }else {
+            mPresenter.getHomePageAccident(getBaseBuilder().add("keyword",s).build(), AppHttpPath.HOMEPAGE_NOTICE);
+        }
     }
 
     @Override
@@ -31,15 +34,6 @@ public class AccidentWarnActivity extends BaseSearchAndListActivity {
         return "事故警示";
     }
 
-    @Override
-    protected void freshlayoutOnLoadMore() {
-
-    }
-
-    @Override
-    protected void freshlayoutOnRefresh() {
-
-    }
 
     @Override
     protected BaseQuickAdapter getAdapter() {

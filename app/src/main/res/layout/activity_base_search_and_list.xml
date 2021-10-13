@@ -30,7 +30,5 @@
     <include
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
         layout="@layout/recycleview_layout"></include>
 </LinearLayout>

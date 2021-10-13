@@ -77,7 +77,16 @@ public class AppHttpPath {
     public static final String MANUAL_ADD_UNIT = BASE + "/u/appUserStaff/addSupplementUnit.shtml";
 
 
+    /**
+     * 通知公告
+     */
+    public static final String HOMEPAGE_NOTICE = BASE + "/u/appUnit/selectNotice.shtml";
 
+
+    /**
+     * 事故警示列表
+     */
+    public static final String HOMEPAGE_ACCIDENT = BASE + "/u/appUnit/selectAccidentWarningList.shtml";
 
 
 

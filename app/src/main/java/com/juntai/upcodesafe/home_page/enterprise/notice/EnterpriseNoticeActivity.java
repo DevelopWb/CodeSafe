@@ -2,10 +2,14 @@ package com.juntai.upcodesafe.home_page.enterprise.notice;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.basecomponent.mvp.BasePresenter;
+import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
+import com.juntai.upcodesafe.home_page.HomePageContract;
+import com.juntai.upcodesafe.home_page.HomePagePresent;
 import com.juntai.upcodesafe.home_page.enterprise.BaseSearchAndListActivity;
 
 /**
@@ -16,15 +20,6 @@ import com.juntai.upcodesafe.home_page.enterprise.BaseSearchAndListActivity;
 public class EnterpriseNoticeActivity extends BaseSearchAndListActivity {
 
 
-    @Override
-    protected void freshlayoutOnLoadMore() {
-
-    }
-
-    @Override
-    protected void freshlayoutOnRefresh() {
-
-    }
 
 
     @Override
@@ -33,12 +28,19 @@ public class EnterpriseNoticeActivity extends BaseSearchAndListActivity {
     }
 
     @Override
+    protected void startSearch(String s) {
+        if (TextUtils.isEmpty(s)) {
+            mPresenter.getHomePageNotice(getBaseBuilder().build(), AppHttpPath.HOMEPAGE_NOTICE);
+        }else {
+            mPresenter.getHomePageNotice(getBaseBuilder().add("keyword",s).build(), AppHttpPath.HOMEPAGE_NOTICE);
+        }
+
+    }
+
+    @Override
     protected String getTitleName() {
         return "通知公告";
     }
 
-    @Override
-    protected BasePresenter createPresenter() {
-        return null;
-    }
+
 }
