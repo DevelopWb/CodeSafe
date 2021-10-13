@@ -17,6 +17,7 @@ import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.upcodesafe.MainActivity;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.bean.UserBean;
+import com.juntai.upcodesafe.mine.ModifyPwdActivity;
 import com.juntai.upcodesafe.utils.HawkProperty;
 import com.orhanobut.hawk.Hawk;
 
@@ -64,11 +65,7 @@ public class LoginActivity extends BaseMvpActivity<EntrancePresent> implements E
 
     @Override
     public void initView() {
-        initToolbarAndStatusBar(false);
-        mBaseRootCol.setFitsSystemWindows(true);
-        mImmersionBar.statusBarColor(com.juntai.disabled.basecomponent.R.color.white)
-                .statusBarDarkFont(true)
-                .init();
+        setTitleName("登录");
         mRegistPhoneEt = (EditText) findViewById(R.id.regist_phone_et);
         mPassword = (EditText) findViewById(R.id.password_et);
         mPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -80,8 +77,6 @@ public class LoginActivity extends BaseMvpActivity<EntrancePresent> implements E
         mRegistTv.setOnClickListener(this);
         mHideShowIv = (ImageView) findViewById(R.id.hide_show_iv);
         mHideShowIv.setOnClickListener(this);
-        ImageView mCloseIv = (ImageView) findViewById(R.id.close_iv);
-        mCloseIv.setOnClickListener(this);
     }
 
     @Override
@@ -131,14 +126,11 @@ public class LoginActivity extends BaseMvpActivity<EntrancePresent> implements E
                 mPresenter.login(account, MD5.md5(String.format("%s#%s", account, password)),
                         EntranceContract.LOGIN_TAG);
                 break;
-            case R.id.close_iv:
-               onBackPressed();
-                break;
             case R.id.regist_tv:
                 startActivity(new Intent(this, RegistActivity.class));
                 break;
             case R.id.forget_pwd_tv:
-                // TODO: 2021-10-08 跳转到忘记密码的界面  这个界面和注册差不多。。
+                startActivity(new Intent(this, ModifyPwdActivity.class));
                 break;
             case R.id.hide_show_iv:
                 if (isHide) {

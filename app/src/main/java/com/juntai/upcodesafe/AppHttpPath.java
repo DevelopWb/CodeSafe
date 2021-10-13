@@ -30,6 +30,9 @@ public class AppHttpPath {
      */
     public static final String REGIST = BASE + "/u/appUserStaff/register.shtml";
     /**
+     */
+    public static final String MODIFY_PWD = BASE + "/u/appUserStaff/updatePassword.shtml";
+    /**
      *
      */
     public static final String LOGOUT = BASE + "/u/appUserStaff/logout.shtml";

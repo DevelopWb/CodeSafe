@@ -32,15 +32,6 @@
         app:layout_constraintRight_toRightOf="@+id/police_icon_iv"
         app:layout_constraintTop_toBottomOf="@+id/police_icon_iv"></TextView>
 
-    <ImageView
-        android:id="@+id/close_iv"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="15dp"
-        android:padding="10dp"
-        android:src="@mipmap/close_icon"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></ImageView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,16 +39,10 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/close_iv">
+        >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_white_only_bottom_accent_shape_5dp"
-            android:paddingBottom="5dp"
-            android:text="注册"
-            android:textSize="26dp"></TextView>
 
 
         <LinearLayout
@@ -71,7 +56,7 @@
                 android:id="@+id/regist_phone_et"
                 style="@style/login_edit_tv_style"
                 android:layout_marginTop="10dp"
-                android:hint="注册手机号"
+                android:hint="请输入你的账号"
                 android:inputType="phone"
                 android:maxLength="11" />
 
@@ -139,7 +124,7 @@
             android:id="@+id/regist_tv"
             style="@style/bt_bg_style"
             android:layout_marginTop="20dp"
-            android:text="注册" />
+            />
 
     </LinearLayout>
 

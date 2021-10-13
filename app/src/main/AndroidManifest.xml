@@ -30,18 +30,43 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".mine.addInformation.addUnit.ManualAddUnitActivity"></activity>
-        <activity android:name=".mine.addInformation.AddInformationActivity" />
-        <activity android:name=".home_page.enterprise.educateOnline.EducateOnlineActivity" />
-        <activity android:name=".home_page.enterprise.accidentWarn.AccidentWarnActivity" />
-        <activity android:name=".home_page.enterprise.notice.EnterpriseNoticeActivity" />
-        <activity android:name=".home_page.enterprise.BaseSearchAndListActivity" />
-        <activity android:name=".home_page.enterprise.selfcheck.SelfCheckActivity" />
-        <activity android:name=".entrance.RegistActivity" />
-        <activity android:name=".securityCheck.EditSecurityInspectSiteActivity" />
-        <activity android:name=".securityCheck.SecurityInspectionSiteMoreInfoActivity" />
-        <activity android:name=".securityCheck.SecurityInspectionInfoActivity" />
-        <activity android:name=".securityCheck.SecurityCheckSiteActivity" />
+        <activity android:name=".mine.ModifyPwdActivity"></activity>
+        <activity
+            android:name=".mine.addInformation.addUnit.ManualAddUnitActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".mine.addInformation.AddInformationActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".home_page.enterprise.educateOnline.EducateOnlineActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".home_page.enterprise.accidentWarn.AccidentWarnActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".home_page.enterprise.notice.EnterpriseNoticeActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".home_page.enterprise.BaseSearchAndListActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".home_page.enterprise.selfcheck.SelfCheckActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".entrance.RegistActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".securityCheck.EditSecurityInspectSiteActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".securityCheck.SecurityInspectionSiteMoreInfoActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".securityCheck.SecurityInspectionInfoActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".securityCheck.SecurityCheckSiteActivity"
+            android:launchMode="singleTop" />
         <activity
             android:name=".home_page.QRScanActivity"
             android:launchMode="singleTop" />
@@ -63,6 +88,7 @@
 
         <activity
             android:name=".entrance.LoginActivity"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan" />
 
         <meta-data

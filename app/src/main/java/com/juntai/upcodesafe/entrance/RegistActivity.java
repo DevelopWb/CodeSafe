@@ -1,145 +1,35 @@
 package com.juntai.upcodesafe.entrance;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.juntai.disabled.basecomponent.utils.MD5;
-import com.juntai.disabled.basecomponent.utils.RuleTools;
-import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.upcodesafe.AppHttpPath;
-import com.juntai.upcodesafe.R;
-import com.juntai.upcodesafe.base.sendcode.SmsCheckCodeActivity;
+import com.juntai.upcodesafe.base.BaseWithSmsActivity;
 
-public class RegistActivity extends SmsCheckCodeActivity implements View.OnClickListener {
-
-    /**
-     * 注册
-     */
-    private TextView mRegistTv;
-    private ImageView mCloseIv;
-    /**
-     * 注册手机号
-     */
-    private EditText mRegistPhoneEt;
-    /**
-     * 短信验证码
-     */
-    private EditText mRegistCheckCodeEt;
-    /**
-     * 获取验证码
-     */
-    private TextView mRegistSendCheckCodeTv;
-    /**
-     * 密码
-     */
-    private EditText mPasswordEt;
-    private ImageView mHideShowIv;
-    private boolean isHide = true;//默认隐藏
-
+/**
+ * @aouther tobato
+ * @description 描述  注册
+ * @date 2021-10-13 14:49
+ */
+public class RegistActivity extends BaseWithSmsActivity implements View.OnClickListener {
     @Override
-    public int getLayoutView() {
-        return R.layout.activity_regist;
+    protected String getPwdHint() {
+        return "请输入你的密码";
     }
 
     @Override
-    public void initView() {
-        initToolbarAndStatusBar(false);
-        mBaseRootCol.setFitsSystemWindows(true);
-        mImmersionBar.statusBarColor(com.juntai.disabled.basecomponent.R.color.white)
-                .statusBarDarkFont(true)
-                .init();
-        mRegistTv = (TextView) findViewById(R.id.regist_tv);
-        mRegistTv.setOnClickListener(this);
-        mCloseIv = (ImageView) findViewById(R.id.close_iv);
-        mCloseIv.setOnClickListener(this);
-        mRegistPhoneEt = (EditText) findViewById(R.id.regist_phone_et);
-        mRegistCheckCodeEt = (EditText) findViewById(R.id.regist_check_code_et);
-        mRegistSendCheckCodeTv = (TextView) findViewById(R.id.regist_send_check_code_tv);
-        mRegistSendCheckCodeTv.setOnClickListener(this);
-        mPasswordEt = (EditText) findViewById(R.id.password_et);
-        mHideShowIv = (ImageView) findViewById(R.id.hide_show_iv);
-        mHideShowIv.setOnClickListener(this);
+    protected String getCommitTextName() {
+        return "注册";
     }
 
     @Override
-    public void initData() {
-
+    protected String getTitleName() {
+        return "注册";
     }
 
-
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.regist_tv:
-                // 调用注册的接口  成功后跳转到登录界面
-                if (!RuleTools.isMobileNO(getTextViewValue(mRegistPhoneEt))) {
-                    ToastUtils.error(mContext, "手机号码格式不正确");
-                    return;
-                }
-                if (TextUtils.isEmpty(getTextViewValue(mRegistCheckCodeEt))) {
-                    ToastUtils.error(mContext, "请输入验证码");
-                    return;
-                }
-                if (TextUtils.isEmpty(getTextViewValue(mPasswordEt))) {
-                    ToastUtils.error(mContext, "请输入密码");
-                    return;
-                }
-                mPresenter.regist(getTextViewValue(mRegistPhoneEt), MD5.md5(String.format("%s#%s", getTextViewValue(mRegistPhoneEt), getTextViewValue(mPasswordEt)))
+    protected void commit() {
+        mPresenter.regist(getTextViewValue(mRegistPhoneEt), MD5.md5(String.format("%s#%s", getTextViewValue(mRegistPhoneEt), getTextViewValue(mPasswordEt)))
                 ,getTextViewValue(mRegistCheckCodeEt), AppHttpPath.REGIST);
-                break;
-            default:
-                break;
-            case R.id.close_iv:
-                finish();
-                break;
-            case R.id.regist_send_check_code_tv:
-                // 注册界面发送验证码
-                if (!RuleTools.isMobileNO(getTextViewValue(mRegistPhoneEt))) {
-                    ToastUtils.error(mContext, "手机号码格式不正确");
-                    return;
-                }
-                sendCheckCode(getTextViewValue(mRegistPhoneEt));
-                break;
-            case R.id.hide_show_iv:
-                if (isHide) {
-                    isHide = false;
-                    //设置EditText的密码为可见的
-                    mPasswordEt.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                }else {
-                    isHide = true;
-                    //设置EditText的密码为隐藏
-                    mPasswordEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                }
-                mPasswordEt.setSelection(mPasswordEt.getText().length());
-                break;
-        }
-    }
-
-    @Override
-    protected TextView getSendCodeTv() {
-        return mRegistSendCheckCodeTv;
-    }
-
-
-    @Override
-    public void onSuccess(String tag, Object o) {
-        super.onSuccess(tag, o);
-        switch (tag) {
-            case AppHttpPath.REGIST:
-                ToastUtils.toast(mContext,"注册成功");
-                startActivity(new Intent(mContext, LoginActivity.class));
-                finish();
-                break;
-            default:
-
-                break;
-        }
     }
 }

@@ -14,7 +14,7 @@ import com.juntai.upcodesafe.AppNetModule;
  * @UpdateUser: 更新者
  * @UpdateDate: 2021/7/14 10:30
  */
-public class SendCodePresent extends BasePresenter<SendCodeModel, SendCodeContract.ISendCodeView> implements SendCodeContract.IUpdateView,SendCodeContract.ISendCodePresent {
+public class SendCodePresent extends BasePresenter<SendCodeModel, SendCodeContract.ISendCodeView> implements SendCodeContract.IUpdateView, SendCodeContract.ISendCodePresent {
     @Override
     protected SendCodeModel createModel() {
         return new SendCodeModel(this);
@@ -25,7 +25,7 @@ public class SendCodePresent extends BasePresenter<SendCodeModel, SendCodeContra
      *
      * @param mobile
      */
-    private void getCheckCodeFromNet(String mobile,String tag) {
+    private void getCheckCodeFromNet(String mobile, String tag) {
         //获取验证码
         AppNetModule.createrRetrofit()
                 .getSMSCode(mobile)
@@ -47,14 +47,36 @@ public class SendCodePresent extends BasePresenter<SendCodeModel, SendCodeContra
                     }
                 });
     }
+
     /**
      * 从网络获取验证码
-     *
      */
-    public void regist(String account,String pwd,String code,String tag) {
+    public void regist(String account, String pwd, String code, String tag) {
         //获取验证码
         AppNetModule.createrRetrofit()
-                .regist(account,pwd,code)
+                .regist(account, pwd, code)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
+    public void modifyPwd(String account, String pwd, String code, String tag) {
+        AppNetModule.createrRetrofit()
+                .modifyPwd(account, pwd, code)
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
                     @Override
@@ -105,7 +127,7 @@ public class SendCodePresent extends BasePresenter<SendCodeModel, SendCodeContra
     @Override
     public void sendCheckCode(String mobile, String tempCode) {
         if (mobileFormatIsOk(mobile)) {
-            getCheckCodeFromNet(mobile,tempCode);
+            getCheckCodeFromNet(mobile, tempCode);
         }
     }
 
@@ -120,10 +142,6 @@ public class SendCodePresent extends BasePresenter<SendCodeModel, SendCodeContra
     public void initGetTestCodeButtonStatus() {
         getModel().initGetTestCodeButtonStatus();
     }
-
-
-
-
 
 
 }

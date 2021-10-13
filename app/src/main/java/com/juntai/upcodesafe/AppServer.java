@@ -39,6 +39,9 @@ public interface AppServer {
     @POST(AppHttpPath.REGIST)
     Observable<BaseResult> regist(@Query("account") String account, @Query("password") String password, @Query("code") String code
     );
+    @POST(AppHttpPath.MODIFY_PWD)
+    Observable<BaseResult> modifyPwd(@Query("account") String account, @Query("password") String password, @Query("code") String code
+    );
 
 
 
