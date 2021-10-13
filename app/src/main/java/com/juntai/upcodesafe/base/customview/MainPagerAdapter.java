@@ -36,7 +36,6 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
         mFragments = fragments;
         this.titles = title;
     }
-
     @Override
     public Fragment getItem(int position) {
         return mFragments.get(position);

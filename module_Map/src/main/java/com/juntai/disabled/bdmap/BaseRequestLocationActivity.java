@@ -7,6 +7,7 @@ import android.util.Log;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
+import com.juntai.disabled.basecomponent.base.BaseDownLoadActivity;
 import com.juntai.disabled.basecomponent.base.BaseMvpActivity;
 import com.juntai.disabled.basecomponent.base.update.UpdateActivity;
 import com.juntai.disabled.basecomponent.mvp.BasePresenter;
@@ -20,11 +21,20 @@ import com.juntai.disabled.bdmap.utils.BaiDuLocationUtils;
 public abstract class BaseRequestLocationActivity<P extends BasePresenter> extends UpdateActivity<P> {
     public Double lat = 0.0;
     public Double lng = 0.0;
+    public String  address = null;
     private LocationClient mLocationClient;
 
     public abstract void onLocationReceived(BDLocation bdLocation);
     public abstract boolean requestLocation();
+    @Override
+    protected String getTitleRightName() {
+        return null;
+    }
 
+    @Override
+    protected String getDownLoadPath() {
+        return null;
+    }
 
     private BDAbstractLocationListener listener = new BDAbstractLocationListener() {
         @Override
@@ -32,8 +42,6 @@ public abstract class BaseRequestLocationActivity<P extends BasePresenter> exten
             if (bdLocation.getLocType() != 161 && bdLocation.getLocType() != 61) {
                 return;
             }
-            lat = bdLocation.getLatitude();
-            lng = bdLocation.getLongitude();
             onLocationReceived(bdLocation);
             Log.e("EEEEEEEEEE888", " = " + lat);
             Log.e("EEEEEEEEEE888", " = " + lng);
@@ -46,13 +54,17 @@ public abstract class BaseRequestLocationActivity<P extends BasePresenter> exten
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (requestLocation()) {
-            if (mLocationClient == null) {
-                mLocationClient = new LocationClient(getApplicationContext());
-                mLocationClient.setLocOption(BaiDuLocationUtils.getDefaultLocationClientOption());
-            }
-            mLocationClient.registerLocationListener(listener);
-            mLocationClient.start();
+            startLocation();
         }
+    }
+
+    public void startLocation() {
+        if (mLocationClient == null) {
+            mLocationClient = new LocationClient(getApplicationContext());
+            mLocationClient.setLocOption(BaiDuLocationUtils.getDefaultLocationClientOption());
+        }
+        mLocationClient.registerLocationListener(listener);
+        mLocationClient.start();
     }
 
     @Override
@@ -69,11 +81,12 @@ public abstract class BaseRequestLocationActivity<P extends BasePresenter> exten
 
     @Override
     protected void onDestroy() {
-        if (requestLocation()) {
+        super.onDestroy();
+        if (mLocationClient != null) {
             mLocationClient.stop();
             mLocationClient.unRegisterLocationListener(listener);
             listener=null;
         }
-        super.onDestroy();
+
     }
 }

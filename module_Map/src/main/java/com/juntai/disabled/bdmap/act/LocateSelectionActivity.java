@@ -210,6 +210,7 @@ public class LocateSelectionActivity extends BaseRequestLocationActivity impleme
         PoiInfo poiInfo;
         public boolean ischecked;
 
+
         public Address(PoiInfo poiInfo, boolean ischecked) {
             this.poiInfo = poiInfo;
             this.ischecked = ischecked;
@@ -262,15 +263,6 @@ public class LocateSelectionActivity extends BaseRequestLocationActivity impleme
     }
 
 
-    @Override
-    protected String getTitleRightName() {
-        return null;
-    }
-
-    @Override
-    protected String getDownLoadPath() {
-        return null;
-    }
 
     @Override
     protected void onDestroy() {
@@ -279,6 +271,9 @@ public class LocateSelectionActivity extends BaseRequestLocationActivity impleme
         mapView.onDestroy();
         mapView = null;
         mGeoCoder.destroy();
+        mGeoCoder = null;
+        mBaiduMap.clear();
+        mBaiduMap = null;
         if (addressList != null) {
             addressList.clear();
             addressList=null;

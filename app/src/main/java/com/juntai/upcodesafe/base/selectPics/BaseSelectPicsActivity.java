@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 
+import com.juntai.disabled.basecomponent.base.update.UpdateActivity;
 import com.juntai.disabled.bdmap.BaseRequestLocationActivity;
 import com.juntai.disabled.basecomponent.mvp.BasePresenter;
 import com.juntai.disabled.basecomponent.utils.BaseAppUtils;

@@ -91,7 +91,7 @@ public class UserBean extends BaseResult {
         }
 
         public String getNickname() {
-            return nickname == null ? "" : nickname;
+            return nickname == null ? "姓名" : nickname;
         }
 
         public void setNickname(String nickname) {

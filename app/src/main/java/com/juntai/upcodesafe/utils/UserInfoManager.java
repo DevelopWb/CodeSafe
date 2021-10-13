@@ -21,7 +21,8 @@ public class UserInfoManager {
      * @return
      */
     public static UserBean getUser() {
-        return Hawk.get(HawkProperty.LOGIN_KEY);
+        UserBean userBean = Hawk.get(HawkProperty.LOGIN_KEY);
+        return userBean;
     }
 
     /**
@@ -61,6 +62,22 @@ public class UserInfoManager {
      */
     public static int getUserId() {
         return getUser() != null && getUser().getData() != null ? getUser().getData().getUserId() : -1;
+    }
+    /**
+     * 获取getUserId
+     *  1部门权限；2属地权限；3网格员；4企业人员）
+     * @return
+     */
+    public static int getAccountTypeId() {
+        return getUser() != null && getUser().getData() != null ? getUser().getData().getTypeId() : 4;
+    }
+    /**
+     * getAccountStatus
+     *账号审核状态（1审核中；2审核成功；3未提交或审核失败）
+     * @return
+     */
+    public static int getAccountStatus() {
+        return getUser() != null && getUser().getData() != null ? getUser().getData().getState() : 3;
     }
 
 }

@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout"
-    android:background="@color/white"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/status_top_title"
@@ -30,8 +30,8 @@
         <android.support.constraint.ConstraintLayout
             android:id="@+id/head_cl"
             android:layout_width="match_parent"
-            android:background="#ffffff"
             android:layout_height="80dp"
+            android:background="#ffffff"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
@@ -49,8 +49,7 @@
                 android:layout_height="40dp"
                 android:layout_marginRight="20dp"
                 android:padding="10dp"
-                android:src="@mipmap/my_center_set"
-                android:visibility="gone"
+                android:src="@mipmap/arrow_right"
                 app:layout_constraintBottom_toBottomOf="@+id/headImage"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/headImage"
@@ -61,26 +60,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="14dp"
-                app:layout_constraintVertical_chainStyle="packed"
                 android:alpha="0.3"
                 android:gravity="center"
-                android:text="点击头像登录"
+                android:text="姓名"
                 android:textColor="@color/black"
                 android:textSize="15dp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/tel_number"
+                app:layout_constraintBottom_toTopOf="@+id/info_des_tv"
                 app:layout_constraintLeft_toRightOf="@+id/headImage"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
-                android:id="@+id/tel_number"
+                android:id="@+id/info_des_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="14dp"
-                android:alpha="0.5"
-                android:visibility="gone"
                 android:gravity="center"
-                android:text="dfadfasd"
                 android:textColor="@color/black"
                 android:textSize="13dp"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -3,8 +3,9 @@ package com.juntai.upcodesafe.mine;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,16 +13,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.juntai.disabled.basecomponent.base.BaseMvpFragment;
+import com.juntai.disabled.basecomponent.base.BaseActivity;
 import com.juntai.disabled.basecomponent.utils.DialogUtil;
+import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.upcodesafe.AppHttpPath;
+import com.juntai.upcodesafe.MainActivity;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseAppFragment;
 import com.juntai.upcodesafe.bean.MultipleItem;
 import com.juntai.upcodesafe.bean.MyMenuBean;
+import com.juntai.upcodesafe.bean.UserBean;
 import com.juntai.upcodesafe.entrance.LoginActivity;
+import com.juntai.upcodesafe.mine.addInformation.AddInformationActivity;
 import com.juntai.upcodesafe.utils.HawkProperty;
+import com.juntai.upcodesafe.utils.UrlFormatUtil;
 import com.juntai.upcodesafe.utils.UserInfoManager;
 import com.orhanobut.hawk.Hawk;
 
@@ -40,13 +46,15 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
     /**
      * 18763739973
      */
-    private TextView mTelNumber;
+    private TextView mInfoDesTv;
     private RecyclerView mMenuRecycler;
     /**
      * 退出账号
      */
     private TextView mLoginOut;
     private AlertDialog dialog;
+    private String headUrl = "";
+    private ConstraintLayout mBaseInfoCl;
 
     @Override
     protected int getLayoutRes() {
@@ -57,16 +65,17 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
     protected void initView() {
         mStatusTopTitle = getView(R.id.status_top_title);
         mHeadImage = getView(R.id.headImage);
-        mHeadImage.setOnClickListener(this);
+        mBaseInfoCl = getView(R.id.head_cl);
+        mBaseInfoCl.setOnClickListener(this);
         mNickname = getView(R.id.nickname);
         mNickname.setAlpha(0.3f);
-        mTelNumber = getView(R.id.tel_number);
-        mTelNumber.setVisibility(View.GONE);
+        mInfoDesTv = getView(R.id.info_des_tv);
+
         mMenuRecycler = getView(R.id.menu_recycler);
         mLoginOut = getView(R.id.login_out);
         mLoginOut.setOnClickListener(this);
         myMenuAdapter = new MyMenuAdapter(mPresenter.getMenuBeans());
-        getBaseActivity().initRecyclerview(mMenuRecycler,myMenuAdapter, LinearLayoutManager.VERTICAL);
+        getBaseActivity().initRecyclerview(mMenuRecycler, myMenuAdapter, LinearLayoutManager.VERTICAL);
         mStatusTopTitle.setText("个人中心");
 
         myMenuAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -104,17 +113,14 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
     public void onResume() {
         super.onResume();
         if (UserInfoManager.isLogin()) {
-            mLoginOut.setVisibility(View.VISIBLE);
-            // TODO: 2021-10-10 获取用户基本信息的接口
-//            mPresenter.getUserInfo(getBaseAppActivity().getBaseBuilder().build(), AppHttpPath.GET_USER_INFO);
-        } else {
-            mLoginOut.setVisibility(View.GONE);
+            //  获取用户基本信息的接口
+            mPresenter.getUserInfo(getBaseAppActivity().getBaseBuilder().build(), AppHttpPath.USER_INFO);
         }
     }
 
-
     @Override
     protected void lazyLoad() {
+
     }
 
     @Override
@@ -125,27 +131,48 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
 
     @Override
     public void onClick(View v) {
-        if (!UserInfoManager.isLogin()){
-//            MyApp.goLogin();
+        if (!UserInfoManager.isLogin()) {
             return;
         }
         switch (v.getId()) {
-            case R.id.headImage:
-                //用户信息设置
-                break;
             case R.id.login_out:
                 //退出登录
-                dialog = getBaseActivity().setAlertDialogHeightWidth( DialogUtil.getMessageDialog(mContext, "是否退出登录", new DialogInterface.OnClickListener() {
-                     @Override
-                     public void onClick(DialogInterface dialog, int which) {
-                         //  调用退出登录接口
-                         mPresenter.logout(getBaseAppActivity().getBaseBuilder().build(), AppHttpPath.LOGOUT);
+                dialog = getBaseActivity().setAlertDialogHeightWidth(DialogUtil.getMessageDialog(mContext, "是否退出登录", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //  调用退出登录接口
+                        mPresenter.logout(getBaseAppActivity().getBaseBuilder().build(), AppHttpPath.LOGOUT);
 
-                     }
-                 }).show(),-1,0);
+                    }
+                }).show(), -1, 0);
+                break;
+
+            case R.id.head_cl:
+                //基本信息
+
+                if (UserInfoManager.getAccountStatus() == 1) {
+                    ToastUtils.toast(mContext, "待审核,请耐心等待");
+                } else if (UserInfoManager.getAccountStatus() == 1) {
+                    ToastUtils.toast(mContext, "跳转到用户详情页面");
+                } else {
+                    //跳转到补充资料的界面
+                    startActivityForResult(new Intent(mContext, AddInformationActivity.class), BaseActivity.BASE_REQUEST_RESULT);
+                }
+
+                break;
+
+            default:
                 break;
         }
     }
+
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (resultCode == BaseActivity.BASE_REQUEST_RESULT) {
+//            lazyLoad();
+//        }
+//
+//    }
 
     @Override
     public void onSuccess(String tag, Object o) {
@@ -157,12 +184,40 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
                 Hawk.delete(HawkProperty.TOKEN_KEY);
                 startActivity(new Intent(mContext, LoginActivity.class));
 
-//                //重置界面
-//                mNickname.setText("点击登录");
-//                mNickname.setAlpha(0.3f);
-//                mTelNumber.setVisibility(View.GONE);
-//                mLoginOut.setVisibility(View.GONE);
-//                mHeadImage.setImageResource(R.mipmap.default_user_head_icon);
+                break;
+
+            case AppHttpPath.USER_INFO:
+                UserBean userBean = (UserBean) o;
+                UserBean.DataBean dataBean = userBean.getData();
+                if (dataBean != null) {
+                    mNickname.setText(dataBean.getNickname());
+                    mNickname.setAlpha(0.8f);
+                    switch (dataBean.getState()) {
+                        case 1:
+                            mInfoDesTv.setTextColor(ContextCompat.getColor(mContext, R.color.textColorPrimary));
+                            mInfoDesTv.setText("待审核");
+                            break;
+                        case 2:
+                            mInfoDesTv.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+                            mInfoDesTv.setText(dataBean.getNickname());
+                            break;
+                        default:
+                            mInfoDesTv.setTextColor(ContextCompat.getColor(mContext, R.color.textColorPrimary));
+                            mInfoDesTv.setText("待补充信息");
+                            break;
+                    }
+                    if (!headUrl.equals(userBean.getData().getHeadPortrait())) {
+                        headUrl = userBean.getData().getHeadPortrait();
+                        ImageLoadUtil.loadCirImgNoCrash(mContext.getApplicationContext(),
+                                UrlFormatUtil.getImageOriginalUrl(headUrl), mHeadImage,
+                                R.mipmap.default_user_head_icon, R.mipmap.default_user_head_icon);
+                    }
+                    Hawk.put(HawkProperty.LOGIN_KEY, userBean);
+
+//                    ((MainActivity) getActivity()).initHomePageFragment();
+
+                }
+
                 break;
             default:
                 break;

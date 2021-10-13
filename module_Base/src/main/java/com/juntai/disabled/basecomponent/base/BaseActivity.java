@@ -771,4 +771,32 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
 
         return height;
     }
+
+
+    /**
+     * 隐藏控件
+     * @param views
+     */
+    public  void  setViewsGone(View... views ){
+        if (views.length>0) {
+            for (View view : views) {
+               view.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    /**
+     * 显示控件
+     * @param views
+     */
+    public  void  setViewsVisible(View... views ){
+        if (views.length>0) {
+            for (View view : views) {
+               view.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+
+
 }

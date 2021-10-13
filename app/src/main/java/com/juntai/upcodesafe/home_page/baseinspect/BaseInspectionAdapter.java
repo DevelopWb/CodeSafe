@@ -1,9 +1,11 @@
 package com.juntai.upcodesafe.home_page.baseinspect;
 
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
@@ -14,8 +16,12 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.juntai.disabled.basecomponent.utils.DisplayUtil;
+import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.upcodesafe.R;
+import com.juntai.upcodesafe.base.selectPics.SelectPhotosFragment;
 import com.juntai.upcodesafe.bean.ImportantTagBean;
+import com.juntai.upcodesafe.bean.ItemFragmentBean;
+import com.juntai.upcodesafe.bean.LocationBean;
 import com.juntai.upcodesafe.bean.MultipleItem;
 import com.juntai.upcodesafe.bean.TextKeyValueBean;
 
@@ -30,14 +36,22 @@ import java.util.List;
  */
 public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleItem, BaseViewHolder> {
     private boolean isDetail = false;//是否是详情模式
+    private FragmentManager mFragmentManager;
 
+
+    /**
+     * 控件失去焦点后  检测edittext控件输入内容的格式
+     */
+    interface OnCheckEdittextValueFormatCallBack {
+        void checkEdittextValueFormat(TextKeyValueBean keyValueBean);
+    }
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
      * some initialization data.
      *
      * @param data A new list is created out of this one to avoid mutable list
      */
-    public BaseInspectionAdapter(List<MultipleItem> data,boolean isDetail) {
+    public BaseInspectionAdapter(List<MultipleItem> data,boolean isDetail, FragmentManager mFragmentManager) {
         super(data);
         addItemType(MultipleItem.ITEM_HEAD_PIC, R.layout.item_layout_type_head_pic);
         addItemType(MultipleItem.ITEM_TITILE_BIG, R.layout.item_layout_type_title_big);
@@ -49,6 +63,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         addItemType(MultipleItem.ITEM_NORMAL_RECYCLEVIEW, R.layout.item_layout_type_recyclerview);
         addItemType(MultipleItem.ITEM_LOCATION, R.layout.item_layout_location);
         this.isDetail = isDetail;
+        this.mFragmentManager = mFragmentManager;
     }
 
     @Override
@@ -193,24 +208,39 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
 //                    editText2.setInputType(InputType.TYPE_CLASS_NUMBER);
 //                }
                 break;
+            case MultipleItem.ITEM_LOCATION:
+                LocationBean locationBean = (LocationBean) item.getObject();
+                if (!isDetail) {
+                    helper.addOnClickListener(R.id.location_ll);
+                    helper.setGone(R.id.location_iv, true);
+                } else {
+                    helper.setGone(R.id.location_iv, false);
+                }
+                if (!TextUtils.isEmpty(locationBean.getAddress())) {
+
+                    helper.setText(R.id.location_tv, locationBean.getAddress());
+                }
+
+                break;
             case MultipleItem.ITEM_SELECT:
-//                TextKeyValueBean textValueSelectBean = (TextKeyValueBean) item.getObject();
-//                TextView textViewTv = helper.getView(R.id.select_value_tv);
-//                if (!isDetail) {
-//                    helper.addOnClickListener(R.id.select_value_tv);
-//                    helper.addOnClickListener(R.id.tool_pic_iv);
-//                }
-//                if (textValueSelectBean.getDataBean() != null && !TextUtils.isEmpty(textValueSelectBean.getDataBean().getImg())) {
-//                    helper.setGone(R.id.tool_pic_iv, true);
-//                    ImageLoadUtil.loadImageNoCache(mContext, textValueSelectBean.getDataBean().getImg(),
-//                            helper.getView(R.id.tool_pic_iv));
-//                } else {
-//                    helper.setGone(R.id.tool_pic_iv, false);
-//                }
-//                textViewTv.setTag(textValueSelectBean);
-//                TextKeyValueBean selectBean = (TextKeyValueBean) textViewTv.getTag();
-//                textViewTv.setHint(selectBean.getHint());
-//                textViewTv.setText(selectBean.getValue());
+                TextKeyValueBean textValueSelectBean = (TextKeyValueBean) item.getObject();
+                TextView textViewTv = helper.getView(R.id.select_value_tv);
+                String selectTextValue = textValueSelectBean.getValue();
+                if (!isDetail) {
+                    helper.addOnClickListener(R.id.select_value_tv);
+                    helper.addOnClickListener(R.id.tool_pic_iv);
+                    helper.setBackgroundRes(R.id.select_value_tv, R.drawable.stroke_gray_square_bg);
+                    helper.setGone(R.id.select_arrow_right_iv, true);
+                } else {
+                    helper.setGone(R.id.select_arrow_right_iv, false);
+                    helper.setBackgroundRes(R.id.select_value_tv, R.drawable.sp_filled_gray_lighter);
+                }
+                textViewTv.setTag(textValueSelectBean);
+                textViewTv.setHint(textValueSelectBean.getHint());
+                if (selectTextValue.contains("\\n")) {
+                    selectTextValue = selectTextValue.replace("\\n","\n");
+                }
+                textViewTv.setText(selectTextValue);
                 break;
             case MultipleItem.ITEM_NORMAL_RECYCLEVIEW:
                 //recycleview
@@ -224,7 +254,26 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(manager);
                 break;
-
+            case MultipleItem.ITEM_FRAGMENT:
+                ItemFragmentBean fragmentBean = (ItemFragmentBean) item.getObject();
+                //上传材料时 多选照片
+                SelectPhotosFragment fragment = (SelectPhotosFragment) mFragmentManager.findFragmentById(R.id.photo_fg);
+                fragment.setObject(fragmentBean);
+                fragment.setSpanCount(fragmentBean.getmSpanCount())
+                        .setPhotoDelateable(!isDetail)
+                        .setType(fragmentBean.getType())
+                        .setMaxCount(fragmentBean.getmMaxCount())
+                        .setShowTag(fragmentBean.isShowTag()).setOnPicLoadSuccessCallBack(new SelectPhotosFragment.OnPicLoadSuccessCallBack() {
+                    @Override
+                    public void loadSuccess(List<String> icons) {
+                        ItemFragmentBean picBean = (ItemFragmentBean) fragment.getObject();
+                        picBean.setFragmentPics(icons);
+                    }
+                });
+                if (fragmentBean.getFragmentPics().size() > 0) {
+                    fragment.setIcons(fragmentBean.getFragmentPics());
+                }
+                break;
             default:
                 break;
         }

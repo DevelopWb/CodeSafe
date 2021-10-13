@@ -2,6 +2,9 @@ package com.juntai.upcodesafe;
 
 
 import com.juntai.disabled.basecomponent.base.BaseResult;
+import com.juntai.upcodesafe.bean.IdNameBean;
+import com.juntai.upcodesafe.bean.TownListBean;
+import com.juntai.upcodesafe.bean.UnitsBean;
 import com.juntai.upcodesafe.bean.UserBean;
 
 import io.reactivex.Observable;
@@ -42,6 +45,14 @@ public interface AppServer {
     @POST(AppHttpPath.LOGOUT)
     Observable<BaseResult> logout(@Body RequestBody requestBody);
 
+    /**
+     * 获取用户信息
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.USER_INFO)
+    Observable<UserBean> getUserInfo(@Body RequestBody requestBody);
+
 
     /**
      * account  手机号
@@ -50,4 +61,41 @@ public interface AppServer {
      */
     @POST(AppHttpPath.GET_SMS_CODE)
     Observable<BaseResult> getSMSCode(@Query("account") String account);
+
+
+    /**
+     * 获取用户信息
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.ADD_INFO)
+    Observable<BaseResult> addInfo(@Body RequestBody requestBody);
+    /**
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.SEARCH_ACCOUNT_NATURE)
+    Observable<UnitsBean> searchAccountNature(@Body RequestBody requestBody);
+    /**
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_NEXT_DEPARTMENT)
+    Observable<IdNameBean> getNextDepartment(@Body RequestBody requestBody);
+    /**
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_TOWN_LIST)
+    Observable<TownListBean> getTownList(@Body RequestBody requestBody);
+    /**
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.MANUAL_ADD_UNIT)
+    Observable<BaseResult> manualAddUnit(@Body RequestBody requestBody);
 }

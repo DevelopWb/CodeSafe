@@ -1,14 +1,46 @@
 package com.juntai.upcodesafe.home_page.baseinspect;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.juntai.disabled.basecomponent.utils.FileCacheUtils;
+import com.juntai.disabled.basecomponent.utils.GsonTools;
+import com.juntai.disabled.basecomponent.utils.PickerManager;
+import com.juntai.disabled.basecomponent.utils.RuleTools;
+import com.juntai.disabled.basecomponent.utils.ToastUtils;
+import com.juntai.disabled.bdmap.act.LocateSelectionActivity;
+import com.juntai.disabled.bdmap.utils.DateUtil;
+import com.juntai.disabled.video.img.ImageZoomActivity;
+import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseAppActivity;
 import com.juntai.upcodesafe.base.selectPics.SelectPhotosFragment;
+import com.juntai.upcodesafe.bean.BaseAdapterDataBean;
+import com.juntai.upcodesafe.bean.IdNameBean;
+import com.juntai.upcodesafe.bean.ItemFragmentBean;
+import com.juntai.upcodesafe.bean.LocationBean;
+import com.juntai.upcodesafe.bean.MultipleItem;
+import com.juntai.upcodesafe.bean.TextKeyValueBean;
+import com.juntai.upcodesafe.bean.TownListBean;
+import com.juntai.upcodesafe.bean.UnitDetailBean;
+import com.juntai.upcodesafe.utils.StringTools;
+import com.juntai.upcodesafe.utils.UrlFormatUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * @Author: tobato
@@ -22,10 +54,16 @@ public  abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspec
     protected BaseInspectionAdapter adapter;
     private RecyclerView mRecyclerview;
     private SmartRefreshLayout mSmartrefreshlayout;
+    public static String PARCELABLE_KEY = "parcelable";
+    public static String SDCARD_TAG = "/storage/emulated";
 
+    private TextKeyValueBean selectBean;
+    private TextView mSelectTv;
+    private int currentPosition;
     protected abstract String getTitleName();
     protected abstract View getFootView();
-
+    private int townId;
+    private int countyId;
     @Override
     protected BaseInspectPresent createPresenter() {
         return new BaseInspectPresent();
@@ -42,7 +80,7 @@ public  abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspec
         mSmartrefreshlayout = (SmartRefreshLayout) findViewById(R.id.smartrefreshlayout);
         mSmartrefreshlayout.setEnableLoadMore(false);
         mSmartrefreshlayout.setEnableRefresh(false);
-        adapter = new BaseInspectionAdapter(null, false);
+        adapter = new BaseInspectionAdapter(null, false,getSupportFragmentManager());
         initRecyclerview(mRecyclerview, adapter, LinearLayoutManager.VERTICAL);
         if (getFootView() != null) {
             adapter.setFooterView(getFootView());
@@ -52,162 +90,428 @@ public  abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspec
     }
 
     private void setAdapterClick() {
-//        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-//
-//
-//            @Override
-//            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-//                currentPosition = position;
-//                MultipleItem multipleItem = (MultipleItem) adapter.getData().get(position);
-//
-//                switch (view.getId()) {
-//                    case R.id.form_pic_src_iv:
-//                        BusinessPicBean businessPicBean = (BusinessPicBean) multipleItem.getObject();
-//                        if (BusinessContract.TABLE_TITLE_DISABLE_PIC_FRONT_SAMPLE.equals(businessPicBean.getPicName())
-//                                || BusinessContract.TABLE_TITLE_DISABLE_PIC_BACK_SAMPLE.equals(businessPicBean.getPicName())) {
-//                            //示例图片不可点击
-//
-//                        } else {
-//                            choseImage(0, BaseBusinessActivity.this, 1);
-//                        }
-//                        break;
+
+
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                currentPosition = position;
+                MultipleItem multipleItem = (MultipleItem) adapter.getData().get(position);
+                switch (view.getId()) {
 //                    case R.id.form_head_pic_iv:
-//                        choseImage(0, BaseBusinessActivity.this, 1);
-//                        break;
+//                        HeadPicBean headPicBean = (HeadPicBean) multipleItem.getObject();
+//                        String headPicPath = headPicBean.getPicPath();
+//                        if (TextUtils.isEmpty(headPicPath)) {
+//                            choseImage(0, BaseInspectionActivity.this, 1);
+//                        } else {
+//                            if (headPicPath.contains("/key_personnel/keyPersonnel.png")||headPicPath.contains(SDCARD_TAG)) {
+//                                choseImage(0, BaseInspectionActivity.this, 1);
+//                            } else {
+//                                ArrayList<String> photos = new ArrayList<>();
+//                                photos.add(UrlFormatUtil.getImageOriginalUrl(headPicPath));
+//                                //查看图片
+//                                startActivity(new Intent(mContext, ImageZoomActivity.class)
+//                                        .putExtra("paths", photos)
+//                                        .putExtra("item", 0));
+//                            }
 //
-//                    case R.id.tool_pic_iv:
-//                        //辅具详情
-//                        selectBean = (BusinessTextValueBean) multipleItem.getObject();
-//                        new AlertDialog.Builder(mContext).setView(getToolInfoView(selectBean.getDataBean())).show();
-//                        break;
-//
-//                    case R.id.select_value_tv:
-//                        mSelectTv = (TextView) adapter.getViewByPosition(mRecyclerview, position,
-//                                R.id.select_value_tv);
-//                        selectBean = (BusinessTextValueBean) multipleItem.getObject();
-//                        switch (selectBean.getKey()) {
-//                            case BusinessContract.TABLE_TITLE_NATION:
-//                                mPresenter.getDisabledNation(BusinessContract.TABLE_TITLE_NATION);
-//                                break;
-//                            case BusinessContract.TABLE_TITLE_MARRIAGE:
-//                                List<String> marrayStatus = getMarrayStatus();
-//                                PickerManager.getInstance().showOptionPicker(mContext, marrayStatus,
-//                                        new PickerManager.OnOptionPickerSelectedListener() {
-//                                            @Override
-//                                            public void onOptionsSelect(int options1, int option2, int options3,
-//                                                                        View v) {
-//                                                selectedMarrayStatus = options1;
-//                                                mSelectTv.setText(marrayStatus.get(options1));
-//                                                selectBean.setValue(marrayStatus.get(options1));
-//                                            }
-//                                        });
-//                                break;
-//                            case BusinessContract.TABLE_TITLE_EDUCATION_LEVEL:
-//                                mPresenter.getDisabledEducation(BusinessContract.TABLE_TITLE_EDUCATION_LEVEL);
-//                                break;
-//                            case BusinessContract.TABLE_TITLE_DISABILITY_KINDS:
-//                                //残疾类别
-//                                mPresenter.getDisabledCategory(AppHttpPath.GET_DISABLED_TYPE);
-//                                break;
-//                            case BusinessContract.TABLE_TITLE_DISABILITY_LEVEL:
-//                                //残疾等级
-//                                mPresenter.getDisabledLevel(AppHttpPath.GET_DISABLED_LEVEL);
-//                                break;
-//                            case BusinessContract.TABLE_TITLE_HOPE_TRAIN_TYPE:
-//                                //种类
-//                                mPresenter.getTrainingIntention(AppHttpPath.GET_TRAIN_INTENT_TYPES);
-//                                break;
-//                            case BusinessContract.TABLE_TITLE_JOB_STATUS:
-//                                //就业状况
-//                                List<String> jobStatus = getWorkStatus();
-//                                PickerManager.getInstance().showOptionPicker(mContext, jobStatus,
-//                                        new PickerManager.OnOptionPickerSelectedListener() {
-//                                            @Override
-//                                            public void onOptionsSelect(int options1, int option2, int options3,
-//                                                                        View v) {
-//                                                jobStatusId = options1;
-//                                                mSelectTv.setText(jobStatus.get(options1));
-//                                                selectBean.setValue(jobStatus.get(options1));
-//                                            }
-//                                        });
-//                                break;
-//                            case BusinessContract.TABLE_TITLE_SELECT_ASSIST_TOOL:
-//                                //辅具选择
-//                                if (0 == categoryId) {
-//                                    ToastUtils.toast(mContext, "请先选择残疾类别");
-//                                    return;
-//                                }
-//                                mPresenter.getDisabledAIDS(categoryId, AppHttpPath.GET_DISABLED_AIDS);
-//                                break;
-//                            case BusinessContract.TABLE_TITLE_DELIVERY_METHOD:
-//                                //配送方式
-//                                List<String> methods = getDeliveryMode();
-//                                PickerManager.getInstance().showOptionPicker(mContext, methods,
-//                                        new PickerManager.OnOptionPickerSelectedListener() {
-//                                            @Override
-//                                            public void onOptionsSelect(int options1, int option2, int options3,
-//                                                                        View v) {
-//                                                methodsId = options1 + 1;
-//                                                mSelectTv.setText(methods.get(options1));
-//                                                selectBean.setValue(methods.get(options1));
-//                                            }
-//                                        });
-//                                break;
-//                            case BusinessContract.TABLE_TITLE_CHILD_IQ:
-//                                //儿童发育商
-//                                List<String> iQs = getChildIQs();
-//                                PickerManager.getInstance().showOptionPicker(mContext, iQs,
-//                                        new PickerManager.OnOptionPickerSelectedListener() {
-//                                            @Override
-//                                            public void onOptionsSelect(int options1, int option2, int options3,
-//                                                                        View v) {
-//                                                selectedIQId = options1 + 1;
-//                                                mSelectTv.setText(iQs.get(options1));
-//                                                selectBean.setValue(iQs.get(options1));
-//                                            }
-//                                        });
-//                                break;
-//                            case BusinessContract.TABLE_TITLE_BRAIN_PALSY_STYLE:
-//                                //脑瘫类型
-//                                List<String> brainBadTypes = getBrainBadTypes();
-//                                PickerManager.getInstance().showOptionPicker(mContext, brainBadTypes,
-//                                        new PickerManager.OnOptionPickerSelectedListener() {
-//                                            @Override
-//                                            public void onOptionsSelect(int options1, int option2, int options3,
-//                                                                        View v) {
-//                                                selectedBrainId = options1 + 1;
-//                                                mSelectTv.setText(brainBadTypes.get(options1));
-//                                                selectBean.setValue(brainBadTypes.get(options1));
-//                                            }
-//                                        });
-//                                break;
-//                            case BusinessContract.TABLE_TITLE_BIRTH:
-//                                //出生年月
-//                                PickerManager.getInstance().showTimePickerView(mContext, null, "出生年月",
-//                                        new PickerManager.OnTimePickerTimeSelectedListener() {
-//                                            @Override
-//                                            public void onTimeSelect(Date date, View v) {
-//                                                birthDay = DateUtil.getDateString(date, "yyyy年MM月dd日");
-//                                                mSelectTv.setText(birthDay);
-//                                                selectBean.setValue(birthDay);
-//                                            }
-//                                        });
-//
-//
-//                                break;
-//                            default:
-//                                break;
 //                        }
-//                        break;
-//                    default:
-//                        break;
-//                }
 //
-//            }
-//        });
+//                        break;
+//                    case R.id.sign_ll:
+//                        itemSignBean = (ItemSignBean) multipleItem.getObject();
+//                        //签名
+//                        mSignIv = (ImageView) view.findViewById(R.id.sign_name_iv);
+//                        showSignatureView();
+//                        break;
 
+                    case R.id.select_value_tv:
+                        mSelectTv = (TextView) adapter.getViewByPosition(mRecyclerview, position,
+                                R.id.select_value_tv);
+                        if (mSelectTv == null) {
+                            mSelectTv = (TextView) adapter.getViewByPosition(mRecyclerview, position + 1,
+                                    R.id.select_value_tv);
+                        }
+                        selectBean = (TextKeyValueBean) multipleItem.getObject();
+                        switch (selectBean.getKey()) {
+                            case BaseInspectContract.INSPECTION_UNIT_AREA:
+                                mPresenter.getTownList(getBaseBuilder().build(), AppHttpPath.GET_TOWN_LIST);
+                                break;
+//                            case BaseInspectContract.INSPECTION_VISIT_TIMES:
+//                                List<String> nums = getNums();
+//                                List<List<String>> timeUnits = getTimeUnits();
+//                                PickerManager.getInstance().showOptionPicker(mContext, nums, timeUnits,
+//                                        new PickerManager.OnOptionPickerSelectedListener() {
+//                                            @Override
+//                                            public void onOptionsSelect(int options1, int option2, int options3,
+//                                                                        View v) {
+//                                                String day = String.format("%s%s", nums.get(options1),
+//                                                        timeUnits.get(options1).get(option2));
+//                                                selectBean.setValue(String.valueOf(getVistTime(nums.get(options1),
+//                                                        timeUnits.get(options1).get(option2))));
+//                                                mSelectTv.setText(day);
+//                                            }
+//                                        });
+//                                break;
 
+                            default:
+                                break;
+                        }
+                        break;
+
+                    case R.id.location_ll:
+                        //跳转到选择位置类
+                        startActivityForResult(new Intent(mContext, LocateSelectionActivity.class),
+                                LocateSelectionActivity.SELECT_ADDR);
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+        });
     }
+
+    /**
+     * 获取adapter中的数据
+     * skipFilter  跳过过滤
+     *
+     * @return
+     */
+    protected BaseAdapterDataBean getBaseAdapterData(boolean skipFilter) {
+
+        BaseAdapterDataBean bean = new BaseAdapterDataBean();
+        UnitDetailBean.DataBean unitDataBean = new UnitDetailBean.DataBean();
+        MultipartBody.Builder builder = mPresenter.getPublishMultipartBody();
+        List<MultipleItem> arrays = adapter.getData();
+        for (MultipleItem array : arrays) {
+            switch (array.getItemType()) {
+//                case MultipleItem.ITEM_SIGN:
+//                    //签名
+//                    ItemSignBean signBean = (ItemSignBean) array.getObject();
+//                    if (!StringTools.isStringValueOk(signBean.getSignPicPath())) {
+//                        ToastUtils.toast(mContext, "请签名");
+//                        return null;
+//                    }
+//                    builder.addFormDataPart("pictureSign", "pictureSign",
+//                            RequestBody.create(MediaType.parse(
+//                                    "file"), new File(getSignPath(FileCacheUtils.SIGN_PIC_NAME))));
+//                    break;
+//                case MultipleItem.ITEM_HEAD_PIC:
+//                    HeadPicBean headPicBean = (HeadPicBean) array.getObject();
+//                    String headPicPath = headPicBean.getPicPath();
+//
+//                    if (!skipFilter) {
+//                        if (TextUtils.isEmpty(headPicPath)) {
+//                            ToastUtils.toast(mContext, "请选择头像照片");
+//                            return null;
+//                        }
+//                    }
+//
+//                    importantorBean.setPersonnelPhoto(headPicPath);
+//                    workerBean.setPersonnelPhoto(headPicPath);
+//
+//                    if (headPicPath.contains(SDCARD_TAG)) {
+//                        builder.addFormDataPart("personnelPicture", "personnelPicture",
+//                                RequestBody.create(MediaType.parse("file"),
+//                                        new File(headPicPath)));
+//                    } else {
+//                        if (headPicPath.contains(AppHttpPath.BASE_IMAGE)) {
+//                            builder.addFormDataPart("personnelPhoto",
+//                                    headPicPath.substring(AppHttpPath.BASE_IMAGE.length(),
+//                                            headPicPath.length()));
+//                        }
+//
+//                    }
+//                    break;
+                case MultipleItem.ITEM_EDIT:
+                    TextKeyValueBean textValueEditBean = (TextKeyValueBean) array
+                            .getObject();
+                    String value = textValueEditBean.getValue();
+                    if (!skipFilter) {
+                        if (textValueEditBean.isImportant() && TextUtils.isEmpty(textValueEditBean
+                                .getValue())) {
+                            String key = textValueEditBean.getKey();
+                            //                        if (key.contains(mPresenter.FAMILY_TAG)) {
+                            //                            key = "监护人" + key.substring(1, key.length());
+                            //                        } else if (key.contains(mPresenter.PERSIONAL_TAG)) {
+                            //                            key = "残疾人" + key.substring(1, key.length());
+                            //                        }
+                            ToastUtils.toast(mContext, "请输入" + key);
+                            return null;
+                        }
+                    }
+
+                    String formKey = null;
+                    switch (textValueEditBean.getKey()) {
+                        case BaseInspectContract.INSPECTION_TEL:
+                            //联系电话
+                            if (!skipFilter) {
+                                if (textValueEditBean.isImportant() && !RuleTools.isMobileNO(value)) {
+                                    ToastUtils.toast(mContext, "联系电话格式不正确");
+                                    return null;
+                                }
+                            }
+                            formKey = "phone";
+                            break;
+                        case BaseInspectContract.INSPECTION_UNIT_NAME:
+                            //单位名称
+                            formKey = "name";
+                            unitDataBean.setName(value);
+                            break;
+                        case BaseInspectContract.INSPECTION_UNIT_ADDR_DETAIL:
+                            //详细地址
+                            formKey = "address";
+                            unitDataBean.setAddress(value);
+                            break;
+                        case BaseInspectContract.INSPECTION_UNIT_UCC:
+                            //社会信用代码
+                            formKey = "unifiedCreditCode";
+                            unitDataBean.setUnifiedCreditCode(value);
+                            break;
+                        case BaseInspectContract.INSPECTION_UNIT_LEGAL_PERSON:
+                            //单位法人
+                            formKey = "legal";
+                            unitDataBean.setLegal(value);
+                            break;
+                        case BaseInspectContract.INSPECTION_LEGAL_TEL:
+                            //法人手机号
+                            if (!skipFilter) {
+                                if (textValueEditBean.isImportant() && !RuleTools.isMobileNO(value)) {
+                                    ToastUtils.toast(mContext, "法人手机号格式不正确");
+                                    return null;
+                                }
+                            }
+                            formKey = "legalPhone";
+                            unitDataBean.setLegalPhone(value);
+                            break;
+                        case BaseInspectContract.INSPECTION_RESPONSIBLE:
+                            //安全责任人
+                            formKey = "personLiable";
+                            unitDataBean.setPersonLiable(value);
+                            break;
+                        case BaseInspectContract.INSPECTION_RESPONSIBLE_TEL:
+                            //安全责任人电话
+                            if (!skipFilter) {
+                                if (textValueEditBean.isImportant() && !RuleTools.isMobileNO(value)) {
+                                    ToastUtils.toast(mContext, "安全责任人电话格式不正确");
+                                    return null;
+                                }
+                            }
+                            formKey = "liablePhone";
+                            unitDataBean.setLiablePhone(value);
+                            break;
+                        case BaseInspectContract.INSPECTION_SPARE_PERSON:
+                            //备用联系人
+                            formKey = "sparePerson";
+                            break;
+                        case BaseInspectContract.INSPECTION_SPARE_PERSON_TEL:
+                            //备用联系人电话
+                            if (!skipFilter) {
+                                if (textValueEditBean.isImportant() && !RuleTools.isMobileNO(value)) {
+                                    ToastUtils.toast(mContext, "备用联系人电话格式不正确");
+                                    return null;
+                                }
+                            }
+                            formKey = "sparePhone";
+                            break;
+                        case BaseInspectContract.REMARK:
+                            //备注
+                            formKey = "remarks";
+                            break;
+                        default:
+                            break;
+                    }
+                    if (StringTools.isStringValueOk(value) && formKey != null) {
+                        builder.addFormDataPart(formKey, value);
+                    }
+
+                    break;
+                case MultipleItem.ITEM_SELECT:
+                    TextKeyValueBean textValueSelectBean = (TextKeyValueBean) array.getObject();
+                    String selectBeanValue = textValueSelectBean.getValue();
+                    if (!skipFilter) {
+                        if (textValueSelectBean.isImportant() && !StringTools.isStringValueOk(selectBeanValue)) {
+                            ToastUtils.toast(mContext, "请选择" + textValueSelectBean.getKey());
+                            return null;
+                        }
+                    }
+
+                    switch (textValueSelectBean.getKey()) {
+                        case BaseInspectContract.INSPECTION_UNIT_AREA:
+                            if (textValueSelectBean.getIds().contains(",")) {
+                                String[] ids = textValueSelectBean.getIds().split(",");
+                                builder.addFormDataPart("territoryOneId", ids[0]);
+                                builder.addFormDataPart("territoryTwoId", ids[1]);
+                            }
+                            unitDataBean.setTerritoryName(selectBeanValue);
+                            if (!TextUtils.isEmpty(textValueSelectBean.getIds())) {
+                                unitDataBean.setIds(textValueSelectBean.getIds());
+                            }
+
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case MultipleItem.ITEM_LOCATION:
+                    LocationBean locationBean = (LocationBean) array.getObject();
+                    builder.addFormDataPart("gpsAddress", locationBean.getAddress());
+                    builder.addFormDataPart("longitude", locationBean.getLongitude());
+                    builder.addFormDataPart("latitude", locationBean.getLatitude());
+                    unitDataBean.setGpsAddress(locationBean.getAddress());
+                    unitDataBean.setLatitude(locationBean.getLatitude());
+                    unitDataBean.setLongitude(locationBean.getLongitude());
+                    break;
+                case MultipleItem.ITEM_FRAGMENT:
+                    ItemFragmentBean fragmentBean = (ItemFragmentBean) array.getObject();
+                    List<String> photos = fragmentBean.getFragmentPics();
+                    if (!skipFilter) {
+                        if (photos.isEmpty()) {
+                            ToastUtils.toast(mContext, "请选择图片");
+                            return null;
+                        }
+                        if (photos.size() < fragmentBean.getMinCount()) {
+                            ToastUtils.toast(mContext, "最少需要" + fragmentBean.getMinCount() + "张照片");
+                            return null;
+                        }
+                    }
+
+                    for (int i = 0; i < photos.size(); i++) {
+                        String picPah = photos.get(i);
+                        switch (i) {
+                            case 0:
+
+                                if (picPah.contains(SDCARD_TAG)) {
+                                    builder.addFormDataPart("pictureOne", "pictureOne",
+                                            RequestBody.create(MediaType.parse("file"),
+                                                    new File(picPah)));
+                                } else {
+                                    builder.addFormDataPart("pictureOne",
+                                            picPah.substring(AppHttpPath.BASE_IMAGE.length(),
+                                                    picPah.length()));
+                                }
+                                unitDataBean.setCoverPicture(picPah);
+                                break;
+                            case 1:
+                                if (picPah.contains(SDCARD_TAG)) {
+                                    builder.addFormDataPart("pictureTwo", "pictureTwo",
+                                            RequestBody.create(MediaType.parse("file"),
+                                                    new File(picPah)));
+                                } else {
+                                    builder.addFormDataPart("photoTwo",
+                                            picPah.substring(AppHttpPath.BASE_IMAGE.length(),
+                                                    picPah.length()));
+                                }
+                                unitDataBean.setPhotoTwo(picPah);
+                                break;
+                            case 2:
+                                if (picPah.contains(SDCARD_TAG)) {
+                                    builder.addFormDataPart("pictureThree", "pictureThree",
+                                            RequestBody.create(MediaType.parse("file"),
+                                                    new File(picPah)));
+                                } else {
+                                    builder.addFormDataPart("photoThree",
+                                            picPah.substring(AppHttpPath.BASE_IMAGE.length(),
+                                                    picPah.length()));
+                                }
+                                unitDataBean.setPhotoThree(picPah);
+                                break;
+                            case 3:
+                                if (picPah.contains(SDCARD_TAG)) {
+                                    builder.addFormDataPart("pictureFour", "pictureFour",
+                                            RequestBody.create(MediaType.parse("file"),
+                                                    new File(picPah)));
+                                } else {
+                                    builder.addFormDataPart("photoFour",
+                                            picPah.substring(AppHttpPath.BASE_IMAGE.length(),
+                                                    picPah.length()));
+                                }
+                                break;
+                            case 4:
+                                if (picPah.contains(SDCARD_TAG)) {
+                                    builder.addFormDataPart("pictureFive", "pictureFive",
+                                            RequestBody.create(MediaType.parse("file"),
+                                                    new File(picPah)));
+                                } else {
+                                    builder.addFormDataPart("photoFive",
+                                            picPah.substring(AppHttpPath.BASE_IMAGE.length(),
+                                                    picPah.length()));
+                                }
+                                break;
+                            case 5:
+                                if (picPah.contains(SDCARD_TAG)) {
+                                    builder.addFormDataPart("pictureSix", "pictureSix",
+                                            RequestBody.create(MediaType.parse("file"),
+                                                    new File(picPah)));
+                                } else {
+                                    builder.addFormDataPart("photoSix",
+                                            picPah.substring(AppHttpPath.BASE_IMAGE.length(),
+                                                    picPah.length()));
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        bean.setBuilder(builder);
+        bean.setUnitDataBean(unitDataBean);
+        return bean;
+    }
+
+
+
+    @Override
+    public void onSuccess(String tag, Object o) {
+        switch (tag) {
+            case AppHttpPath.GET_TOWN_LIST:
+                TownListBean townListBean = (TownListBean) o;
+                List<IdNameBean.DataBean>  countys = new ArrayList<>();
+                List<List<IdNameBean.DataBean>>  towns = new ArrayList<>();
+                if (townListBean != null) {
+                   List<TownListBean.DataBean> dataBeans = townListBean.getData();
+                    if (dataBeans != null) {
+                        for (TownListBean.DataBean dataBean : dataBeans) {
+                            countys.add(new IdNameBean.DataBean(dataBean.getId(),dataBean.getName()));
+                            if (dataBean.getChildList() != null) {
+                                List<IdNameBean.DataBean>  childs = new ArrayList<>();
+                                for (TownListBean.DataBean.ChildListBean childListBean : dataBean.getChildList()) {
+                                    childs.add(new IdNameBean.DataBean(childListBean.getId(),childListBean.getName()));
+                                    towns.add(childs);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                PickerManager.getInstance().showOptionPicker(mContext, countys, towns,
+                        new PickerManager.OnOptionPickerSelectedListener() {
+
+                            @Override
+                            public void onOptionsSelect(int options1, int option2, int options3,
+                                                        View v) {
+
+                                countyId = countys.get(options1).getId();
+                                townId = towns.get(options1).get(option2).getId();
+                                selectBean.setIds(String.format("%s%s%s",countyId,",",townId));
+
+                                String area =
+                                        String.format("%s%s%s", countys.get(options1).getName(), "   ", towns.get(options1).get(option2).getName());
+                                selectBean.setValue(area);
+                                mSelectTv.setText(area);
+                            }
+                        });
+                break;
+            default:
+                break;
+        }
+    }
+
     @Override
     public void onVedioPicClick(BaseQuickAdapter adapter, int position) {
 

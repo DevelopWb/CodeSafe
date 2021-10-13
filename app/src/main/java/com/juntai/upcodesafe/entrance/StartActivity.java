@@ -36,7 +36,6 @@ public class StartActivity extends RxAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Hawk.put(HawkProperty.ACCOUNT_TYPE,0);
         new RxPermissions(this)
                 .request(permissions)
                 .delay(1, TimeUnit.SECONDS)

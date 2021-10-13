@@ -54,10 +54,6 @@ public abstract class BaseObserver<T> extends DisposableObserver<T> {
     public void onNext(T bean) {
         try {
             BaseResult model = (BaseResult) bean;
-            if (model instanceof BaseStreamBean) {
-                model.success = true;
-                model.status = 200;
-            }
             if (model.success) {
                 if (model.status == 200) {
                     onSuccess(bean);

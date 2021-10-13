@@ -14,6 +14,7 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.juntai.disabled.basecomponent.utils.ActionConfig;
@@ -22,12 +23,14 @@ import com.juntai.disabled.bdmap.service.LocateAndUpload;
 import com.juntai.upcodesafe.base.BaseAppActivity;
 import com.juntai.upcodesafe.base.customview.CustomViewPager;
 import com.juntai.upcodesafe.base.customview.MainPagerAdapter;
+import com.juntai.upcodesafe.entrance.EmptyFragment;
 import com.juntai.upcodesafe.entrance.LoginActivity;
 import com.juntai.upcodesafe.home_page.enterprise.HomePageEnterpriseFragment;
 import com.juntai.upcodesafe.home_page.HomePageMornitorFragment;
 import com.juntai.upcodesafe.home_page.QRScanActivity;
 import com.juntai.upcodesafe.mine.MyCenterFragment;
 import com.juntai.upcodesafe.utils.HawkProperty;
+import com.juntai.upcodesafe.utils.UserInfoManager;
 import com.orhanobut.hawk.Hawk;
 
 public class MainActivity extends BaseAppActivity<MainPagePresent> implements ViewPager.OnPageChangeListener,
@@ -53,19 +56,18 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
 
     @Override
     public void initView() {
-        mainViewpager = findViewById(R.id.main_viewpager);
-        mainTablayout = findViewById(R.id.main_tablayout);
-        mainViewpager.setScanScroll(false);
-       int accountType =  Hawk.get(HawkProperty.ACCOUNT_TYPE,0);
-        if (0==accountType) {
+
+       int accountType = UserInfoManager.getAccountTypeId();
+        if (0==accountType||4==accountType) {
             mFragments.append(0, new HomePageEnterpriseFragment());
         }else {
             mFragments.append(0, new HomePageMornitorFragment());//
         }
-        mFragments.append(1, new MyCenterFragment());//
+        mFragments.append(1, new EmptyFragment());//
+        mFragments.append(2, new MyCenterFragment());//
         //
         initToolbarAndStatusBar(false);
-        mainViewpager.setOffscreenPageLimit(2);
+
         initTab();
         //注册广播
         IntentFilter intentFilter = new IntentFilter();
@@ -76,35 +78,81 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
         mAaa.setOnClickListener(this);
     }
 
+    public void  initHomePageFragment(){
+        mFragments.remove(0);
+        int accountType = UserInfoManager.getAccountTypeId();
+        if (4==accountType) {
+            mFragments.append(0, new HomePageEnterpriseFragment());
+        }else {
+            mFragments.append(0, new HomePageMornitorFragment());//
+        }
+    }
+
+
     @Override
     public void initData() {
         update(false);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     public void initTab() {
+        mainViewpager = findViewById(R.id.main_viewpager);
+        mainTablayout = findViewById(R.id.main_tablayout);
+        mainViewpager.setScanScroll(false);
+        mainViewpager.setOffscreenPageLimit(3);
         adapter = new MainPagerAdapter(getSupportFragmentManager(), getApplicationContext(), title, tabDrawables,
                 mFragments);
         mainViewpager.setAdapter(adapter);
+//        //这个绑定一定在添加tab之前 要不tab自定义布局不生效
+//        mainTablayout.setupWithViewPager(mainViewpager);
         mainViewpager.setOffscreenPageLimit(title.length);
         /*viewpager切换监听，包含滑动点击两种*/
         mainViewpager.addOnPageChangeListener(this);
+
         for (int i = 0; i < title.length; i++) {
             TabLayout.Tab tab = mainTablayout.newTab();
             if (tab != null) {
+                //绑定布局
                 if (i == title.length - 1) {
                     tab.setCustomView(adapter.getTabView(i, true));
                 } else {
                     tab.setCustomView(adapter.getTabView(i, false));
                 }
-                mainTablayout.addTab(tab);
+                //设置默认选中项
+                if (2== UserInfoManager.getAccountStatus()) {
+                    mainTablayout.addTab(tab);
+                }else {
+                    if (2==i) {
+                        mainTablayout.addTab(tab,i,true);
+                    }else {
+                        mainTablayout.addTab(tab,i,false);
+                    }
+
+                }
+
             }
         }
 
         mainTablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                mainViewpager.setCurrentItem(tab.getPosition(), false);
+                if (2== UserInfoManager.getAccountStatus()) {
+                    mainViewpager.setCurrentItem(tab.getPosition());
+                }else {
+
+                    mainTablayout.getTabAt(2).select();
+                    if (1== UserInfoManager.getAccountStatus()) {
+                        Toast.makeText(mContext, "资料还未审核通过", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(mContext, "资料还未完善", Toast.LENGTH_SHORT).show();
+                    }
+                    mainViewpager.setCurrentItem(2);
+                }
+
 
             }
 
@@ -117,9 +165,31 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-        mainViewpager.setCurrentItem(0);
-    }
+        if (2== UserInfoManager.getAccountStatus()) {
+            mainViewpager.setCurrentItem(0);
+        }else {
+            mainViewpager.setCurrentItem(2);
+        }
 
+    }
+    private View.OnClickListener mTabOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            int pos = (int) view.getTag();
+            if (2!= UserInfoManager.getAccountStatus()) {
+                if (pos == 0) {
+
+
+                } else {
+                    TabLayout.Tab tab = mainTablayout.getTabAt(pos);
+                    if (tab != null) {
+                        tab.select();
+                    }
+                }
+            }
+
+        }
+    };
     @Override
     public void onPageScrolled(int i, float v, int i1) {
 
