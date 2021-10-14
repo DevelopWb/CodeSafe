@@ -1,6 +1,8 @@
 package com.juntai.upcodesafe.home_page.baseinspect;
 
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -14,16 +16,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.juntai.disabled.basecomponent.utils.DisplayUtil;
 import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.selectPics.SelectPhotosFragment;
+import com.juntai.upcodesafe.base.selectPics.ShowSelectedPicsAdapter;
 import com.juntai.upcodesafe.bean.DesAndPicBean;
 import com.juntai.upcodesafe.bean.ImportantTagBean;
 import com.juntai.upcodesafe.bean.ItemFragmentBean;
 import com.juntai.upcodesafe.bean.LocationBean;
 import com.juntai.upcodesafe.bean.MultipleItem;
+import com.juntai.upcodesafe.bean.PicRecycleBean;
 import com.juntai.upcodesafe.bean.TextKeyValueBean;
 
 import java.util.List;
@@ -36,9 +41,15 @@ import java.util.List;
  * @UpdateDate: 2021/4/22 11:11
  */
 public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleItem, BaseViewHolder> {
+
+    private OnPicRecyclerviewCallBack onPicRecyclerviewCallBack;
     private boolean isDetail = false;//是否是详情模式
     private FragmentManager mFragmentManager;
 
+
+    public void setOnPicRecyclerviewCallBack(OnPicRecyclerviewCallBack onPicRecyclerviewCallBack) {
+        this.onPicRecyclerviewCallBack = onPicRecyclerviewCallBack;
+    }
 
     /**
      * 控件失去焦点后  检测edittext控件输入内容的格式
@@ -46,13 +57,14 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
     interface OnCheckEdittextValueFormatCallBack {
         void checkEdittextValueFormat(TextKeyValueBean keyValueBean);
     }
+
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
      * some initialization data.
      *
      * @param data A new list is created out of this one to avoid mutable list
      */
-    public BaseInspectionAdapter(List<MultipleItem> data,boolean isDetail, FragmentManager mFragmentManager) {
+    public BaseInspectionAdapter(List<MultipleItem> data, boolean isDetail, FragmentManager mFragmentManager) {
         super(data);
         addItemType(MultipleItem.ITEM_HEAD_PIC, R.layout.item_layout_type_head_pic);
         addItemType(MultipleItem.ITEM_TITILE_BIG, R.layout.item_layout_type_title_big);
@@ -194,7 +206,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 textViewTv.setTag(textValueSelectBean);
                 textViewTv.setHint(textValueSelectBean.getHint());
                 if (selectTextValue.contains("\\n")) {
-                    selectTextValue = selectTextValue.replace("\\n","\n");
+                    selectTextValue = selectTextValue.replace("\\n", "\n");
                 }
                 textViewTv.setText(selectTextValue);
                 break;
@@ -204,7 +216,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 List<TextKeyValueBean> arrays = (List<TextKeyValueBean>) item.getObject();
                 RecyclerView recyclerView = helper.getView(R.id.item_normal_rv);
                 LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL
-                                                        , false);
+                        , false);
                 TextKeyValueAdapter adapter = new TextKeyValueAdapter(R.layout.text_key_value_item);
                 adapter.setNewData(arrays);
                 recyclerView.setAdapter(adapter);
@@ -214,20 +226,44 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 ItemFragmentBean fragmentBean = (ItemFragmentBean) item.getObject();
                 initFragmentData(fragmentBean);
                 break;
-                case MultipleItem.ITEM_ADD_MORE:
-                    helper.addOnClickListener(R.id.add_more_item_tv);
-                    break;
+            case MultipleItem.ITEM_ADD_MORE:
+                helper.addOnClickListener(R.id.add_more_item_tv);
+                break;
 
-                case MultipleItem.ITEM_DES_PIC:
-                    DesAndPicBean desAndPicBean = (DesAndPicBean) item.getObject();
-                    helper.setText(R.id.item_des_title_tv,desAndPicBean.getImportantTagBean().getTitleName());
-                    helper.setGone(R.id.important_tag_tv,desAndPicBean.getImportantTagBean().isImportant());
-                    EditText desEt = helper.getView(R.id.edit_value_et);
-                    initEditTextData(desAndPicBean.getTextKeyValueBean(), desEt);
-                    helper.setText(R.id.item_big_title_tv,desAndPicBean.getBigTitle());
-                    initFragmentData(desAndPicBean.getItemFragmentBean());
-                    break;
+            case MultipleItem.ITEM_DES_PIC:
+                DesAndPicBean desAndPicBean = (DesAndPicBean) item.getObject();
+                helper.setText(R.id.item_des_title_tv, desAndPicBean.getImportantTagBean().getTitleName());
+                helper.setGone(R.id.important_tag_tv, desAndPicBean.getImportantTagBean().isImportant());
+                EditText desEt = helper.getView(R.id.edit_value_et);
+                initEditTextData(desAndPicBean.getTextKeyValueBean(), desEt);
+                helper.setText(R.id.item_big_title_tv, desAndPicBean.getBigTitle());
+                PicRecycleBean picRecycleBean = desAndPicBean.getPicRecycleBean();
+                List<String> pics = picRecycleBean.getPics();
+                RecyclerView picRecycleRv = helper.getView(R.id.item_normal_rv);
+                picRecycleRv.setTag(pics);
+                GridLayoutManager picManager = new GridLayoutManager(mContext, 3) {
+                    @Override
+                    public boolean canScrollVertically() {
+                        return false;
+                    }
+                };
+                HorPicsAdapter selectedPicsAdapter = new HorPicsAdapter(R.layout.show_selected_pic_item);
+                picRecycleRv.setAdapter(selectedPicsAdapter);
+                if (pics.isEmpty()) {
+                    pics.add("-1");
+                }
+                selectedPicsAdapter.setNewData((List<String>) picRecycleRv.getTag());
+                picRecycleRv.setLayoutManager(picManager);
+                selectedPicsAdapter.setOnItemChildClickListener(new OnItemChildClickListener() {
+                    @Override
+                    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                        if (onPicRecyclerviewCallBack != null) {
+                            onPicRecyclerviewCallBack.onItemClick(adapter,view,position,picRecycleBean,helper.getAdapterPosition());
+                        }
+                    }
 
+                });
+                break;
 
 
             default:
@@ -281,7 +317,8 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
 
     private void initFragmentData(ItemFragmentBean fragmentBean) {
         //上传材料时 多选照片
-        SelectPhotosFragment fragment = (SelectPhotosFragment) mFragmentManager.findFragmentById(R.id.photo_fg);
+        //获取fragment管理者
+        SelectPhotosFragment fragment = SelectPhotosFragment.getInstance(String.valueOf(fragmentBean.getFragmentPosition()));
         fragment.setObject(fragmentBean);
         fragment.setSpanCount(fragmentBean.getmSpanCount())
                 .setPhotoDelateable(!isDetail)
@@ -297,6 +334,10 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         if (fragmentBean.getFragmentPics().size() > 0) {
             fragment.setIcons(fragmentBean.getFragmentPics());
         }
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        transaction.replace(R.id.photo_fg_fl, fragment)//添加fragment
+                .commit();
+
     }
 
     private void initEdittextFocuseStatus(EditText editText) {
@@ -360,5 +401,10 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(view.getLayoutParams());
         layoutParams.setMargins(left, top, right, bottom);
         view.setLayoutParams(layoutParams);
+    }
+
+
+    public  interface OnPicRecyclerviewCallBack{
+        void onItemClick(BaseQuickAdapter adapter, View view, int position,PicRecycleBean picRecycleBean,int parentsPosition);
     }
 }

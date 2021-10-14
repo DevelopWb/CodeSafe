@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.juntai.disabled.basecomponent.utils.GsonTools;
 import com.juntai.disabled.basecomponent.utils.PickerManager;
 import com.juntai.disabled.basecomponent.utils.RuleTools;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
@@ -15,17 +16,22 @@ import com.juntai.disabled.bdmap.act.LocateSelectionActivity;
 import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseAppActivity;
+import com.juntai.upcodesafe.base.HeadCropActivity;
 import com.juntai.upcodesafe.base.selectPics.SelectPhotosFragment;
 import com.juntai.upcodesafe.bean.BaseAdapterDataBean;
+import com.juntai.upcodesafe.bean.CheckDesJsonBena;
+import com.juntai.upcodesafe.bean.DesAndPicBean;
 import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.ItemFragmentBean;
 import com.juntai.upcodesafe.bean.LocationBean;
 import com.juntai.upcodesafe.bean.MultipleItem;
+import com.juntai.upcodesafe.bean.PicRecycleBean;
 import com.juntai.upcodesafe.bean.TextKeyValueBean;
 import com.juntai.upcodesafe.bean.TownListBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
 import com.juntai.upcodesafe.utils.StringTools;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.zhihu.matisse.Matisse;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -44,15 +50,19 @@ import okhttp3.RequestBody;
  */
 public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspectPresent> implements BaseInspectContract.IInspectView, View.OnClickListener, SelectPhotosFragment.OnPhotoItemClick {
 
+    private int mParentsPosition;
+    private PicRecycleBean mPicRecycleBean;
+    private HorPicsAdapter mHorPicsAdapter;
     protected BaseInspectionAdapter adapter;
     private RecyclerView mRecyclerview;
     private SmartRefreshLayout mSmartrefreshlayout;
     public static String PARCELABLE_KEY = "parcelable";
     public static String SDCARD_TAG = "/storage/emulated";
-
+    int mMaxCount = 3;
     private TextKeyValueBean selectBean;
     private TextView mSelectTv;
     private int currentPosition;
+    protected int fragmentPosition = 0;
 
     protected abstract String getTitleName();
 
@@ -165,7 +175,8 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
                     case R.id.add_more_item_tv:
                         //添加一组条目
-                        adapter.addData(mPresenter.getCheckData());
+                        fragmentPosition++;
+                        adapter.addData(adapter.getData().size() - 1, mPresenter.getCheckData(fragmentPosition));
                         break;
                     default:
                         break;
@@ -173,6 +184,76 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
             }
         });
+
+        adapter.setOnPicRecyclerviewCallBack(new BaseInspectionAdapter.OnPicRecyclerviewCallBack() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position, PicRecycleBean picRecycleBean, int parentsPosition) {
+                mPicRecycleBean = picRecycleBean;
+                mParentsPosition = parentsPosition;
+                mHorPicsAdapter = (HorPicsAdapter) adapter;
+                List<String> arrays = reSortIconList();
+                String icon_path = arrays.get(position);
+                switch (view.getId()) {
+                    case R.id.select_pic_icon_iv:
+                        if ("-1".equals(icon_path)) {
+                            int count = mMaxCount - (adapter.getData().size() - 1);
+                            choseImage(0, BaseInspectionActivity.this, count);
+                        } else {
+                            if (icon_path.contains(".mp4")) {
+//                                //视频路径
+//                                if (onPhotoItemClick != null) {
+//                                    onPhotoItemClick.onVedioPicClick(adapter, position);
+//                                }
+//                            } else {
+//                                //图片路径
+//                                if (onPhotoItemClick != null) {
+//                                    onPhotoItemClick.onPicClick(adapter, position);
+//                                }
+                            }
+                        }
+                        break;
+                    case R.id.delete_pushed_news_iv:
+                        arrays.remove(position);
+                        if (arrays.size() < mMaxCount) {
+                            if (!arrays.contains("-1")) {
+                                arrays.add("-1");
+                            }
+                        }
+                        adapter.setNewData(arrays);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void selectedPicsAndEmpressed(List<String> icons) {
+        if (icons.size() > 0) {
+            mHorPicsAdapter.addData(icons);
+            List<String> arrays = reSortIconList();
+            mPicRecycleBean.setPics(arrays);
+            adapter.notifyItemChanged(mParentsPosition);
+        }
+    }
+
+    /**
+     * 对icons集合处理
+     *
+     * @return
+     */
+    private List<String> reSortIconList() {
+        List<String> icons_new = new ArrayList<>();
+        for (String icon : mHorPicsAdapter.getData()) {
+            if (!"-1".equals(icon)) {
+                icons_new.add(icon);
+            }
+        }
+        if (mHorPicsAdapter.getData().size() <= mMaxCount) {
+            icons_new.add("-1");
+        }
+        return icons_new;
     }
 
     /**
@@ -182,7 +263,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
      * @return
      */
     protected BaseAdapterDataBean getBaseAdapterData(boolean skipFilter) {
-
+        List<CheckDesJsonBena>  arr = new ArrayList<>();
         BaseAdapterDataBean bean = new BaseAdapterDataBean();
         UnitDetailBean.DataBean unitDataBean = new UnitDetailBean.DataBean();
         MultipartBody.Builder builder = mPresenter.getPublishMultipartBody();
@@ -366,6 +447,36 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     unitDataBean.setLatitude(locationBean.getLatitude());
                     unitDataBean.setLongitude(locationBean.getLongitude());
                     break;
+                case MultipleItem.ITEM_DES_PIC:
+                    DesAndPicBean desAndPicBean = (DesAndPicBean) array.getObject();
+                    PicRecycleBean picRecycleBean = desAndPicBean.getPicRecycleBean();
+                    CheckDesJsonBena checkDesJsonBena = new CheckDesJsonBena();
+                    checkDesJsonBena.setConcreteProblem(desAndPicBean.getTextKeyValueBean().getValue());
+                    if (!picRecycleBean.getPics().isEmpty()) {
+                        for (int i = 0; i < picRecycleBean.getPics().size(); i++) {
+                            String pic = picRecycleBean.getPics().get(i);
+                            if (!"-1".equals(pic)) {
+                                switch (i) {
+                                    case 0:
+                                        checkDesJsonBena.setPhotoOne(pic);
+                                        break;
+                                    case 1:
+                                        checkDesJsonBena.setPhotoTwo(pic);
+                                        break;
+                                    case 2:
+                                        checkDesJsonBena.setPhotoThree(pic);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+
+                        }
+                    }
+                   arr.add(checkDesJsonBena);
+
+
+                    break;
                 case MultipleItem.ITEM_FRAGMENT:
                     ItemFragmentBean fragmentBean = (ItemFragmentBean) array.getObject();
                     List<String> photos = fragmentBean.getFragmentPics();
@@ -464,6 +575,8 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         }
         bean.setBuilder(builder);
         bean.setUnitDataBean(unitDataBean);
+       String a = GsonTools.createGsonString(arr);
+       a.length();
         return bean;
     }
 

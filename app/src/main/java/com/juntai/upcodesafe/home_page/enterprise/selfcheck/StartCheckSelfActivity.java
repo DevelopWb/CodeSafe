@@ -35,7 +35,7 @@ public class StartCheckSelfActivity extends BaseCommitFootViewActivity {
     @Override
     public void initData() {
         adapter.setHeaderView(getHeadView());
-        adapter.setNewData(mPresenter.getCheckData());
+        adapter.setNewData(mPresenter.getCheckData(fragmentPosition));
         if (getIntent() != null) {
             unitBean = getIntent().getParcelableExtra(PARCELABLE_KEY);
             if (unitBean != null) {

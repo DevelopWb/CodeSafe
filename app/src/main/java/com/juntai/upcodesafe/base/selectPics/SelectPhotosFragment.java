@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -27,6 +28,7 @@ import com.juntai.disabled.basecomponent.utils.FileCacheUtils;
 import com.juntai.disabled.basecomponent.utils.GlideEngine4;
 import com.juntai.disabled.basecomponent.utils.LogUtil;
 import com.juntai.upcodesafe.R;
+import com.juntai.upcodesafe.home_page.enterprise.educateOnline.EducationOnlineFragment;
 import com.juntai.upcodesafe.utils.StringTools;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhihu.matisse.Matisse;
@@ -93,8 +95,19 @@ public class SelectPhotosFragment<T> extends BaseMvpFragment implements View.OnC
     private boolean isShowTag = false;//是否显示底部标记
     private GridLayoutManager manager;
     private OnPicLoadSuccessCallBack onPicLoadSuccessCallBack;
+    private static String TYPE = "type";
+
+    public static SelectPhotosFragment getInstance(String type) {
+        Bundle bundle = new Bundle();
+        bundle.putString(TYPE, type);
+        SelectPhotosFragment fragment = new SelectPhotosFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     /**
      * 是否显示底部标识
+     *
      * @param showTag
      * @return
      */
@@ -106,7 +119,7 @@ public class SelectPhotosFragment<T> extends BaseMvpFragment implements View.OnC
         return this;
     }
 
-    private T  object;
+    private T object;
 
     public T getObject() {
         return object;
@@ -142,6 +155,7 @@ public class SelectPhotosFragment<T> extends BaseMvpFragment implements View.OnC
 
         return this;
     }
+
     /**
      * @param onPicLoadSuccessCallBack //选择图片  图片压缩后
      * @return
@@ -150,6 +164,7 @@ public class SelectPhotosFragment<T> extends BaseMvpFragment implements View.OnC
         this.onPicLoadSuccessCallBack = onPicLoadSuccessCallBack;
         return this;
     }
+
     /**
      * @param maxCount //最大个数，默认9个
      * @return
@@ -161,9 +176,10 @@ public class SelectPhotosFragment<T> extends BaseMvpFragment implements View.OnC
 
     /**
      * 获取最大个数
+     *
      * @return
      */
-    public  int getmMaxCount(){
+    public int getmMaxCount() {
         return mMaxCount;
     }
 
@@ -430,6 +446,7 @@ public class SelectPhotosFragment<T> extends BaseMvpFragment implements View.OnC
             }
         });
     }
+
     /**
      * 获取选中的照片
      *
@@ -447,8 +464,7 @@ public class SelectPhotosFragment<T> extends BaseMvpFragment implements View.OnC
 
     @Override
     protected void initData() {
-        manager = new GridLayoutManager(mContext, mSpanCount)
-        {
+        manager = new GridLayoutManager(mContext, mSpanCount) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -547,7 +563,7 @@ public class SelectPhotosFragment<T> extends BaseMvpFragment implements View.OnC
                     } else {
                         //打开照相机
                         Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        Uri  imageUri = getOutputMediaFileUri(mContext.getApplicationContext());
+                        Uri imageUri = getOutputMediaFileUri(mContext.getApplicationContext());
                         openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                         //Android7.0添加临时权限标记，此步千万别忘了
                         openCameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
@@ -607,6 +623,7 @@ public class SelectPhotosFragment<T> extends BaseMvpFragment implements View.OnC
         mContext = null;
         super.onDetach();
     }
+
     /**
      * 图片加载完成
      */

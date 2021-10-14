@@ -17,6 +17,7 @@ import com.juntai.upcodesafe.bean.ImportantTagBean;
 import com.juntai.upcodesafe.bean.ItemFragmentBean;
 import com.juntai.upcodesafe.bean.LocationBean;
 import com.juntai.upcodesafe.bean.MultipleItem;
+import com.juntai.upcodesafe.bean.PicRecycleBean;
 import com.juntai.upcodesafe.bean.RectifyNoticeListBean;
 import com.juntai.upcodesafe.bean.TextKeyValueBean;
 import com.juntai.upcodesafe.bean.TownListBean;
@@ -132,7 +133,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, isDetail ?
                 fragmentPics.size() : 3,
                 3, true,
-                fragmentPics)));
+                fragmentPics,0)));
         return arrays;
     }
 
@@ -194,17 +195,17 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
      *
      * @return
      */
-    public List<MultipleItem> getCheckData() {
+    public List<MultipleItem> getCheckData(int position) {
         List<MultipleItem> arrays = new ArrayList<>();
         DesAndPicBean desAndPicBean = new DesAndPicBean();
-        desAndPicBean.setBigTitle("上传检查图片");
-        desAndPicBean.setImportantTagBean(new ImportantTagBean(BaseInspectContract.CHECK_DES,false));
-        desAndPicBean.setTextKeyValueBean(new TextKeyValueBean(BaseInspectContract.CHECK_DES,"","请输入"+BaseInspectContract.CHECK_DES,1,false));
-        List<String> fragmentPics = new ArrayList<>();
-        desAndPicBean.setItemFragmentBean(new ItemFragmentBean(3, 3,
-                3, false,fragmentPics));
+        desAndPicBean.setBigTitle("上传检查图片"+position);
+        desAndPicBean.setPicRecycleBean(new PicRecycleBean(null));
+        desAndPicBean.setImportantTagBean(new ImportantTagBean(BaseInspectContract.CHECK_DES+position,false));
+        desAndPicBean.setTextKeyValueBean(new TextKeyValueBean(BaseInspectContract.CHECK_DES+position,"","请输入"+BaseInspectContract.CHECK_DES,1,false));
         arrays.add(new MultipleItem(MultipleItem.ITEM_DES_PIC, desAndPicBean));
-        arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MORE, ""));
+        if (0==position) {
+            arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MORE, ""));
+        }
         return arrays;
     }
 

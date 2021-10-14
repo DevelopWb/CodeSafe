@@ -10,17 +10,18 @@ package com.juntai.upcodesafe.bean;
 public class DesAndPicBean {
     private ImportantTagBean importantTagBean;
     private TextKeyValueBean textKeyValueBean;
+    private PicRecycleBean picRecycleBean;
     private String bigTitle;
-    private ItemFragmentBean itemFragmentBean;
 
     public DesAndPicBean() {
     }
 
-    public DesAndPicBean(ImportantTagBean importantTagBean, TextKeyValueBean textKeyValueBean, String bigTitle, ItemFragmentBean itemFragmentBean) {
-        this.importantTagBean = importantTagBean;
-        this.textKeyValueBean = textKeyValueBean;
-        this.bigTitle = bigTitle;
-        this.itemFragmentBean = itemFragmentBean;
+    public PicRecycleBean getPicRecycleBean() {
+        return picRecycleBean;
+    }
+
+    public void setPicRecycleBean(PicRecycleBean picRecycleBean) {
+        this.picRecycleBean = picRecycleBean;
     }
 
     public ImportantTagBean getImportantTagBean() {
@@ -47,11 +48,4 @@ public class DesAndPicBean {
         this.bigTitle = bigTitle == null ? "" : bigTitle;
     }
 
-    public ItemFragmentBean getItemFragmentBean() {
-        return itemFragmentBean;
-    }
-
-    public void setItemFragmentBean(ItemFragmentBean itemFragmentBean) {
-        this.itemFragmentBean = itemFragmentBean;
-    }
 }
