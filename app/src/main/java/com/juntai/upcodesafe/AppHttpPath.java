@@ -88,6 +88,23 @@ public class AppHttpPath {
      */
     public static final String HOMEPAGE_ACCIDENT = BASE + "/u/appUnit/selectAccidentWarningList.shtml";
 
+    /**
+     * 企业详情
+     */
+    public static final String GET_ENTERPRIZSE_INFO = BASE + "/u/appUnit/selectUnitInfo.shtml";
+
+
+    /**
+     * 责任清单列表
+     */
+    public static final String GET_RESPONSE_LIST = BASE + "/u/appUnit/selectUnitDetailedList.shtml";
+
+
+    /**
+     * 限期整改指令书列表
+     */
+    public static final String GET_RECTIFY_NOTICE_LIST = BASE + "/u/appUnit/selectUnitNoticeList.shtml";
+
 
 
 

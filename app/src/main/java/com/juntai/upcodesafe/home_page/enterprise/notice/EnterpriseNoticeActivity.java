@@ -1,15 +1,10 @@
 package com.juntai.upcodesafe.home_page.enterprise.notice;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.juntai.disabled.basecomponent.mvp.BasePresenter;
 import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
-import com.juntai.upcodesafe.home_page.HomePageContract;
-import com.juntai.upcodesafe.home_page.HomePagePresent;
 import com.juntai.upcodesafe.home_page.enterprise.BaseSearchAndListActivity;
 
 /**
@@ -24,7 +19,7 @@ public class EnterpriseNoticeActivity extends BaseSearchAndListActivity {
 
     @Override
     protected BaseQuickAdapter getAdapter() {
-        return new EnterpriseNoticeAdapter(R.layout.enterprise_notice_item);
+        return new EnterpriseNoticeAdapter(R.layout.notice_item);
     }
 
     @Override

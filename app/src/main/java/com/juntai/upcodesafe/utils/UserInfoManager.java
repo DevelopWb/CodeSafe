@@ -47,6 +47,14 @@ public class UserInfoManager {
         return getUser() != null && getUser().getData() != null ? getUser().getData().getAccount() : "";
     }
     /**
+     * 获取账户
+     *
+     * @return
+     */
+    public static String getUserName() {
+        return getUser() != null && getUser().getData() != null ? getUser().getData().getNickname() : "";
+    }
+    /**
      * 获取usertoken
      *
      * @return
@@ -62,6 +70,13 @@ public class UserInfoManager {
      */
     public static int getUserId() {
         return getUser() != null && getUser().getData() != null ? getUser().getData().getUserId() : -1;
+    }
+    /**
+     *
+     * @return
+     */
+    public static int getUnitId() {
+        return getUser() != null && getUser().getData() != null ? getUser().getData().getUnitId() : -1;
     }
     /**
      * 获取getUserId

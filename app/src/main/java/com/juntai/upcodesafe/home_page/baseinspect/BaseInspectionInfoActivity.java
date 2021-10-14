@@ -9,10 +9,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
+import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.video.img.ImageZoomActivity;
+import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseAppActivity;
 import com.juntai.upcodesafe.bean.ActionBean;
+import com.juntai.upcodesafe.bean.TextKeyValueBean;
+import com.juntai.upcodesafe.bean.UnitDetailBean;
+import com.juntai.upcodesafe.home_page.enterprise.selfcheck.StartCheckSelfActivity;
+import com.juntai.upcodesafe.home_page.enterprise.selfcheck.rectifynotice.RectifyNoticeListActivity;
+import com.juntai.upcodesafe.home_page.enterprise.selfcheck.response.ResponseListActivity;
+import com.juntai.upcodesafe.utils.UrlFormatUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,7 +87,7 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
         mQrCodeIv.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                initBottomDialog(Arrays.asList("保存图片"),getQrCodePath());
+                initBottomDialog(Arrays.asList("保存图片"), getQrCodePath());
                 return true;
             }
         });
@@ -100,37 +109,31 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ActionBean actionBean = (ActionBean) adapter.getData().get(position);
                 switch (actionBean.getActionName()) {
-//                    case BaseInspectContract.INSPECTION_SECURITY_RECORD:
-//                        //治安巡检记录
-//                        startActivity(new Intent(mContext, SecurityInspectRecordListActivity.class).putExtra(BaseRecordActivity.ID, ((InspectionSiteBean.DataBean) getBaseBean()).getId()));
-//                        break;
-//                    case BaseInspectContract.INSPECTION_VISIT_RECORD:
-//                        //走访记录
+                    case BaseInspectContract.RESPONSE_LIST:
+                        if (0 != ((UnitDetailBean.DataBean) getBaseBean()).getType()) {
+                            //责任清单
+                            startActivity(new Intent(mContext, ResponseListActivity.class).putExtra(BASE_ID,((UnitDetailBean.DataBean) getBaseBean()).getType()));
+                        } else {
+                            ToastUtils.toast(mContext, "您当前企业还未定义行业类型，暂时还看不了");
+                        }
+
+                        break;
+                    case BaseInspectContract.CHECK_RECORD:
+                        //检查记录
 //                        startActivity(new Intent(mContext, VisitRecordListActivity.class).putExtra(BaseRecordActivity.ID, ((ImportantorBean.DataBean) getBaseBean()).getId()));
-//                        break;
-//                    case BaseInspectContract.INSPECTION_CHECK_RECORD:
-//                        //  单位详情里面的检查记录
-//                        startActivity(new Intent(mContext, FireCheckRecordListActivity.class).putExtra(BaseRecordActivity.ID,
-//                                ((UnitDetailBean.DataBean) getBaseBean()).getId()));
-//                        break;
-//                    case BaseInspectContract.INSPECTION_RESPONSIBILITY:
-//                        // 单位详情里面的责任书
-//                        startActivity(new Intent(mContext, ResponsibilityActivity.class).putExtra(BASE_ID,
-//                                ((UnitDetailBean.DataBean) getBaseBean()).getId()));
-//                        break;
-//                    case BaseInspectContract.INSPECTION_RECTIFY_NOTICE:
-//                        //单位详情里面的整改通知书
-//                        startActivity(new Intent(mContext, RectifyNoticeListActivity.class).putExtra(BaseRecordActivity.ID, ((UnitDetailBean.DataBean) getBaseBean()).getId()));
-//
-//                        break;
-//                    case BaseInspectContract.INSPECTION_WORKER:
-//                        //   单位详情里面的从业人员
-//                        startActivity(new Intent(mContext, WorkerListActivity.class).putExtra(BaseRecordActivity.ID,
-//                                ((UnitDetailBean.DataBean) getBaseBean()).getId()));
-//
-//                        break;
-//                    default:
-//                        break;
+                        break;
+                    case BaseInspectContract.REPAIRE_NOTICE:
+                        //单位详情里面的整改通知书
+                        startActivity(new Intent(mContext, RectifyNoticeListActivity.class).putExtra(BaseRecordActivity.ID, ((UnitDetailBean.DataBean) getBaseBean()).getId()));
+
+                        break;
+                    case BaseInspectContract.TRAIN_PLAN:
+                        //   培训计划
+
+                        break;
+
+                    default:
+                        break;
                 }
             }
         });
@@ -146,6 +149,7 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
 
     /**
      * 二维码地址
+     *
      * @return
      */
     protected abstract String getQrCodePath();
@@ -175,6 +179,11 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
                 break;
             case R.id.start_work_tv:
                 switch (getStartWorkName()) {
+                    case BaseInspectContract.START_CHECK_SELF:
+                        //   自查
+                        startActivity(new Intent(mContext, StartCheckSelfActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY, ((UnitDetailBean.DataBean) getBaseBean())));
+
+                        break;
 //                    case START_CHECK:
 //                        //  单位详情中的开始检查
 //                        startActivity(new Intent(mContext, StartCheckActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY, ((UnitDetailBean.DataBean) getBaseBean())));
@@ -193,6 +202,7 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
                 break;
         }
     }
+
 
 
     protected abstract void navigationLogic();

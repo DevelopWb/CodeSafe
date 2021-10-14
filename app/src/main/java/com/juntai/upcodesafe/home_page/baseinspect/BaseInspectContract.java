@@ -20,11 +20,13 @@ public interface BaseInspectContract {
       String INSPECTION_LEGAL_TEL = "法人电话";
       String INSPECTION_SPARE_PERSON = "备用联系人";
       String INSPECTION_SPARE_PERSON_TEL = "备用联系人电话";
+      String CHECK_DES = "检查情况描述";
 
       String  RESPONSE_LIST = "本单位责任清单";
       String  CHECK_RECORD = "检查记录";
       String  REPAIRE_NOTICE = "整改通知书";
       String  TRAIN_PLAN = "培训计划";
+      String  START_CHECK_SELF = "开始自查";
 
       String INSPECTION_UNIT_NAME = "单位名称";
       String INSPECTION_UNIT_AREA = "单位区域";

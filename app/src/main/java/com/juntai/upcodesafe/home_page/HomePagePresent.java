@@ -9,6 +9,7 @@ import com.juntai.upcodesafe.AppNetModule;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.bean.HomePageMenuBean;
 import com.juntai.upcodesafe.bean.NoticeBean;
+import com.juntai.upcodesafe.bean.UnitDetailBean;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -27,6 +27,8 @@ public class MultipleItem implements MultiItemEntity {
     public static final int ITEM_EDIT2 = 15;//  key value 类型
     public static final int ITEM_FRAGMENT = 16;//  fragment
     public static final int ITEM_LOCATION = 17;//  定位
+    public static final int ITEM_DES_PIC = 18;//  描述+图片
+    public static final int ITEM_ADD_MORE = 19;//  添加更多
 
 
 

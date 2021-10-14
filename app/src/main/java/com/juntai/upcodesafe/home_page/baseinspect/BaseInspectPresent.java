@@ -5,18 +5,24 @@ import android.text.TextUtils;
 import com.juntai.disabled.basecomponent.base.BaseObserver;
 import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.disabled.basecomponent.mvp.IModel;
+import com.juntai.disabled.basecomponent.utils.CalendarUtil;
 import com.juntai.disabled.basecomponent.utils.RxScheduler;
 import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.AppNetModule;
 import com.juntai.upcodesafe.base.BaseAppPresent;
+import com.juntai.upcodesafe.bean.CheckDetailBean;
+import com.juntai.upcodesafe.bean.DesAndPicBean;
+import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.ImportantTagBean;
 import com.juntai.upcodesafe.bean.ItemFragmentBean;
 import com.juntai.upcodesafe.bean.LocationBean;
 import com.juntai.upcodesafe.bean.MultipleItem;
+import com.juntai.upcodesafe.bean.RectifyNoticeListBean;
 import com.juntai.upcodesafe.bean.TextKeyValueBean;
 import com.juntai.upcodesafe.bean.TownListBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
 import com.juntai.upcodesafe.utils.UrlFormatUtil;
+import com.juntai.upcodesafe.utils.UserInfoManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +44,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
 
     /**
      * 治安巡检点更多信息
+     *
      * @return
      */
     public List<MultipleItem> getMoreInfoDetail() {
@@ -47,12 +54,11 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, "", false, 1);
         arrays.add(new MultipleItem(MultipleItem.ITEM_LOCATION, "地址"));
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "现场图片"));
-        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT,""));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, ""));
         return arrays;
     }
 
     /**
-     *
      * @return
      */
     public List<MultipleItem> getEditSecurityInspectSiteInfo() {
@@ -66,7 +72,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, "", false, 1);
         arrays.add(new MultipleItem(MultipleItem.ITEM_LOCATION, "地址"));
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "现场图片"));
-        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT,""));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, ""));
         return arrays;
     }
 
@@ -80,6 +86,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         arrays.add(new TextKeyValueBean("联系电话:", "暂无"));
         return arrays;
     }
+
     /**
      * 添加 单位详情
      *
@@ -128,6 +135,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 fragmentPics)));
         return arrays;
     }
+
     private void addFragmentPics(String picPath, List<String> fragmentPics) {
         if (!TextUtils.isEmpty(picPath)) {
             if (picPath.contains(BaseInspectionActivity.SDCARD_TAG)) {
@@ -180,6 +188,72 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
 
     }
 
+
+    /**
+     * 开始自检检查
+     *
+     * @return
+     */
+    public List<MultipleItem> getCheckData() {
+        List<MultipleItem> arrays = new ArrayList<>();
+        DesAndPicBean desAndPicBean = new DesAndPicBean();
+        desAndPicBean.setBigTitle("上传检查图片");
+        desAndPicBean.setImportantTagBean(new ImportantTagBean(BaseInspectContract.CHECK_DES,false));
+        desAndPicBean.setTextKeyValueBean(new TextKeyValueBean(BaseInspectContract.CHECK_DES,"","请输入"+BaseInspectContract.CHECK_DES,1,false));
+        List<String> fragmentPics = new ArrayList<>();
+        desAndPicBean.setItemFragmentBean(new ItemFragmentBean(3, 3,
+                3, false,fragmentPics));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_DES_PIC, desAndPicBean));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MORE, ""));
+        return arrays;
+    }
+
+
+    /**
+     * 企业自查
+     *
+     * @param dataBean
+     * @return
+     */
+
+    public List<TextKeyValueBean> getStartCheckData(UnitDetailBean.DataBean  dataBean) {
+        List<TextKeyValueBean> arrays = new ArrayList<>();
+        arrays.add(new TextKeyValueBean("检查时间:", CalendarUtil.getCurrentTime("yyyy-MM-dd HH:mm:ss")));
+        arrays.add(new TextKeyValueBean("检查人员:", dataBean.getName()+ UserInfoManager.getUserName()+"   单位自查"));
+        arrays.add(new TextKeyValueBean("责任人:", dataBean.getPersonLiable()));
+        arrays.add(new TextKeyValueBean("电话号码:", dataBean.getLiablePhone()));
+        return arrays;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public void getTownList(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .getTownList(requestBody)
@@ -200,6 +274,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     }
                 });
     }
+
     public void manualAddUnit(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .manualAddUnit(requestBody)
@@ -221,8 +296,69 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 });
     }
 
+    public void getEnterpriseInfo(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getEnterpriseInfo(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<UnitDetailBean>(getView()) {
+                    @Override
+                    public void onSuccess(UnitDetailBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o.getData());
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
 
 
+
+    public void getResponseList(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getResponseList(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<IdNameBean>(getView()) {
+                    @Override
+                    public void onSuccess(IdNameBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    public void getRectifyNoticeList(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getRectifyNoticeList(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<RectifyNoticeListBean>(getView()) {
+                    @Override
+                    public void onSuccess(RectifyNoticeListBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
 
 
 }

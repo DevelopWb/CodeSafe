@@ -94,7 +94,7 @@ public class UnitDetailBean extends BaseResult {
         private String legalPhone;
         private int type;
         private String typeName;
-        private String scale;
+        private int  scale;
         private int risk;
         private String personLiable;
         private String liablePhone;
@@ -284,12 +284,12 @@ public class UnitDetailBean extends BaseResult {
             this.typeName = typeName == null ? "" : typeName;
         }
 
-        public String getScale() {
-            return scale == null ? "" : scale;
+        public int getScale() {
+            return scale;
         }
 
-        public void setScale(String scale) {
-            this.scale = scale == null ? "" : scale;
+        public void setScale(int scale) {
+            this.scale = scale;
         }
 
         public int getRisk() {
@@ -553,7 +553,7 @@ public class UnitDetailBean extends BaseResult {
             dest.writeString(this.legalPhone);
             dest.writeInt(this.type);
             dest.writeString(this.typeName);
-            dest.writeString(this.scale);
+            dest.writeInt(this.scale);
             dest.writeInt(this.risk);
             dest.writeString(this.personLiable);
             dest.writeString(this.liablePhone);
@@ -597,7 +597,7 @@ public class UnitDetailBean extends BaseResult {
             this.legalPhone = in.readString();
             this.type = in.readInt();
             this.typeName = in.readString();
-            this.scale = in.readString();
+            this.scale = in.readInt();
             this.risk = in.readInt();
             this.personLiable = in.readString();
             this.liablePhone = in.readString();

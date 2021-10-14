@@ -30,7 +30,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".mine.ModifyPwdActivity"></activity>
+        <activity android:name=".home_page.enterprise.selfcheck.StartCheckSelfActivity"></activity>
+        <activity android:name=".home_page.enterprise.selfcheck.response.ResponseListActivity" />
+        <activity android:name=".mine.ModifyPwdActivity" />
         <activity
             android:name=".mine.addInformation.addUnit.ManualAddUnitActivity"
             android:launchMode="singleTop" />
@@ -143,10 +145,13 @@
             android:name=".mine.myinfo.ImageCropActivity"
             android:launchMode="singleTop" /> <!-- 案件追踪 -->
         <activity
-            android:name=".mine.UserAgreementActivity"
+            android:name=".base.HeadCropActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name=".base.HeadCropActivity"
+            android:name=".base.BaseWebviewActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".home_page.enterprise.selfcheck.rectifynotice.RectifyNoticeListActivity"
             android:launchMode="singleTop" />
     </application>
 

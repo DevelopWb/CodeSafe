@@ -4,7 +4,9 @@ package com.juntai.upcodesafe;
 import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.NoticeBean;
+import com.juntai.upcodesafe.bean.RectifyNoticeListBean;
 import com.juntai.upcodesafe.bean.TownListBean;
+import com.juntai.upcodesafe.bean.UnitDetailBean;
 import com.juntai.upcodesafe.bean.UnitsBean;
 import com.juntai.upcodesafe.bean.UserBean;
 
@@ -40,10 +42,10 @@ public interface AppServer {
     @POST(AppHttpPath.REGIST)
     Observable<BaseResult> regist(@Query("account") String account, @Query("password") String password, @Query("code") String code
     );
+
     @POST(AppHttpPath.MODIFY_PWD)
     Observable<BaseResult> modifyPwd(@Query("account") String account, @Query("password") String password, @Query("code") String code
     );
-
 
 
     @POST(AppHttpPath.LOGOUT)
@@ -51,6 +53,7 @@ public interface AppServer {
 
     /**
      * 获取用户信息
+     *
      * @param requestBody
      * @return
      */
@@ -69,34 +72,35 @@ public interface AppServer {
 
     /**
      * 获取用户信息
+     *
      * @param requestBody
      * @return
      */
     @POST(AppHttpPath.ADD_INFO)
     Observable<BaseResult> addInfo(@Body RequestBody requestBody);
+
     /**
-     *
      * @param requestBody
      * @return
      */
     @POST(AppHttpPath.SEARCH_ACCOUNT_NATURE)
     Observable<UnitsBean> searchAccountNature(@Body RequestBody requestBody);
+
     /**
-     *
      * @param requestBody
      * @return
      */
     @POST(AppHttpPath.GET_NEXT_DEPARTMENT)
     Observable<IdNameBean> getNextDepartment(@Body RequestBody requestBody);
+
     /**
-     *
      * @param requestBody
      * @return
      */
     @POST(AppHttpPath.GET_TOWN_LIST)
     Observable<TownListBean> getTownList(@Body RequestBody requestBody);
+
     /**
-     *
      * @param requestBody
      * @return
      */
@@ -107,20 +111,38 @@ public interface AppServer {
 
 
 
-        /*====================================================    首页   ==============================================================*/
+    /*====================================================    首页   ==============================================================*/
 
     /**
-     *
      * @param requestBody
      * @return
      */
     @POST(AppHttpPath.HOMEPAGE_NOTICE)
     Observable<NoticeBean> getHomePageNotice(@Body RequestBody requestBody);
+
     /**
-     *
      * @param requestBody
      * @return
      */
     @POST(AppHttpPath.HOMEPAGE_ACCIDENT)
     Observable<NoticeBean> getHomePageAccident(@Body RequestBody requestBody);
+
+    /**
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_ENTERPRIZSE_INFO)
+    Observable<UnitDetailBean> getEnterpriseInfo(@Body RequestBody requestBody);
+    /**
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_RESPONSE_LIST)
+    Observable<IdNameBean> getResponseList(@Body RequestBody requestBody);
+    /**
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_RECTIFY_NOTICE_LIST)
+    Observable<RectifyNoticeListBean> getRectifyNoticeList(@Body RequestBody requestBody);
 }

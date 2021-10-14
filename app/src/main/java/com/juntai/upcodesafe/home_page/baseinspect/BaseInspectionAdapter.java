@@ -19,6 +19,7 @@ import com.juntai.disabled.basecomponent.utils.DisplayUtil;
 import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.selectPics.SelectPhotosFragment;
+import com.juntai.upcodesafe.bean.DesAndPicBean;
 import com.juntai.upcodesafe.bean.ImportantTagBean;
 import com.juntai.upcodesafe.bean.ItemFragmentBean;
 import com.juntai.upcodesafe.bean.LocationBean;
@@ -62,6 +63,8 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         addItemType(MultipleItem.ITEM_FRAGMENT, R.layout.item_layout_type_fragment);
         addItemType(MultipleItem.ITEM_NORMAL_RECYCLEVIEW, R.layout.item_layout_type_recyclerview);
         addItemType(MultipleItem.ITEM_LOCATION, R.layout.item_layout_location);
+        addItemType(MultipleItem.ITEM_DES_PIC, R.layout.item_des_pic);
+        addItemType(MultipleItem.ITEM_ADD_MORE, R.layout.item_add_more);
         this.isDetail = isDetail;
         this.mFragmentManager = mFragmentManager;
     }
@@ -94,47 +97,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
             case MultipleItem.ITEM_EDIT:
                 TextKeyValueBean textValueEditBean = (TextKeyValueBean) item.getObject();
                 EditText editText = helper.getView(R.id.edit_value_et);
-                if (isDetail) {
-                    editText.setClickable(false);
-                    editText.setFocusable(false);
-                } else {
-                    editText.setClickable(true);
-                    editText.setFocusable(true);
-                }
-                int editType = textValueEditBean.getType();
-                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) editText.getLayoutParams();
-                if (0 == editType) {
-                    lp.height = DisplayUtil.dp2px(mContext, 32);
-                    editText.setGravity(Gravity.CENTER_VERTICAL);
-                    editText.setSingleLine(true);
-                } else {
-                    lp.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-                    editText.setMinimumHeight(DisplayUtil.dp2px(mContext, 100));
-                    editText.setGravity(Gravity.TOP);
-                    editText.setSingleLine(false);
-                }
-                editText.setLayoutParams(lp);
-                editText.setTag(textValueEditBean);
-                editText.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        TextKeyValueBean editBean = (TextKeyValueBean) editText.getTag();
-                        String str = s.toString().trim();
-                        editBean.setValue(str);
-                    }
-                });
-                editText.setHint(textValueEditBean.getHint());
-                editText.setText(textValueEditBean.getValue());
+                initEditTextData(textValueEditBean, editText);
                 String editKey = ((TextKeyValueBean) editText.getTag()).getKey();
 //                //正则
 //                switch (editKey) {
@@ -199,14 +162,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 editText2.setText(textValueEditBean2.getValue());
                 String editKeyTv = textValueEditBean2.getKey();
 
-                if (editKeyTv.contains("F") || editKeyTv.contains("C")) {
-                    //主要涉及聋儿童康复 与残疾儿童关系的地方 用于区分
-                    editKeyTv = editKeyTv.substring(1, editKeyTv.length());
-                }
                 textView2.setText(editKeyTv);
-//                if (BusinessContract.TABLE_TITLE_CONTACT_MODE.equals(editKeyTv) || BusinessContract.TABLE_TITLE_PHONE.equals(editKeyTv)) {
-//                    editText2.setInputType(InputType.TYPE_CLASS_NUMBER);
-//                }
                 break;
             case MultipleItem.ITEM_LOCATION:
                 LocationBean locationBean = (LocationBean) item.getObject();
@@ -256,26 +212,90 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 break;
             case MultipleItem.ITEM_FRAGMENT:
                 ItemFragmentBean fragmentBean = (ItemFragmentBean) item.getObject();
-                //上传材料时 多选照片
-                SelectPhotosFragment fragment = (SelectPhotosFragment) mFragmentManager.findFragmentById(R.id.photo_fg);
-                fragment.setObject(fragmentBean);
-                fragment.setSpanCount(fragmentBean.getmSpanCount())
-                        .setPhotoDelateable(!isDetail)
-                        .setType(fragmentBean.getType())
-                        .setMaxCount(fragmentBean.getmMaxCount())
-                        .setShowTag(fragmentBean.isShowTag()).setOnPicLoadSuccessCallBack(new SelectPhotosFragment.OnPicLoadSuccessCallBack() {
-                    @Override
-                    public void loadSuccess(List<String> icons) {
-                        ItemFragmentBean picBean = (ItemFragmentBean) fragment.getObject();
-                        picBean.setFragmentPics(icons);
-                    }
-                });
-                if (fragmentBean.getFragmentPics().size() > 0) {
-                    fragment.setIcons(fragmentBean.getFragmentPics());
-                }
+                initFragmentData(fragmentBean);
                 break;
+                case MultipleItem.ITEM_ADD_MORE:
+                    helper.addOnClickListener(R.id.add_more_item_tv);
+                    break;
+
+                case MultipleItem.ITEM_DES_PIC:
+                    DesAndPicBean desAndPicBean = (DesAndPicBean) item.getObject();
+                    helper.setText(R.id.item_des_title_tv,desAndPicBean.getImportantTagBean().getTitleName());
+                    helper.setGone(R.id.important_tag_tv,desAndPicBean.getImportantTagBean().isImportant());
+                    EditText desEt = helper.getView(R.id.edit_value_et);
+                    initEditTextData(desAndPicBean.getTextKeyValueBean(), desEt);
+                    helper.setText(R.id.item_big_title_tv,desAndPicBean.getBigTitle());
+                    initFragmentData(desAndPicBean.getItemFragmentBean());
+                    break;
+
+
+
             default:
                 break;
+        }
+    }
+
+    private void initEditTextData(TextKeyValueBean textValueEditBean, EditText editText) {
+        if (isDetail) {
+            editText.setClickable(false);
+            editText.setFocusable(false);
+        } else {
+            editText.setClickable(true);
+            editText.setFocusable(true);
+        }
+        int editType = textValueEditBean.getType();
+        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) editText.getLayoutParams();
+        if (0 == editType) {
+            lp.height = DisplayUtil.dp2px(mContext, 32);
+            editText.setGravity(Gravity.CENTER_VERTICAL);
+            editText.setSingleLine(true);
+        } else {
+            lp.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+            editText.setMinimumHeight(DisplayUtil.dp2px(mContext, 100));
+            editText.setGravity(Gravity.TOP);
+            editText.setSingleLine(false);
+        }
+        editText.setLayoutParams(lp);
+        editText.setTag(textValueEditBean);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                TextKeyValueBean editBean = (TextKeyValueBean) editText.getTag();
+                String str = s.toString().trim();
+                editBean.setValue(str);
+            }
+        });
+        editText.setHint(textValueEditBean.getHint());
+        editText.setText(textValueEditBean.getValue());
+    }
+
+    private void initFragmentData(ItemFragmentBean fragmentBean) {
+        //上传材料时 多选照片
+        SelectPhotosFragment fragment = (SelectPhotosFragment) mFragmentManager.findFragmentById(R.id.photo_fg);
+        fragment.setObject(fragmentBean);
+        fragment.setSpanCount(fragmentBean.getmSpanCount())
+                .setPhotoDelateable(!isDetail)
+                .setType(fragmentBean.getType())
+                .setMaxCount(fragmentBean.getmMaxCount())
+                .setShowTag(fragmentBean.isShowTag()).setOnPicLoadSuccessCallBack(new SelectPhotosFragment.OnPicLoadSuccessCallBack() {
+            @Override
+            public void loadSuccess(List<String> icons) {
+                ItemFragmentBean picBean = (ItemFragmentBean) fragment.getObject();
+                picBean.setFragmentPics(icons);
+            }
+        });
+        if (fragmentBean.getFragmentPics().size() > 0) {
+            fragment.setIcons(fragmentBean.getFragmentPics());
         }
     }
 

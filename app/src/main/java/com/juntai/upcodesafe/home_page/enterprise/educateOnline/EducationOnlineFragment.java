@@ -43,7 +43,7 @@ public class EducationOnlineFragment extends BaseRecyclerviewFragment {
 
     @Override
     protected BaseQuickAdapter getAdapter() {
-        return new EnterpriseNoticeAdapter(R.layout.enterprise_notice_item);
+        return new EnterpriseNoticeAdapter(R.layout.notice_item);
     }
 
     @Override

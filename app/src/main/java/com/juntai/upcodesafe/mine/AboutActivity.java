@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.juntai.disabled.basecomponent.base.BaseActivity;
 import com.juntai.disabled.basecomponent.utils.BaseAppUtils;
 import com.juntai.upcodesafe.R;
+import com.juntai.upcodesafe.base.BaseWebviewActivity;
 
 /**
  * @aouther Ma
@@ -57,10 +58,10 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.user_xieyi:
-                startActivity(new Intent(mContext, UserAgreementActivity.class).putExtra("url", getString(R.string.user_xieyi_url)));
+                BaseWebviewActivity.startBaseWebviewActivity(mContext,BaseWebviewActivity.class,getString(R.string.user_xieyi_url),"");
                 break;
             case R.id.secret_xieyi:
-                startActivity(new Intent(mContext, UserAgreementActivity.class).putExtra("url", getString(R.string.secret_xieyi_url)));
+                BaseWebviewActivity.startBaseWebviewActivity(mContext,BaseWebviewActivity.class,getString(R.string.secret_xieyi_url),"");
                 break;
             default:
                 break;

@@ -1,27 +1,35 @@
-package com.juntai.upcodesafe.mine;
+package com.juntai.upcodesafe.base;
 
-import android.os.Bundle;
+import android.content.Context;
+import android.content.Intent;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
-import com.juntai.disabled.basecomponent.base.BaseActivity;
+import com.juntai.disabled.basecomponent.mvp.BasePresenter;
 import com.juntai.upcodesafe.R;
 
 
 /**
- * 用户协议
+ *
  */
-
-public class UserAgreementActivity extends BaseActivity {
+public  class BaseWebviewActivity<P extends BasePresenter> extends BaseAppActivity<P> {
     String urlString;
     private WebView mAgreementWeb;
     private LinearLayout mAgreementLayout;
 
+    public static  String  WEB_URL = "webUrl";
+    public static  String  TITLE_NAME = "titleName";
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected P createPresenter() {
+        return null;
+    }
+
+
+    public static void  startBaseWebviewActivity(Context mContext,Class cls,String urlString,String titleName) {
+        mContext.startActivity(new Intent(mContext,cls).putExtra(WEB_URL,urlString)
+        .putExtra(TITLE_NAME,titleName));
     }
 
     @Override
@@ -31,10 +39,13 @@ public class UserAgreementActivity extends BaseActivity {
 
     @Override
     public void initView() {
+
         mAgreementWeb = (WebView) findViewById(R.id.agreement_web);
         mAgreementLayout = (LinearLayout) findViewById(R.id.agreement_layout);
 
-        urlString = getIntent().getStringExtra("url");
+        urlString = getIntent().getStringExtra(WEB_URL);
+        String titleName = getIntent().getStringExtra(TITLE_NAME);
+        setTitleName(titleName);
         //覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
         WebSettings webSettings = mAgreementWeb.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -54,8 +65,14 @@ public class UserAgreementActivity extends BaseActivity {
         mAgreementWeb.loadUrl(urlString);
     }
 
+
     @Override
     public void initData() {
+
+    }
+
+    @Override
+    public void onSuccess(String tag, Object o) {
 
     }
 

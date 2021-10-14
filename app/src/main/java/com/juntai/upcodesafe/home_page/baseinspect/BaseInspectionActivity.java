@@ -5,18 +5,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.juntai.disabled.basecomponent.utils.FileCacheUtils;
-import com.juntai.disabled.basecomponent.utils.GsonTools;
 import com.juntai.disabled.basecomponent.utils.PickerManager;
 import com.juntai.disabled.basecomponent.utils.RuleTools;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.bdmap.act.LocateSelectionActivity;
-import com.juntai.disabled.bdmap.utils.DateUtil;
-import com.juntai.disabled.video.img.ImageZoomActivity;
 import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseAppActivity;
@@ -30,12 +25,10 @@ import com.juntai.upcodesafe.bean.TextKeyValueBean;
 import com.juntai.upcodesafe.bean.TownListBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
 import com.juntai.upcodesafe.utils.StringTools;
-import com.juntai.upcodesafe.utils.UrlFormatUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -49,7 +42,7 @@ import okhttp3.RequestBody;
  * @UpdateUser: 更新者
  * @UpdateDate: 2021/4/22 11:08
  */
-public  abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspectPresent>  implements BaseInspectContract.IInspectView,View.OnClickListener, SelectPhotosFragment.OnPhotoItemClick {
+public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspectPresent> implements BaseInspectContract.IInspectView, View.OnClickListener, SelectPhotosFragment.OnPhotoItemClick {
 
     protected BaseInspectionAdapter adapter;
     private RecyclerView mRecyclerview;
@@ -60,10 +53,14 @@ public  abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspec
     private TextKeyValueBean selectBean;
     private TextView mSelectTv;
     private int currentPosition;
+
     protected abstract String getTitleName();
+
     protected abstract View getFootView();
+
     private int townId;
     private int countyId;
+
     @Override
     protected BaseInspectPresent createPresenter() {
         return new BaseInspectPresent();
@@ -73,6 +70,7 @@ public  abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspec
     public int getLayoutView() {
         return R.layout.recycleview_layout;
     }
+
     @Override
     public void initView() {
         setTitleName(getTitleName());
@@ -80,7 +78,7 @@ public  abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspec
         mSmartrefreshlayout = (SmartRefreshLayout) findViewById(R.id.smartrefreshlayout);
         mSmartrefreshlayout.setEnableLoadMore(false);
         mSmartrefreshlayout.setEnableRefresh(false);
-        adapter = new BaseInspectionAdapter(null, false,getSupportFragmentManager());
+        adapter = new BaseInspectionAdapter(null, false, getSupportFragmentManager());
         initRecyclerview(mRecyclerview, adapter, LinearLayoutManager.VERTICAL);
         if (getFootView() != null) {
             adapter.setFooterView(getFootView());
@@ -163,6 +161,11 @@ public  abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspec
                         //跳转到选择位置类
                         startActivityForResult(new Intent(mContext, LocateSelectionActivity.class),
                                 LocateSelectionActivity.SELECT_ADDR);
+                        break;
+
+                    case R.id.add_more_item_tv:
+                        //添加一组条目
+                        adapter.addData(mPresenter.getCheckData());
                         break;
                     default:
                         break;
@@ -465,23 +468,22 @@ public  abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspec
     }
 
 
-
     @Override
     public void onSuccess(String tag, Object o) {
         switch (tag) {
             case AppHttpPath.GET_TOWN_LIST:
                 TownListBean townListBean = (TownListBean) o;
-                List<IdNameBean.DataBean>  countys = new ArrayList<>();
-                List<List<IdNameBean.DataBean>>  towns = new ArrayList<>();
+                List<IdNameBean.DataBean> countys = new ArrayList<>();
+                List<List<IdNameBean.DataBean>> towns = new ArrayList<>();
                 if (townListBean != null) {
-                   List<TownListBean.DataBean> dataBeans = townListBean.getData();
+                    List<TownListBean.DataBean> dataBeans = townListBean.getData();
                     if (dataBeans != null) {
                         for (TownListBean.DataBean dataBean : dataBeans) {
-                            countys.add(new IdNameBean.DataBean(dataBean.getId(),dataBean.getName()));
+                            countys.add(new IdNameBean.DataBean(dataBean.getId(), dataBean.getName()));
                             if (dataBean.getChildList() != null) {
-                                List<IdNameBean.DataBean>  childs = new ArrayList<>();
+                                List<IdNameBean.DataBean> childs = new ArrayList<>();
                                 for (TownListBean.DataBean.ChildListBean childListBean : dataBean.getChildList()) {
-                                    childs.add(new IdNameBean.DataBean(childListBean.getId(),childListBean.getName()));
+                                    childs.add(new IdNameBean.DataBean(childListBean.getId(), childListBean.getName()));
                                     towns.add(childs);
                                 }
                             }
@@ -498,7 +500,7 @@ public  abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspec
 
                                 countyId = countys.get(options1).getId();
                                 townId = towns.get(options1).get(option2).getId();
-                                selectBean.setIds(String.format("%s%s%s",countyId,",",townId));
+                                selectBean.setIds(String.format("%s%s%s", countyId, ",", townId));
 
                                 String area =
                                         String.format("%s%s%s", countys.get(options1).getName(), "   ", towns.get(options1).get(option2).getName());
@@ -521,6 +523,7 @@ public  abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspec
     public void onPicClick(BaseQuickAdapter adapter, int position) {
 
     }
+
     @Override
     public void onClick(View v) {
 
