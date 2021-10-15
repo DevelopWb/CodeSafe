@@ -95,15 +95,7 @@ public class SelectPhotosFragment<T> extends BaseMvpFragment implements View.OnC
     private boolean isShowTag = false;//是否显示底部标记
     private GridLayoutManager manager;
     private OnPicLoadSuccessCallBack onPicLoadSuccessCallBack;
-    private static String TYPE = "type";
 
-    public static SelectPhotosFragment getInstance(String type) {
-        Bundle bundle = new Bundle();
-        bundle.putString(TYPE, type);
-        SelectPhotosFragment fragment = new SelectPhotosFragment();
-        fragment.setArguments(bundle);
-        return fragment;
-    }
 
     /**
      * 是否显示底部标识

@@ -8,8 +8,9 @@
     android:orientation="horizontal"
     android:paddingRight="15dp"
     android:paddingBottom="3dp">
-    <FrameLayout
-        android:id="@+id/photo_fg_fl"
+    <fragment
+        android:id="@+id/photo_fg"
+        class="com.juntai.upcodesafe.base.selectPics.SelectPhotosFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></FrameLayout>
+        android:layout_height="wrap_content" />
 </LinearLayout>

@@ -11,6 +11,16 @@ import com.juntai.disabled.basecomponent.mvp.IView;
  */
 public interface BaseInspectContract {
 
+
+
+
+      String  TAB_SUPERVISE_CHECK = "监管检查";
+      String  TAB_TERRITORY_SUPERVISE_CHECK = "属地检查";
+      String  TAB_GRID_SUPERVISE_CHECK = "网格检查";
+      String  TAB_CHECK_SELF = "企业自查";
+      String  TAB_ALL = "全部";
+      String  TAB_TITLES = "tabtitles";
+
       String REMARK = "备注";
       String INSPECTION_SITE = "巡检点";
       String INSPECTION_ADDR = "巡检地址";
@@ -33,7 +43,14 @@ public interface BaseInspectContract {
       String INSPECTION_UNIT_ADDR_DETAIL = "详细地址";
       String INSPECTION_UNIT_LEGAL_PERSON = "单位法人";
       String INSPECTION_UNIT_UCC = "社会信用代码";
-
+      String UNIT_TYPE = "单位类型";
+      String UNIT_SIZE = "单位规模";
+      String UNIT_RISK = "单位风险";
+      String UNIT_DIRECTOR = "安全生产主管";
+      String UNIT_SUPERVISE = "安全生产直接监管";
+      String UNIT_TERRITORY_SUPERVISE = "属地监管";
+      String UNIT_UNIT_SUPERVISE_PEOPLE = "监督(管理)人";
+      String UNIT_GRID_SUPERVISE = "所属网格";
 
 
 

@@ -8,15 +8,6 @@ public class AppHttpPath {
     public static final String BASE_IMAGE = "http://192.168.124.118:9597";
 
 
-
-
-
-
-
-
-
-
-
     /**
      * 登录
      */
@@ -30,6 +21,7 @@ public class AppHttpPath {
      */
     public static final String REGIST = BASE + "/u/appUserStaff/register.shtml";
     /**
+     *
      */
     public static final String MODIFY_PWD = BASE + "/u/appUserStaff/updatePassword.shtml";
     /**
@@ -50,8 +42,6 @@ public class AppHttpPath {
     public static final String GET_SMS_CODE = BASE + "/u/appUserStaff/getSMSCode.shtml";
 
 
-
-
     /**
      * 提交补充信息
      */
@@ -67,6 +57,7 @@ public class AppHttpPath {
 
 
     /**
+     *
      */
     public static final String GET_TOWN_LIST = BASE + "/u/appUserStaff/selectTerritoryList.shtml";
 
@@ -106,6 +97,18 @@ public class AppHttpPath {
     public static final String GET_RECTIFY_NOTICE_LIST = BASE + "/u/appUnit/selectUnitNoticeList.shtml";
 
 
+
+
+    /*====================================================    企业   ==============================================================*/
+
+    /**
+     * 开始检查
+     */
+    public static final String START_INSPECT = BASE + "/u/appUnit/inspectUnit.shtml";
+    /**
+     * 检查列表
+     */
+    public static final String GET_CHECK_LIST = BASE + "/u/appUnit/selectInspectRecordList.shtml";
 
 
 }

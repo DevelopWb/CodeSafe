@@ -14,6 +14,15 @@ public class BaseAdapterDataBean {
 
     private  MultipartBody.Builder  builder;
     private UnitDetailBean.DataBean  unitDataBean;
+    private  String concreteProblems;
+
+    public String getConcreteProblems() {
+        return concreteProblems == null ? "" : concreteProblems;
+    }
+
+    public void setConcreteProblems(String concreteProblems) {
+        this.concreteProblems = concreteProblems == null ? "" : concreteProblems;
+    }
 
     public MultipartBody.Builder getBuilder() {
         return builder;

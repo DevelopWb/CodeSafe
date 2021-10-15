@@ -30,7 +30,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".home_page.enterprise.selfcheck.StartCheckSelfActivity"></activity>
+        <activity android:name=".home_page.enterprise.selfcheck.checkRecord.CheckRecordActivity"></activity>
+        <activity android:name=".home_page.enterprise.selfcheck.StartCheckSelfActivity" />
         <activity android:name=".home_page.enterprise.selfcheck.response.ResponseListActivity" />
         <activity android:name=".mine.ModifyPwdActivity" />
         <activity
@@ -56,6 +57,9 @@
             android:launchMode="singleTop" />
         <activity
             android:name=".entrance.RegistActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".home_page.enterprise.selfcheck.UnitInfoMoreActivity"
             android:launchMode="singleTop" />
         <activity
             android:name=".securityCheck.EditSecurityInspectSiteActivity"

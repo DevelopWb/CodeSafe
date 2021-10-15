@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import com.juntai.upcodesafe.base.HeadCropActivity;
 import com.juntai.upcodesafe.base.selectPics.SelectPhotosFragment;
 import com.juntai.upcodesafe.bean.BaseAdapterDataBean;
 import com.juntai.upcodesafe.bean.CheckDesJsonBena;
+import com.juntai.upcodesafe.bean.CheckDetailBean;
 import com.juntai.upcodesafe.bean.DesAndPicBean;
 import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.ItemFragmentBean;
@@ -49,6 +51,7 @@ import okhttp3.RequestBody;
  * @UpdateDate: 2021/4/22 11:08
  */
 public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspectPresent> implements BaseInspectContract.IInspectView, View.OnClickListener, SelectPhotosFragment.OnPhotoItemClick {
+    public boolean idDetail = false;
 
     private int mParentsPosition;
     private PicRecycleBean mPicRecycleBean;
@@ -63,10 +66,10 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     private TextView mSelectTv;
     private int currentPosition;
     protected int fragmentPosition = 0;
+    public TextView mCommitTv;
 
     protected abstract String getTitleName();
 
-    protected abstract View getFootView();
 
     private int townId;
     private int countyId;
@@ -88,13 +91,21 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         mSmartrefreshlayout = (SmartRefreshLayout) findViewById(R.id.smartrefreshlayout);
         mSmartrefreshlayout.setEnableLoadMore(false);
         mSmartrefreshlayout.setEnableRefresh(false);
-        adapter = new BaseInspectionAdapter(null, false, getSupportFragmentManager());
+        adapter = new BaseInspectionAdapter(null, idDetail, getSupportFragmentManager());
         initRecyclerview(mRecyclerview, adapter, LinearLayoutManager.VERTICAL);
         if (getFootView() != null) {
             adapter.setFooterView(getFootView());
         }
         setAdapterClick();
 
+    }
+
+    protected View getFootView() {
+        View view = LayoutInflater.from(mContext.getApplicationContext()).inflate(R.layout.footview_commit, null);
+        mCommitTv = view.findViewById(R.id.commit_form_tv);
+        mCommitTv.setText("提交");
+        mCommitTv.setOnClickListener(this);
+        return view;
     }
 
     private void setAdapterClick() {
@@ -263,7 +274,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
      * @return
      */
     protected BaseAdapterDataBean getBaseAdapterData(boolean skipFilter) {
-        List<CheckDesJsonBena>  arr = new ArrayList<>();
+        List<CheckDesJsonBena> arr = new ArrayList<>();
         BaseAdapterDataBean bean = new BaseAdapterDataBean();
         UnitDetailBean.DataBean unitDataBean = new UnitDetailBean.DataBean();
         MultipartBody.Builder builder = mPresenter.getPublishMultipartBody();
@@ -451,7 +462,9 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     DesAndPicBean desAndPicBean = (DesAndPicBean) array.getObject();
                     PicRecycleBean picRecycleBean = desAndPicBean.getPicRecycleBean();
                     CheckDesJsonBena checkDesJsonBena = new CheckDesJsonBena();
-                    checkDesJsonBena.setConcreteProblem(desAndPicBean.getTextKeyValueBean().getValue());
+                    if (!TextUtils.isEmpty(desAndPicBean.getTextKeyValueBean().getValue())) {
+                        checkDesJsonBena.setConcreteProblem(desAndPicBean.getTextKeyValueBean().getValue());
+                    }
                     if (!picRecycleBean.getPics().isEmpty()) {
                         for (int i = 0; i < picRecycleBean.getPics().size(); i++) {
                             String pic = picRecycleBean.getPics().get(i);
@@ -473,7 +486,12 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
                         }
                     }
-                   arr.add(checkDesJsonBena);
+                    // TODO: 2021-10-15 这个应该能解决间隔填写内容的问题
+                    if (TextUtils.isEmpty(desAndPicBean.getTextKeyValueBean().getValue()) && picRecycleBean.getPics().isEmpty()) {
+
+                    } else {
+                        arr.add(checkDesJsonBena);
+                    }
 
 
                     break;
@@ -573,10 +591,12 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     break;
             }
         }
+        if (!arr.isEmpty()) {
+            builder.addFormDataPart("problemsJson", GsonTools.createGsonString(arr));
+        }
         bean.setBuilder(builder);
         bean.setUnitDataBean(unitDataBean);
-       String a = GsonTools.createGsonString(arr);
-       a.length();
+        bean.setConcreteProblems(GsonTools.createGsonString(arr));
         return bean;
     }
 
@@ -639,6 +659,33 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.commit_form_tv:
+                //提交
+                BaseAdapterDataBean baseAdapterDataBean = null;
+                if (mCommitTv != null) {
+                    if ("申请修改".equals(getTextViewValue(mCommitTv))) {
+                        baseAdapterDataBean = getBaseAdapterData(true);
+                    } else {
+                        baseAdapterDataBean = getBaseAdapterData(false);
+                    }
+                } else {
+                    baseAdapterDataBean = getBaseAdapterData(false);
+                }
 
+                if (baseAdapterDataBean == null) {
+                    return;
+                }
+                commitLogic(baseAdapterDataBean.getBuilder());
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 提交的逻辑
+     */
+    protected void commitLogic(MultipartBody.Builder builder) {
     }
 }

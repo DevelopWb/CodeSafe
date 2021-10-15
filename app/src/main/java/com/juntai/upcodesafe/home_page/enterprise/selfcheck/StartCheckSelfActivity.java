@@ -7,10 +7,14 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.juntai.disabled.basecomponent.utils.ToastUtils;
+import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
+import com.juntai.upcodesafe.bean.TextKeyValueBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseCommitFootViewActivity;
 import com.juntai.upcodesafe.home_page.baseinspect.TextKeyValueAdapter;
+import com.juntai.upcodesafe.utils.UserInfoManager;
 
 import okhttp3.MultipartBody;
 
@@ -32,6 +36,7 @@ public class StartCheckSelfActivity extends BaseCommitFootViewActivity {
     private RadioGroup mItemRadioG;
     private TextKeyValueAdapter headAdapter;
     private UnitDetailBean.DataBean unitBean;
+
     @Override
     public void initData() {
         adapter.setHeaderView(getHeadView());
@@ -52,6 +57,15 @@ public class StartCheckSelfActivity extends BaseCommitFootViewActivity {
 
     @Override
     protected void commitRequest(MultipartBody.Builder builder) {
+        MultipartBody body = builder.addFormDataPart("typeId", "1")
+                .addFormDataPart("unitId", String.valueOf(unitBean.getId()))
+                .addFormDataPart("checkTime", ((TextKeyValueBean) headAdapter.getData().get(0)).getValue())
+                .addFormDataPart("checkType", "1")
+                .addFormDataPart("userId", String.valueOf(UserInfoManager.getUserId()))
+                .addFormDataPart("personLiable", unitBean.getPersonLiable())
+                .addFormDataPart("phoneNumber", unitBean.getLiablePhone())
+                .addFormDataPart("qualified", mRadioQualifiedRb.isChecked() ? "1" : "2").build();
+        mPresenter.startInspect(body, AppHttpPath.START_INSPECT);
 
     }
 
@@ -64,6 +78,7 @@ public class StartCheckSelfActivity extends BaseCommitFootViewActivity {
     protected String getTitleName() {
         return "开始自查";
     }
+
     /**
      * 头布局
      *
@@ -97,4 +112,11 @@ public class StartCheckSelfActivity extends BaseCommitFootViewActivity {
         return view;
     }
 
+
+    @Override
+    public void onSuccess(String tag, Object o) {
+        super.onSuccess(tag, o);
+        ToastUtils.toast(mContext,"提交成功");
+        finish();
+    }
 }

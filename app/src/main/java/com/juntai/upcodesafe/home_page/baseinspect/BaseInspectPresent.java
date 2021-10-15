@@ -11,6 +11,7 @@ import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.AppNetModule;
 import com.juntai.upcodesafe.base.BaseAppPresent;
 import com.juntai.upcodesafe.bean.CheckDetailBean;
+import com.juntai.upcodesafe.bean.CheckRecordBean;
 import com.juntai.upcodesafe.bean.DesAndPicBean;
 import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.ImportantTagBean;
@@ -104,7 +105,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                         bean.getUnifiedCreditCode(), true
                 , 0);
         initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_UNIT_AREA, bean == null ? "" :
-                        bean.getTerritoryName()
+                        bean.getTerritoryOneName()+bean.getTerritoryTwoName()
                 , true, 0);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_UNIT_ADDR_DETAIL, bean == null ? "" :
                         bean.getAddress()
@@ -133,7 +134,55 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, isDetail ?
                 fragmentPics.size() : 3,
                 3, true,
-                fragmentPics,0)));
+                fragmentPics, 0)));
+        return arrays;
+    }
+    /**
+     * 添加 单位详情
+     *
+     * @return
+     */
+    public List<MultipleItem> getUnitInfoMoreData(UnitDetailBean.DataBean bean, boolean isDetail) {
+        List<MultipleItem> arrays = new ArrayList<>();
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_UNIT_NAME, bean == null ? "" :
+                        bean.getName(),
+                true,
+                0);
+
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_UNIT_UCC, bean == null ? "" :
+                        bean.getUnifiedCreditCode(), true
+                , 0);
+        initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_UNIT_AREA, bean == null ? "" :
+                        bean.getTerritoryOneName()+bean.getTerritoryTwoName()
+                , true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_UNIT_ADDR_DETAIL, bean == null ? "" :
+                        bean.getAddress()
+                , true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_UNIT_LEGAL_PERSON, bean == null ?
+                "" :
+                bean.getLegal(), true, 0);
+
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_LEGAL_TEL, bean == null ? "" :
+                bean.getLegalPhone(), true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_RESPONSIBLE, bean == null ? "" :
+                bean.getPersonLiable(), true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_RESPONSIBLE_TEL, bean == null ? "" :
+                bean.getLiablePhone(), true, 0);
+
+        arrays.add(new MultipleItem(MultipleItem.ITEM_LOCATION, new LocationBean(bean == null ? null :
+                bean.getGpsAddress()
+                , bean == null ? null : bean.getLatitude(), bean == null ? null : bean.getLongitude())));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传单位图片"));
+        List<String> fragmentPics = new ArrayList<>();
+        if (bean != null) {
+            addFragmentPics(bean.getCoverPicture(), fragmentPics);
+            addFragmentPics(bean.getPhotoTwo(), fragmentPics);
+            addFragmentPics(bean.getPhotoThree(), fragmentPics);
+        }
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, isDetail ?
+                fragmentPics.size() : 3,
+                3, true,
+                fragmentPics, 0)));
         return arrays;
     }
 
@@ -198,12 +247,12 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     public List<MultipleItem> getCheckData(int position) {
         List<MultipleItem> arrays = new ArrayList<>();
         DesAndPicBean desAndPicBean = new DesAndPicBean();
-        desAndPicBean.setBigTitle("上传检查图片"+position);
+        desAndPicBean.setBigTitle("上传检查图片" + position);
         desAndPicBean.setPicRecycleBean(new PicRecycleBean(null));
-        desAndPicBean.setImportantTagBean(new ImportantTagBean(BaseInspectContract.CHECK_DES+position,false));
-        desAndPicBean.setTextKeyValueBean(new TextKeyValueBean(BaseInspectContract.CHECK_DES+position,"","请输入"+BaseInspectContract.CHECK_DES,1,false));
+        desAndPicBean.setImportantTagBean(new ImportantTagBean(BaseInspectContract.CHECK_DES + position, false));
+        desAndPicBean.setTextKeyValueBean(new TextKeyValueBean(BaseInspectContract.CHECK_DES + position, "", "请输入" + BaseInspectContract.CHECK_DES, 1, false));
         arrays.add(new MultipleItem(MultipleItem.ITEM_DES_PIC, desAndPicBean));
-        if (0==position) {
+        if (0 == position) {
             arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MORE, ""));
         }
         return arrays;
@@ -217,42 +266,14 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
      * @return
      */
 
-    public List<TextKeyValueBean> getStartCheckData(UnitDetailBean.DataBean  dataBean) {
+    public List<TextKeyValueBean> getStartCheckData(UnitDetailBean.DataBean dataBean) {
         List<TextKeyValueBean> arrays = new ArrayList<>();
         arrays.add(new TextKeyValueBean("检查时间:", CalendarUtil.getCurrentTime("yyyy-MM-dd HH:mm:ss")));
-        arrays.add(new TextKeyValueBean("检查人员:", dataBean.getName()+ UserInfoManager.getUserName()+"   单位自查"));
+        arrays.add(new TextKeyValueBean("检查人员:", dataBean.getName() + UserInfoManager.getUserName() + "   单位自查"));
         arrays.add(new TextKeyValueBean("责任人:", dataBean.getPersonLiable()));
         arrays.add(new TextKeyValueBean("电话号码:", dataBean.getLiablePhone()));
         return arrays;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public void getTownList(RequestBody requestBody, String tag) {
@@ -319,7 +340,6 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     }
 
 
-
     public void getResponseList(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .getResponseList(requestBody)
@@ -340,6 +360,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     }
                 });
     }
+
     public void getRectifyNoticeList(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .getRectifyNoticeList(requestBody)
@@ -347,6 +368,47 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 .subscribe(new BaseObserver<RectifyNoticeListBean>(getView()) {
                     @Override
                     public void onSuccess(RectifyNoticeListBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
+    public void startInspect(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .startInspect(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    public void getCheckList(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getCheckList(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<CheckRecordBean>(getView()) {
+                    @Override
+                    public void onSuccess(CheckRecordBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

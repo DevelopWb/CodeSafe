@@ -2,6 +2,7 @@ package com.juntai.upcodesafe;
 
 
 import com.juntai.disabled.basecomponent.base.BaseResult;
+import com.juntai.upcodesafe.bean.CheckRecordBean;
 import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.NoticeBean;
 import com.juntai.upcodesafe.bean.RectifyNoticeListBean;
@@ -145,4 +146,16 @@ public interface AppServer {
      */
     @POST(AppHttpPath.GET_RECTIFY_NOTICE_LIST)
     Observable<RectifyNoticeListBean> getRectifyNoticeList(@Body RequestBody requestBody);
+    /**
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.START_INSPECT)
+    Observable<BaseResult> startInspect(@Body RequestBody requestBody);
+    /**
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_CHECK_LIST)
+    Observable<CheckRecordBean> getCheckList(@Body RequestBody requestBody);
 }

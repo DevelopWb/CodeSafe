@@ -14,6 +14,8 @@ public class HawkProperty {
     public static String  ACCOUNT_TYPE = "account_type";
     public final static String LOGIN_KEY = "login_bean";
     public final static String TOKEN_KEY = "token_key";
+    //当前企业信息
+    public final static String UNIT_KEY = "unit_key";
 
     public static String ADD_UNIT_KEY = "add_unit";//手动添加单位  这个key唯一  搜索添加的时候 需要绑定单位的id
 

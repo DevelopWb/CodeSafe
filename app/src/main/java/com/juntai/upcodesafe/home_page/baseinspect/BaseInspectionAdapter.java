@@ -317,8 +317,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
 
     private void initFragmentData(ItemFragmentBean fragmentBean) {
         //上传材料时 多选照片
-        //获取fragment管理者
-        SelectPhotosFragment fragment = SelectPhotosFragment.getInstance(String.valueOf(fragmentBean.getFragmentPosition()));
+        SelectPhotosFragment fragment = (SelectPhotosFragment) mFragmentManager.findFragmentById(R.id.photo_fg);
         fragment.setObject(fragmentBean);
         fragment.setSpanCount(fragmentBean.getmSpanCount())
                 .setPhotoDelateable(!isDetail)
@@ -334,9 +333,6 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         if (fragmentBean.getFragmentPics().size() > 0) {
             fragment.setIcons(fragmentBean.getFragmentPics());
         }
-        FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        transaction.replace(R.id.photo_fg_fl, fragment)//添加fragment
-                .commit();
 
     }
 

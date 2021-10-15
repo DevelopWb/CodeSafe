@@ -19,6 +19,7 @@ import com.juntai.upcodesafe.bean.ActionBean;
 import com.juntai.upcodesafe.bean.TextKeyValueBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
 import com.juntai.upcodesafe.home_page.enterprise.selfcheck.StartCheckSelfActivity;
+import com.juntai.upcodesafe.home_page.enterprise.selfcheck.checkRecord.CheckRecordActivity;
 import com.juntai.upcodesafe.home_page.enterprise.selfcheck.rectifynotice.RectifyNoticeListActivity;
 import com.juntai.upcodesafe.home_page.enterprise.selfcheck.response.ResponseListActivity;
 import com.juntai.upcodesafe.utils.UrlFormatUtil;
@@ -120,7 +121,7 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
                         break;
                     case BaseInspectContract.CHECK_RECORD:
                         //检查记录
-//                        startActivity(new Intent(mContext, VisitRecordListActivity.class).putExtra(BaseRecordActivity.ID, ((ImportantorBean.DataBean) getBaseBean()).getId()));
+                        startActivity(new Intent(mContext, CheckRecordActivity.class));
                         break;
                     case BaseInspectContract.REPAIRE_NOTICE:
                         //单位详情里面的整改通知书
