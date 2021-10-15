@@ -21,6 +21,9 @@ public interface BaseInspectContract {
       String  TAB_ALL = "全部";
       String  TAB_TITLES = "tabtitles";
 
+
+      String  IS_OK = "是否合格";
+
       String REMARK = "备注";
       String INSPECTION_SITE = "巡检点";
       String INSPECTION_ADDR = "巡检地址";
@@ -52,6 +55,10 @@ public interface BaseInspectContract {
       String UNIT_UNIT_SUPERVISE_PEOPLE = "监督(管理)人";
       String UNIT_GRID_SUPERVISE = "所属网格";
 
+
+
+
+      int  BASE_RECYCLERVIEW_TYPE_TEXT_VALUE = 0;//textvalue。类型
 
 
 

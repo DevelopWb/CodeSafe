@@ -9,7 +9,9 @@ import com.juntai.disabled.basecomponent.utils.CalendarUtil;
 import com.juntai.disabled.basecomponent.utils.RxScheduler;
 import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.AppNetModule;
+import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseAppPresent;
+import com.juntai.upcodesafe.bean.BaseNormalRecyclerviewBean;
 import com.juntai.upcodesafe.bean.CheckDetailBean;
 import com.juntai.upcodesafe.bean.CheckRecordBean;
 import com.juntai.upcodesafe.bean.DesAndPicBean;
@@ -88,7 +90,45 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         arrays.add(new TextKeyValueBean("联系电话:", "暂无"));
         return arrays;
     }
+    /**
+     * 消防检查记录详情  没问题
+     *
+     * @param dataBean
+     * @return
+     */
+    public List<MultipleItem> getCheckedDetailData(CheckDetailBean.DataBean dataBean) {
+        List<MultipleItem> arrays = new ArrayList<>();
+        arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW, new BaseNormalRecyclerviewBean(
+                BaseInspectContract.BASE_RECYCLERVIEW_TYPE_TEXT_VALUE,
+                getCheckDetailData(dataBean), new TextKeyValueAdapter(R.layout.text_key_value_item))));
 
+        List<CheckDetailBean.DataBean.ConcreteProblemsBean> problemsBeans =  dataBean.getConcreteProblems();
+        if (!problemsBeans.isEmpty()) {
+            for (CheckDetailBean.DataBean.ConcreteProblemsBean problemsBean : problemsBeans) {
+                List<String> pics = new ArrayList<>();
+                if (!TextUtils.isEmpty(problemsBean.getPhotoOne())) {
+                    pics.add(problemsBean.getPhotoOne());
+                }
+                if (!TextUtils.isEmpty(problemsBean.getPhotoTwo())) {
+                    pics.add(problemsBean.getPhotoTwo());
+                }
+                if (!TextUtils.isEmpty(problemsBean.getPhotoThree())) {
+                    pics.add(problemsBean.getPhotoThree());
+                }
+                DesAndPicBean desAndPicBean = new DesAndPicBean();
+                desAndPicBean.setBigTitle("上传检查图片");
+                desAndPicBean.setPicRecycleBean(new PicRecycleBean(pics));
+                desAndPicBean.setImportantTagBean(new ImportantTagBean(BaseInspectContract.CHECK_DES , false));
+                desAndPicBean.setTextKeyValueBean(new TextKeyValueBean(BaseInspectContract.CHECK_DES , problemsBean.getConcreteProblem(), "请输入" + BaseInspectContract.CHECK_DES, 1, false));
+                arrays.add(new MultipleItem(MultipleItem.ITEM_DES_PIC, desAndPicBean));
+            }
+        }
+
+
+
+
+        return arrays;
+    }
     /**
      * 添加 单位详情
      *
@@ -247,10 +287,10 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     public List<MultipleItem> getCheckData(int position) {
         List<MultipleItem> arrays = new ArrayList<>();
         DesAndPicBean desAndPicBean = new DesAndPicBean();
-        desAndPicBean.setBigTitle("上传检查图片" + position);
+        desAndPicBean.setBigTitle("上传检查图片");
         desAndPicBean.setPicRecycleBean(new PicRecycleBean(null));
-        desAndPicBean.setImportantTagBean(new ImportantTagBean(BaseInspectContract.CHECK_DES + position, false));
-        desAndPicBean.setTextKeyValueBean(new TextKeyValueBean(BaseInspectContract.CHECK_DES + position, "", "请输入" + BaseInspectContract.CHECK_DES, 1, false));
+        desAndPicBean.setImportantTagBean(new ImportantTagBean(BaseInspectContract.CHECK_DES , false));
+        desAndPicBean.setTextKeyValueBean(new TextKeyValueBean(BaseInspectContract.CHECK_DES , "", "请输入" + BaseInspectContract.CHECK_DES, 1, false));
         arrays.add(new MultipleItem(MultipleItem.ITEM_DES_PIC, desAndPicBean));
         if (0 == position) {
             arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MORE, ""));
@@ -272,6 +312,22 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         arrays.add(new TextKeyValueBean("检查人员:", dataBean.getName() + UserInfoManager.getUserName() + "   单位自查"));
         arrays.add(new TextKeyValueBean("责任人:", dataBean.getPersonLiable()));
         arrays.add(new TextKeyValueBean("电话号码:", dataBean.getLiablePhone()));
+        return arrays;
+    }
+    /**
+     * 企业自查
+     *
+     * @param dataBean
+     * @return
+     */
+
+    public List<TextKeyValueBean> getCheckDetailData(CheckDetailBean.DataBean dataBean) {
+        List<TextKeyValueBean> arrays = new ArrayList<>();
+        arrays.add(new TextKeyValueBean("检查时间:", dataBean.getCheckTime()));
+        arrays.add(new TextKeyValueBean("检查人员:", dataBean.getDepartmentName()+dataBean.getNickname()+ "   单位自查"));
+        arrays.add(new TextKeyValueBean("责任人:", dataBean.getPersonLiable()));
+        arrays.add(new TextKeyValueBean("电话号码:", dataBean.getPhoneNumber()));
+        arrays.add(new TextKeyValueBean("是否合格:",  1==dataBean.getQualified()?"合格":"不合格"));
         return arrays;
     }
 
@@ -409,6 +465,26 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 .subscribe(new BaseObserver<CheckRecordBean>(getView()) {
                     @Override
                     public void onSuccess(CheckRecordBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    public void getCheckRecordDetail(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getCheckRecordDetail(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<CheckDetailBean>(getView()) {
+                    @Override
+                    public void onSuccess(CheckDetailBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

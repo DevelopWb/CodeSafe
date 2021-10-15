@@ -2,6 +2,7 @@ package com.juntai.upcodesafe;
 
 
 import com.juntai.disabled.basecomponent.base.BaseResult;
+import com.juntai.upcodesafe.bean.CheckDetailBean;
 import com.juntai.upcodesafe.bean.CheckRecordBean;
 import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.NoticeBean;
@@ -158,4 +159,10 @@ public interface AppServer {
      */
     @POST(AppHttpPath.GET_CHECK_LIST)
     Observable<CheckRecordBean> getCheckList(@Body RequestBody requestBody);
+    /**
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.CHECK_RECORD_DETAIL)
+    Observable<CheckDetailBean> getCheckRecordDetail(@Body RequestBody requestBody);
 }

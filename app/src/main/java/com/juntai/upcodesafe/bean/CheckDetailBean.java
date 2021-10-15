@@ -175,7 +175,7 @@ public class CheckDetailBean extends BaseResult {
             private String content;
             private String photoOne;
             private String photoTwo;
-            private Object photoThree;
+            private String photoThree;
 
             public String getContent() {
                 return content;
@@ -201,12 +201,12 @@ public class CheckDetailBean extends BaseResult {
                 this.photoTwo = photoTwo;
             }
 
-            public Object getPhotoThree() {
-                return photoThree;
+            public String getPhotoThree() {
+                return photoThree == null ? "" : photoThree;
             }
 
-            public void setPhotoThree(Object photoThree) {
-                this.photoThree = photoThree;
+            public void setPhotoThree(String photoThree) {
+                this.photoThree = photoThree == null ? "" : photoThree;
             }
         }
 
@@ -221,7 +221,7 @@ public class CheckDetailBean extends BaseResult {
             private String content;
             private String photoOne;
             private String photoTwo;
-            private Object photoThree;
+            private String photoThree;
 
             public String getContent() {
                 return content;
@@ -247,12 +247,12 @@ public class CheckDetailBean extends BaseResult {
                 this.photoTwo = photoTwo;
             }
 
-            public Object getPhotoThree() {
-                return photoThree;
+            public String getPhotoThree() {
+                return photoThree == null ? "" : photoThree;
             }
 
-            public void setPhotoThree(Object photoThree) {
-                this.photoThree = photoThree;
+            public void setPhotoThree(String photoThree) {
+                this.photoThree = photoThree == null ? "" : photoThree;
             }
         }
 
@@ -267,7 +267,7 @@ public class CheckDetailBean extends BaseResult {
             private String concreteProblem;
             private String photoOne;
             private String photoTwo;
-            private Object photoThree;
+            private String photoThree;
 
             public String getConcreteProblem() {
                 return concreteProblem;
@@ -293,12 +293,12 @@ public class CheckDetailBean extends BaseResult {
                 this.photoTwo = photoTwo;
             }
 
-            public Object getPhotoThree() {
-                return photoThree;
+            public String getPhotoThree() {
+                return photoThree == null ? "" : photoThree;
             }
 
-            public void setPhotoThree(Object photoThree) {
-                this.photoThree = photoThree;
+            public void setPhotoThree(String photoThree) {
+                this.photoThree = photoThree == null ? "" : photoThree;
             }
         }
     }

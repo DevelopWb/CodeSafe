@@ -109,6 +109,10 @@ public class AppHttpPath {
      * 检查列表
      */
     public static final String GET_CHECK_LIST = BASE + "/u/appUnit/selectInspectRecordList.shtml";
+    /**
+     * 检查记录详情
+     */
+    public static final String CHECK_RECORD_DETAIL = BASE + "/u/appUnit/selectInspectRecordInfo.shtml";
 
 
 }

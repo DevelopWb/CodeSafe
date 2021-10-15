@@ -40,15 +40,20 @@ public class CheckRecordBean extends BaseResult {
          * punish : 1
          * notice : 0
          */
+        private int id;//记录id
 
-        private int id;
-        private String checkTime;
-        private String departmentName;
-        private String nickname;
-        private int typeId;
-        private int checkType;
-        private int punish;
-        private int notice;
+        private String checkTime;//检查时间
+
+        private String departmentName;//检查部门名称
+
+        private String nickname;//检查人名称
+
+        private int typeId;//类型id（1常规检查；2专项检查；3验收检查）
+
+        private int checkType;//检查类型（1企业自查；2监管检查；3属地检查；4网格检查）
+
+        private int punish;//是否处罚（0未处罚）
+        private int notice;//是否整改（0未整改）
 
         public int getId() {
             return id;

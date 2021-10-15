@@ -17,11 +17,9 @@ import com.juntai.disabled.bdmap.act.LocateSelectionActivity;
 import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseAppActivity;
-import com.juntai.upcodesafe.base.HeadCropActivity;
 import com.juntai.upcodesafe.base.selectPics.SelectPhotosFragment;
 import com.juntai.upcodesafe.bean.BaseAdapterDataBean;
 import com.juntai.upcodesafe.bean.CheckDesJsonBena;
-import com.juntai.upcodesafe.bean.CheckDetailBean;
 import com.juntai.upcodesafe.bean.DesAndPicBean;
 import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.ItemFragmentBean;
@@ -67,6 +65,8 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     private int currentPosition;
     protected int fragmentPosition = 0;
     public TextView mCommitTv;
+    public static String BASE_ID = "baseid";
+    protected int baseId;
 
     protected abstract String getTitleName();
 
@@ -87,6 +87,9 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     @Override
     public void initView() {
         setTitleName(getTitleName());
+        if (getIntent() != null) {
+            baseId = getIntent().getIntExtra(BASE_ID,0);
+        }
         mRecyclerview = (RecyclerView) findViewById(R.id.recyclerview);
         mSmartrefreshlayout = (SmartRefreshLayout) findViewById(R.id.smartrefreshlayout);
         mSmartrefreshlayout.setEnableLoadMore(false);

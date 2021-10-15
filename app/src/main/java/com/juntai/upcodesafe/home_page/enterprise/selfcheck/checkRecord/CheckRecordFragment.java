@@ -5,18 +5,16 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.baidu.mapapi.model.LatLng;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseRecyclerviewFragment;
 import com.juntai.upcodesafe.bean.CheckRecordBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectContract;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectPresent;
-import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectionInfoActivity;
-import com.juntai.upcodesafe.mine.MyCenterContract;
-import com.juntai.upcodesafe.mine.MyCenterPresent;
+import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectionActivity;
+import com.juntai.upcodesafe.home_page.enterprise.selfcheck.checkRecord.checkRecordInfo.CheckRecordDetailActivity;
 import com.juntai.upcodesafe.utils.HawkProperty;
 import com.orhanobut.hawk.Hawk;
 
@@ -39,11 +37,10 @@ public class CheckRecordFragment extends BaseRecyclerviewFragment<BaseInspectPre
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-            }
-        });
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                CheckRecordBean.DataBean checkRecordBean = (CheckRecordBean.DataBean) adapter.getData().get(position);
+                startActivity(new Intent(mContext, CheckRecordDetailActivity.class).putExtra(BaseInspectionActivity.BASE_ID,checkRecordBean.getId()));
+
+
             }
         });
         mSmartrefreshlayout.setEnableLoadMore(false);
@@ -90,7 +87,7 @@ public class CheckRecordFragment extends BaseRecyclerviewFragment<BaseInspectPre
 
     @Override
     protected BaseQuickAdapter getAdapter() {
-        return new CheckRecordAdapter(R.layout.check_item);
+        return new CheckRecordAdapter(R.layout.check_record_item);
     }
 
     @Override

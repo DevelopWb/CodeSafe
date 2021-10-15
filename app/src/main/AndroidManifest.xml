@@ -30,7 +30,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".home_page.enterprise.selfcheck.checkRecord.CheckRecordActivity"></activity>
+        <activity android:name=".home_page.enterprise.selfcheck.checkRecord.checkRecordInfo.CheckRecordDetailActivity"></activity>
+        <activity android:name=".home_page.enterprise.selfcheck.checkRecord.CheckRecordActivity" />
         <activity android:name=".home_page.enterprise.selfcheck.StartCheckSelfActivity" />
         <activity android:name=".home_page.enterprise.selfcheck.response.ResponseListActivity" />
         <activity android:name=".mine.ModifyPwdActivity" />

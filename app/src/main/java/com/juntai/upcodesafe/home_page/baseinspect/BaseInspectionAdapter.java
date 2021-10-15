@@ -23,6 +23,7 @@ import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.selectPics.SelectPhotosFragment;
 import com.juntai.upcodesafe.base.selectPics.ShowSelectedPicsAdapter;
+import com.juntai.upcodesafe.bean.BaseNormalRecyclerviewBean;
 import com.juntai.upcodesafe.bean.DesAndPicBean;
 import com.juntai.upcodesafe.bean.ImportantTagBean;
 import com.juntai.upcodesafe.bean.ItemFragmentBean;
@@ -213,14 +214,21 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
             case MultipleItem.ITEM_NORMAL_RECYCLEVIEW:
                 //recycleview
 
-                List<TextKeyValueBean> arrays = (List<TextKeyValueBean>) item.getObject();
+                BaseNormalRecyclerviewBean baseNormalRecyclerviewBean = (BaseNormalRecyclerviewBean) item.getObject();
                 RecyclerView recyclerView = helper.getView(R.id.item_normal_rv);
                 LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL
                         , false);
-                TextKeyValueAdapter adapter = new TextKeyValueAdapter(R.layout.text_key_value_item);
-                adapter.setNewData(arrays);
+                BaseQuickAdapter adapter = baseNormalRecyclerviewBean.getAdapter();
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(manager);
+                switch (baseNormalRecyclerviewBean.getType()) {
+                    case BaseInspectContract.BASE_RECYCLERVIEW_TYPE_TEXT_VALUE:
+                        List<TextKeyValueBean> arrays = (List<TextKeyValueBean>) baseNormalRecyclerviewBean.getObject();
+                        adapter.setNewData(arrays);
+                        break;
+                    default:
+                        break;
+                }
                 break;
             case MultipleItem.ITEM_FRAGMENT:
                 ItemFragmentBean fragmentBean = (ItemFragmentBean) item.getObject();
