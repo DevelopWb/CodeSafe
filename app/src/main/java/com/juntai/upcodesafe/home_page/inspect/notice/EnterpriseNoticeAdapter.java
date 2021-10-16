@@ -1,4 +1,4 @@
-package com.juntai.upcodesafe.home_page.enterprise.notice;
+package com.juntai.upcodesafe.home_page.inspect.notice;
 
 import android.text.TextUtils;
 

@@ -1,8 +1,7 @@
-package com.juntai.upcodesafe.home_page.enterprise.selfcheck.checkRecord;
+package com.juntai.upcodesafe.home_page.inspect.selfcheck.checkRecord;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 
 
@@ -14,7 +13,7 @@ import com.juntai.upcodesafe.bean.UnitDetailBean;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectContract;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectPresent;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectionActivity;
-import com.juntai.upcodesafe.home_page.enterprise.selfcheck.checkRecord.checkRecordInfo.CheckRecordDetailActivity;
+import com.juntai.upcodesafe.home_page.inspect.selfcheck.checkRecord.checkRecordInfo.CheckRecordDetailActivity;
 import com.juntai.upcodesafe.utils.HawkProperty;
 import com.orhanobut.hawk.Hawk;
 
@@ -62,7 +61,7 @@ public class CheckRecordFragment extends BaseRecyclerviewFragment<BaseInspectPre
 
     @Override
     protected void initData() {
-        unitBean = Hawk.get(HawkProperty.UNIT_KEY);
+        unitBean =HawkProperty.getUnitBean();
     }
 
     @Override

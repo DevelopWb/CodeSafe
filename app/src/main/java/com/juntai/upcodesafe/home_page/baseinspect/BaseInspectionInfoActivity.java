@@ -9,20 +9,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.video.img.ImageZoomActivity;
-import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseAppActivity;
 import com.juntai.upcodesafe.bean.ActionBean;
-import com.juntai.upcodesafe.bean.TextKeyValueBean;
+import com.juntai.upcodesafe.bean.TrainPlanListBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
-import com.juntai.upcodesafe.home_page.enterprise.selfcheck.StartCheckSelfActivity;
-import com.juntai.upcodesafe.home_page.enterprise.selfcheck.checkRecord.CheckRecordActivity;
-import com.juntai.upcodesafe.home_page.enterprise.selfcheck.rectifynotice.RectifyNoticeListActivity;
-import com.juntai.upcodesafe.home_page.enterprise.selfcheck.response.ResponseListActivity;
-import com.juntai.upcodesafe.utils.UrlFormatUtil;
+import com.juntai.upcodesafe.home_page.inspect.selfcheck.StartCheckSelfActivity;
+import com.juntai.upcodesafe.home_page.inspect.selfcheck.checkRecord.CheckRecordActivity;
+import com.juntai.upcodesafe.home_page.inspect.selfcheck.rectifynotice.RectifyNoticeListActivity;
+import com.juntai.upcodesafe.home_page.inspect.selfcheck.response.ResponseListActivity;
+import com.juntai.upcodesafe.home_page.inspect.trainPlan.TrainPlanActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -130,6 +128,7 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
                         break;
                     case BaseInspectContract.TRAIN_PLAN:
                         //   培训计划
+                        startActivity(new Intent(mContext, TrainPlanActivity.class).putExtra(BASE_ID,((UnitDetailBean.DataBean) getBaseBean()).getId()));
 
                         break;
 

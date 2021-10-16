@@ -30,10 +30,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".home_page.enterprise.selfcheck.checkRecord.checkRecordInfo.CheckRecordDetailActivity"></activity>
-        <activity android:name=".home_page.enterprise.selfcheck.checkRecord.CheckRecordActivity" />
-        <activity android:name=".home_page.enterprise.selfcheck.StartCheckSelfActivity" />
-        <activity android:name=".home_page.enterprise.selfcheck.response.ResponseListActivity" />
+        <activity android:name=".home_page.inspect.trainPlan.AddTrainPlansActivity"></activity>
+        <activity android:name=".home_page.inspect.trainPlan.TrainPlanActivity" />
+        <activity android:name=".home_page.inspect.selfcheck.checkRecord.checkRecordInfo.CheckRecordDetailActivity" />
+        <activity android:name=".home_page.inspect.selfcheck.checkRecord.CheckRecordActivity" />
+        <activity android:name=".home_page.inspect.selfcheck.StartCheckSelfActivity" />
+        <activity android:name=".home_page.inspect.selfcheck.response.ResponseListActivity" />
         <activity android:name=".mine.ModifyPwdActivity" />
         <activity
             android:name=".mine.addInformation.addUnit.ManualAddUnitActivity"
@@ -42,25 +44,25 @@
             android:name=".mine.addInformation.AddInformationActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name=".home_page.enterprise.educateOnline.EducateOnlineActivity"
+            android:name=".home_page.inspect.educateOnline.EducateOnlineActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name=".home_page.enterprise.accidentWarn.AccidentWarnActivity"
+            android:name=".home_page.inspect.accidentWarn.AccidentWarnActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name=".home_page.enterprise.notice.EnterpriseNoticeActivity"
+            android:name=".home_page.inspect.notice.EnterpriseNoticeActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name=".home_page.enterprise.BaseSearchAndListActivity"
+            android:name=".home_page.inspect.BaseSearchAndListActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name=".home_page.enterprise.selfcheck.SelfCheckActivity"
+            android:name=".home_page.inspect.selfcheck.SelfCheckActivity"
             android:launchMode="singleTop" />
         <activity
             android:name=".entrance.RegistActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name=".home_page.enterprise.selfcheck.UnitInfoMoreActivity"
+            android:name=".home_page.inspect.selfcheck.UnitInfoMoreActivity"
             android:launchMode="singleTop" />
         <activity
             android:name=".securityCheck.EditSecurityInspectSiteActivity"
@@ -156,7 +158,7 @@
             android:name=".base.BaseWebviewActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name=".home_page.enterprise.selfcheck.rectifynotice.RectifyNoticeListActivity"
+            android:name=".home_page.inspect.selfcheck.rectifynotice.RectifyNoticeListActivity"
             android:launchMode="singleTop" />
     </application>
 

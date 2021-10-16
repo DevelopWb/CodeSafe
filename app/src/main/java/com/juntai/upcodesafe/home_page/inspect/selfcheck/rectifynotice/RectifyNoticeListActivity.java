@@ -1,13 +1,10 @@
-package com.juntai.upcodesafe.home_page.enterprise.selfcheck.rectifynotice;
+package com.juntai.upcodesafe.home_page.inspect.selfcheck.rectifynotice;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
-import com.juntai.upcodesafe.bean.RectifyNoticeListBean;
-import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectionActivity;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseRecordActivity;
 
 /**

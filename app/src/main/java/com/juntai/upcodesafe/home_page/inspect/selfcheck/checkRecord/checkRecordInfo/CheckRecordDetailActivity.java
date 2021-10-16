@@ -1,6 +1,5 @@
-package com.juntai.upcodesafe.home_page.enterprise.selfcheck.checkRecord.checkRecordInfo;
+package com.juntai.upcodesafe.home_page.inspect.selfcheck.checkRecord.checkRecordInfo;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
@@ -22,7 +21,7 @@ public class CheckRecordDetailActivity extends BaseInspectionActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        idDetail = true;
+        isDetail = true;
         super.onCreate(savedInstanceState);
     }
 

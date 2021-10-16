@@ -1,10 +1,9 @@
-package com.juntai.upcodesafe.home_page.enterprise;
+package com.juntai.upcodesafe.home_page.inspect;
 
 
 import android.support.v7.widget.SearchView;
 import android.view.View;
 
-import com.juntai.disabled.basecomponent.mvp.BasePresenter;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;

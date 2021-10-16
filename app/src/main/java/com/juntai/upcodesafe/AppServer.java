@@ -8,6 +8,7 @@ import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.NoticeBean;
 import com.juntai.upcodesafe.bean.RectifyNoticeListBean;
 import com.juntai.upcodesafe.bean.TownListBean;
+import com.juntai.upcodesafe.bean.TrainPlanListBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
 import com.juntai.upcodesafe.bean.UnitsBean;
 import com.juntai.upcodesafe.bean.UserBean;
@@ -135,34 +136,49 @@ public interface AppServer {
      */
     @POST(AppHttpPath.GET_ENTERPRIZSE_INFO)
     Observable<UnitDetailBean> getEnterpriseInfo(@Body RequestBody requestBody);
+
     /**
      * @param requestBody
      * @return
      */
     @POST(AppHttpPath.GET_RESPONSE_LIST)
     Observable<IdNameBean> getResponseList(@Body RequestBody requestBody);
+
     /**
      * @param requestBody
      * @return
      */
     @POST(AppHttpPath.GET_RECTIFY_NOTICE_LIST)
     Observable<RectifyNoticeListBean> getRectifyNoticeList(@Body RequestBody requestBody);
+
     /**
      * @param requestBody
      * @return
      */
     @POST(AppHttpPath.START_INSPECT)
     Observable<BaseResult> startInspect(@Body RequestBody requestBody);
+
     /**
      * @param requestBody
      * @return
      */
     @POST(AppHttpPath.GET_CHECK_LIST)
     Observable<CheckRecordBean> getCheckList(@Body RequestBody requestBody);
+
     /**
      * @param requestBody
      * @return
      */
     @POST(AppHttpPath.CHECK_RECORD_DETAIL)
     Observable<CheckDetailBean> getCheckRecordDetail(@Body RequestBody requestBody);
+
+    /**
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_TRAIN_PLAN_LIST)
+    Observable<TrainPlanListBean> getTrainPlanList(@Body RequestBody requestBody);
+
+    @POST(AppHttpPath.ADD_TRAIN_PLAN)
+    Observable<BaseResult> addTrainPlans(@Body RequestBody requestBody);
 }

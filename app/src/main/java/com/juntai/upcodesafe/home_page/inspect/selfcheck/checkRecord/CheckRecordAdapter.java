@@ -1,4 +1,4 @@
-package com.juntai.upcodesafe.home_page.enterprise.selfcheck.checkRecord;
+package com.juntai.upcodesafe.home_page.inspect.selfcheck.checkRecord;
 
 
 import android.text.TextUtils;

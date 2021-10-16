@@ -1,6 +1,5 @@
-package com.juntai.upcodesafe.home_page.enterprise.educateOnline;
+package com.juntai.upcodesafe.home_page.inspect.educateOnline;
 
-import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;

@@ -1,4 +1,4 @@
-package com.juntai.upcodesafe.home_page.enterprise.selfcheck;
+package com.juntai.upcodesafe.home_page.inspect.selfcheck;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,7 +40,7 @@ public class StartCheckSelfActivity extends BaseCommitFootViewActivity {
     @Override
     public void initData() {
         adapter.setHeaderView(getHeadView());
-        adapter.setNewData(mPresenter.getCheckData(fragmentPosition));
+        adapter.setNewData(mPresenter.addDesPicLayout("检查情况描述","上传检查图片",0));
         if (getIntent() != null) {
             unitBean = getIntent().getParcelableExtra(PARCELABLE_KEY);
             if (unitBean != null) {

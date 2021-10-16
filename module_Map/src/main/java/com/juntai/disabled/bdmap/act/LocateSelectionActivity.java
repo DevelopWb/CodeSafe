@@ -65,8 +65,6 @@ public class LocateSelectionActivity extends BaseRequestLocationActivity impleme
     @Override
     public void initView() {
         setTitleName("地理位置");
-
-        getTitleRightTv().setVisibility(View.VISIBLE);
         getTitleRightTv().setText("确定");
         getTitleRightTv().setOnClickListener(new View.OnClickListener() {
             @Override

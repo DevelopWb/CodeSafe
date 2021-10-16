@@ -1,11 +1,11 @@
-package com.juntai.upcodesafe.home_page.enterprise.notice;
+package com.juntai.upcodesafe.home_page.inspect.notice;
 
 import android.text.TextUtils;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
-import com.juntai.upcodesafe.home_page.enterprise.BaseSearchAndListActivity;
+import com.juntai.upcodesafe.home_page.inspect.BaseSearchAndListActivity;
 
 /**
  * @aouther tobato

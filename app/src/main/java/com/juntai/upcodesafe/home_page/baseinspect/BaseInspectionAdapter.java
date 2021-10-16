@@ -23,6 +23,7 @@ import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.selectPics.SelectPhotosFragment;
 import com.juntai.upcodesafe.base.selectPics.ShowSelectedPicsAdapter;
+import com.juntai.upcodesafe.bean.AddDesPicBean;
 import com.juntai.upcodesafe.bean.BaseNormalRecyclerviewBean;
 import com.juntai.upcodesafe.bean.DesAndPicBean;
 import com.juntai.upcodesafe.bean.ImportantTagBean;
@@ -235,15 +236,27 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 initFragmentData(fragmentBean);
                 break;
             case MultipleItem.ITEM_ADD_MORE:
-                helper.addOnClickListener(R.id.add_more_item_tv);
+                AddDesPicBean addDesPicBean = (AddDesPicBean) item.getObject();
+                helper.addOnClickListener(R.id.add_more_item_ll);
+                helper.setText(R.id.add_more_item_tv,addDesPicBean.getAddTvValue());
                 break;
 
             case MultipleItem.ITEM_DES_PIC:
+                helper.setGone(R.id.item_des_title_tv,false);
+                helper.setGone(R.id.important_tag_tv,false);
+                helper.setGone(R.id.edit_value_et,false);
                 DesAndPicBean desAndPicBean = (DesAndPicBean) item.getObject();
-                helper.setText(R.id.item_des_title_tv, desAndPicBean.getImportantTagBean().getTitleName());
-                helper.setGone(R.id.important_tag_tv, desAndPicBean.getImportantTagBean().isImportant());
-                EditText desEt = helper.getView(R.id.edit_value_et);
-                initEditTextData(desAndPicBean.getTextKeyValueBean(), desEt);
+                if (desAndPicBean.getImportantTagBean() != null) {
+                    helper.setGone(R.id.item_des_title_tv,true);
+                    helper.setText(R.id.item_des_title_tv, desAndPicBean.getImportantTagBean().getTitleName());
+                    helper.setGone(R.id.important_tag_tv, desAndPicBean.getImportantTagBean().isImportant());
+                }
+                if (desAndPicBean.getTextKeyValueBean() != null) {
+                    helper.setGone(R.id.edit_value_et,true);
+                    EditText desEt = helper.getView(R.id.edit_value_et);
+                    initEditTextData(desAndPicBean.getTextKeyValueBean(), desEt);
+                }
+
                 helper.setText(R.id.item_big_title_tv, desAndPicBean.getBigTitle());
                 PicRecycleBean picRecycleBean = desAndPicBean.getPicRecycleBean();
                 List<String> pics = picRecycleBean.getPics();
@@ -256,6 +269,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                     }
                 };
                 HorPicsAdapter selectedPicsAdapter = new HorPicsAdapter(R.layout.show_selected_pic_item);
+                selectedPicsAdapter.setDelateable(!isDetail);
                 picRecycleRv.setAdapter(selectedPicsAdapter);
                 if (pics.isEmpty()) {
                     pics.add("-1");

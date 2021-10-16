@@ -25,13 +25,11 @@ import com.juntai.upcodesafe.base.customview.CustomViewPager;
 import com.juntai.upcodesafe.base.customview.MainPagerAdapter;
 import com.juntai.upcodesafe.entrance.EmptyFragment;
 import com.juntai.upcodesafe.entrance.LoginActivity;
-import com.juntai.upcodesafe.home_page.enterprise.HomePageEnterpriseFragment;
+import com.juntai.upcodesafe.home_page.inspect.HomePageEnterpriseFragment;
 import com.juntai.upcodesafe.home_page.HomePageMornitorFragment;
 import com.juntai.upcodesafe.home_page.QRScanActivity;
 import com.juntai.upcodesafe.mine.MyCenterFragment;
-import com.juntai.upcodesafe.utils.HawkProperty;
 import com.juntai.upcodesafe.utils.UserInfoManager;
-import com.orhanobut.hawk.Hawk;
 
 public class MainActivity extends BaseAppActivity<MainPagePresent> implements ViewPager.OnPageChangeListener,
         View.OnClickListener, MainPageContract.IMainPageView {

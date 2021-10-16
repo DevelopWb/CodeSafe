@@ -1,6 +1,9 @@
 package com.juntai.upcodesafe.utils;
 
 
+import com.juntai.upcodesafe.bean.UnitDetailBean;
+import com.orhanobut.hawk.Hawk;
+
 /**
  * @Author: tobato
  * @Description: 作用描述
@@ -19,4 +22,12 @@ public class HawkProperty {
 
     public static String ADD_UNIT_KEY = "add_unit";//手动添加单位  这个key唯一  搜索添加的时候 需要绑定单位的id
 
+
+    /**
+     * 获取企业详情
+     * @return
+     */
+    public static UnitDetailBean.DataBean  getUnitBean(){
+        return Hawk.get(UNIT_KEY);
+    }
 }

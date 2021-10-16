@@ -1,4 +1,4 @@
-package com.juntai.upcodesafe.home_page.enterprise.selfcheck.response;
+package com.juntai.upcodesafe.home_page.inspect.selfcheck.response;
 
 import android.os.Bundle;
 import android.view.View;

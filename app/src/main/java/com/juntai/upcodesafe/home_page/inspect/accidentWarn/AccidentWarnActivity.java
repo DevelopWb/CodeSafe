@@ -1,12 +1,12 @@
-package com.juntai.upcodesafe.home_page.enterprise.accidentWarn;
+package com.juntai.upcodesafe.home_page.inspect.accidentWarn;
 
 import android.text.TextUtils;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
-import com.juntai.upcodesafe.home_page.enterprise.BaseSearchAndListActivity;
-import com.juntai.upcodesafe.home_page.enterprise.notice.EnterpriseNoticeAdapter;
+import com.juntai.upcodesafe.home_page.inspect.BaseSearchAndListActivity;
+import com.juntai.upcodesafe.home_page.inspect.notice.EnterpriseNoticeAdapter;
 
 /**
  * @aouther tobato

@@ -11,6 +11,7 @@ import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.AppNetModule;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseAppPresent;
+import com.juntai.upcodesafe.bean.AddDesPicBean;
 import com.juntai.upcodesafe.bean.BaseNormalRecyclerviewBean;
 import com.juntai.upcodesafe.bean.CheckDetailBean;
 import com.juntai.upcodesafe.bean.CheckRecordBean;
@@ -24,6 +25,7 @@ import com.juntai.upcodesafe.bean.PicRecycleBean;
 import com.juntai.upcodesafe.bean.RectifyNoticeListBean;
 import com.juntai.upcodesafe.bean.TextKeyValueBean;
 import com.juntai.upcodesafe.bean.TownListBean;
+import com.juntai.upcodesafe.bean.TrainPlanListBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
 import com.juntai.upcodesafe.utils.UrlFormatUtil;
 import com.juntai.upcodesafe.utils.UserInfoManager;
@@ -280,24 +282,56 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
 
 
     /**
-     * 开始自检检查
      *
+     * @param desTitle  描述的标题
+     * @param picTitle  图片的标题
+     * @param position
      * @return
      */
-    public List<MultipleItem> getCheckData(int position) {
+    public List<MultipleItem> addDesPicLayout(String desTitle, String picTitle, int position) {
         List<MultipleItem> arrays = new ArrayList<>();
         DesAndPicBean desAndPicBean = new DesAndPicBean();
-        desAndPicBean.setBigTitle("上传检查图片");
+        desAndPicBean.setBigTitle(picTitle);
         desAndPicBean.setPicRecycleBean(new PicRecycleBean(null));
-        desAndPicBean.setImportantTagBean(new ImportantTagBean(BaseInspectContract.CHECK_DES , false));
-        desAndPicBean.setTextKeyValueBean(new TextKeyValueBean(BaseInspectContract.CHECK_DES , "", "请输入" + BaseInspectContract.CHECK_DES, 1, false));
+        desAndPicBean.setImportantTagBean(new ImportantTagBean(desTitle , false));
+        desAndPicBean.setTextKeyValueBean(new TextKeyValueBean(desTitle , "", "请输入" + desTitle, 1, false));
         arrays.add(new MultipleItem(MultipleItem.ITEM_DES_PIC, desAndPicBean));
         if (0 == position) {
-            arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MORE, ""));
+            arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MORE, new AddDesPicBean(desTitle,picTitle,"增加更多")));
         }
         return arrays;
     }
 
+    /**
+     * 获取培训计划
+     * @return
+     */
+    public List<MultipleItem> getTrainPlansData(List<TrainPlanListBean.DataBean> dataBeans) {
+        List<MultipleItem> arrays = new ArrayList<>();
+        if (!dataBeans.isEmpty()) {
+            for (TrainPlanListBean.DataBean problemsBean : dataBeans) {
+                List<String> pics = new ArrayList<>();
+                if (!TextUtils.isEmpty(problemsBean.getPhotoOne())) {
+                    pics.add(problemsBean.getPhotoOne());
+                }
+                if (!TextUtils.isEmpty(problemsBean.getPhotoTwo())) {
+                    pics.add(problemsBean.getPhotoTwo());
+                }
+                if (!TextUtils.isEmpty(problemsBean.getPhotoThree())) {
+                    pics.add(problemsBean.getPhotoThree());
+                }
+                DesAndPicBean desAndPicBean = new DesAndPicBean();
+                desAndPicBean.setBigTitle(problemsBean.getDescribe());
+                desAndPicBean.setPicRecycleBean(new PicRecycleBean(pics));
+//                desAndPicBean.setImportantTagBean(new ImportantTagBean("" , false));
+//                desAndPicBean.setTextKeyValueBean(new TextKeyValueBean(BaseInspectContract.CHECK_DES , problemsBean.getDescribe(), "请输入" + BaseInspectContract.CHECK_DES, 1, false));
+                arrays.add(new MultipleItem(MultipleItem.ITEM_DES_PIC, desAndPicBean));
+            }
+        }
+        return arrays;
+    }
+    
+    
 
     /**
      * 企业自查
@@ -485,6 +519,46 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 .subscribe(new BaseObserver<CheckDetailBean>(getView()) {
                     @Override
                     public void onSuccess(CheckDetailBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    public void getTrainPlanList(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getTrainPlanList(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<TrainPlanListBean>(getView()) {
+                    @Override
+                    public void onSuccess(TrainPlanListBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o.getData());
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    public void addTrainPlans(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .addTrainPlans(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

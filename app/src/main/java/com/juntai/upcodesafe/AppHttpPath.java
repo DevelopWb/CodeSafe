@@ -115,4 +115,17 @@ public class AppHttpPath {
     public static final String CHECK_RECORD_DETAIL = BASE + "/u/appUnit/selectInspectRecordInfo.shtml";
 
 
+    /**
+     * 培训计划列表
+     */
+    public static final String GET_TRAIN_PLAN_LIST = BASE + "/u/appUnit/selectTrainPlanList.shtml";
+    /**
+     * 添加培训计划
+     */
+    public static final String ADD_TRAIN_PLAN = BASE + "/u/appUnit/addTrainPlan.shtml";
+
+
+
+
+
 }

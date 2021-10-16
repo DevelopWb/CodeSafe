@@ -14,12 +14,14 @@ import com.juntai.disabled.basecomponent.utils.PickerManager;
 import com.juntai.disabled.basecomponent.utils.RuleTools;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.bdmap.act.LocateSelectionActivity;
+import com.juntai.disabled.video.img.ImageZoomActivity;
 import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseAppActivity;
 import com.juntai.upcodesafe.base.selectPics.SelectPhotosFragment;
+import com.juntai.upcodesafe.bean.AddDesPicBean;
 import com.juntai.upcodesafe.bean.BaseAdapterDataBean;
-import com.juntai.upcodesafe.bean.CheckDesJsonBena;
+import com.juntai.upcodesafe.bean.DesPicJsonBena;
 import com.juntai.upcodesafe.bean.DesAndPicBean;
 import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.ItemFragmentBean;
@@ -29,9 +31,10 @@ import com.juntai.upcodesafe.bean.PicRecycleBean;
 import com.juntai.upcodesafe.bean.TextKeyValueBean;
 import com.juntai.upcodesafe.bean.TownListBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
+import com.juntai.upcodesafe.utils.HawkProperty;
 import com.juntai.upcodesafe.utils.StringTools;
+import com.juntai.upcodesafe.utils.UserInfoManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.zhihu.matisse.Matisse;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -49,7 +52,7 @@ import okhttp3.RequestBody;
  * @UpdateDate: 2021/4/22 11:08
  */
 public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspectPresent> implements BaseInspectContract.IInspectView, View.OnClickListener, SelectPhotosFragment.OnPhotoItemClick {
-    public boolean idDetail = false;
+    public boolean isDetail = false;
 
     private int mParentsPosition;
     private PicRecycleBean mPicRecycleBean;
@@ -63,7 +66,6 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     private TextKeyValueBean selectBean;
     private TextView mSelectTv;
     private int currentPosition;
-    protected int fragmentPosition = 0;
     public TextView mCommitTv;
     public static String BASE_ID = "baseid";
     protected int baseId;
@@ -88,13 +90,13 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     public void initView() {
         setTitleName(getTitleName());
         if (getIntent() != null) {
-            baseId = getIntent().getIntExtra(BASE_ID,0);
+            baseId = getIntent().getIntExtra(BASE_ID, 0);
         }
         mRecyclerview = (RecyclerView) findViewById(R.id.recyclerview);
         mSmartrefreshlayout = (SmartRefreshLayout) findViewById(R.id.smartrefreshlayout);
         mSmartrefreshlayout.setEnableLoadMore(false);
         mSmartrefreshlayout.setEnableRefresh(false);
-        adapter = new BaseInspectionAdapter(null, idDetail, getSupportFragmentManager());
+        adapter = new BaseInspectionAdapter(null, isDetail, getSupportFragmentManager());
         initRecyclerview(mRecyclerview, adapter, LinearLayoutManager.VERTICAL);
         if (getFootView() != null) {
             adapter.setFooterView(getFootView());
@@ -187,10 +189,10 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 LocateSelectionActivity.SELECT_ADDR);
                         break;
 
-                    case R.id.add_more_item_tv:
+                    case R.id.add_more_item_ll:
+                        AddDesPicBean addDesPicBean = (AddDesPicBean) multipleItem.getObject();
                         //添加一组条目
-                        fragmentPosition++;
-                        adapter.addData(adapter.getData().size() - 1, mPresenter.getCheckData(fragmentPosition));
+                        adapter.addData(adapter.getData().size() - 1, mPresenter.addDesPicLayout(addDesPicBean.getDesTitle(), addDesPicBean.getPicTitle(), 1));
                         break;
                     default:
                         break;
@@ -277,7 +279,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
      * @return
      */
     protected BaseAdapterDataBean getBaseAdapterData(boolean skipFilter) {
-        List<CheckDesJsonBena> arr = new ArrayList<>();
+        List<DesPicJsonBena> arr = new ArrayList<>();
         BaseAdapterDataBean bean = new BaseAdapterDataBean();
         UnitDetailBean.DataBean unitDataBean = new UnitDetailBean.DataBean();
         MultipartBody.Builder builder = mPresenter.getPublishMultipartBody();
@@ -464,9 +466,12 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                 case MultipleItem.ITEM_DES_PIC:
                     DesAndPicBean desAndPicBean = (DesAndPicBean) array.getObject();
                     PicRecycleBean picRecycleBean = desAndPicBean.getPicRecycleBean();
-                    CheckDesJsonBena checkDesJsonBena = new CheckDesJsonBena();
+                    DesPicJsonBena checkDesJsonBena = new DesPicJsonBena();
+                    checkDesJsonBena.setUserId(UserInfoManager.getUserId());
+                    checkDesJsonBena.setUnitId(HawkProperty.getUnitBean().getId());
                     if (!TextUtils.isEmpty(desAndPicBean.getTextKeyValueBean().getValue())) {
                         checkDesJsonBena.setConcreteProblem(desAndPicBean.getTextKeyValueBean().getValue());
+                        checkDesJsonBena.setDescribe(desAndPicBean.getTextKeyValueBean().getValue());
                     }
                     if (!picRecycleBean.getPics().isEmpty()) {
                         for (int i = 0; i < picRecycleBean.getPics().size(); i++) {
@@ -596,6 +601,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         }
         if (!arr.isEmpty()) {
             builder.addFormDataPart("problemsJson", GsonTools.createGsonString(arr));
+            builder.addFormDataPart("planJson", GsonTools.createGsonString(arr));
         }
         bean.setBuilder(builder);
         bean.setUnitDataBean(unitDataBean);
@@ -657,7 +663,18 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
     @Override
     public void onPicClick(BaseQuickAdapter adapter, int position) {
-
+        ArrayList<String> photos = new ArrayList<>();
+        List<String> arrays = adapter.getData();
+        for (String array : arrays) {
+            if (array.contains(AppHttpPath.BASE_IMAGE)) {
+                array = array.replace(AppHttpPath.BASE_IMAGE, AppHttpPath.BASE_IMAGE);
+            }
+            photos.add(array);
+        }
+        //查看图片
+        startActivity(new Intent(mContext, ImageZoomActivity.class)
+                .putExtra("paths", photos)
+                .putExtra("item", position));
     }
 
     @Override

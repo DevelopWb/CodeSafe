@@ -1,15 +1,12 @@
-package com.juntai.upcodesafe.home_page.enterprise.selfcheck.checkRecord;
+package com.juntai.upcodesafe.home_page.inspect.selfcheck.checkRecord;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.SparseArray;
 
 import com.juntai.disabled.basecomponent.mvp.BasePresenter;
 import com.juntai.upcodesafe.base.BaseTabViewPageActivity;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectContract;
-import com.juntai.upcodesafe.utils.UserInfoManager;
 
 /**
  * @aouther tobato

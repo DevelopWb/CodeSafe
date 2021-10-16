@@ -1,4 +1,4 @@
-package com.juntai.upcodesafe.home_page.enterprise.educateOnline;
+package com.juntai.upcodesafe.home_page.inspect.educateOnline;
 
 import android.os.Bundle;
 
@@ -6,7 +6,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.basecomponent.mvp.IPresenter;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseRecyclerviewFragment;
-import com.juntai.upcodesafe.home_page.enterprise.notice.EnterpriseNoticeAdapter;
+import com.juntai.upcodesafe.home_page.inspect.notice.EnterpriseNoticeAdapter;
 
 /**
  * @Author: tobato

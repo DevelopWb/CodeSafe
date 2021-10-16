@@ -7,17 +7,11 @@ package com.juntai.upcodesafe.bean;
  * @UpdateUser: 更新者
  * @UpdateDate: 2021-10-14 17:07
  */
-public class CheckDesJsonBena {
+public class DesPicJsonBena {
 
-    public CheckDesJsonBena() {
+    public DesPicJsonBena() {
     }
 
-    public CheckDesJsonBena(String concreteProblem, String photoOne, String photoTwo, String photoThree) {
-        this.concreteProblem = concreteProblem;
-        this.photoOne = photoOne;
-        this.photoTwo = photoTwo;
-        this.photoThree = photoThree;
-    }
 
     /**
      * concreteProblem : 啦啦啦
@@ -26,6 +20,9 @@ public class CheckDesJsonBena {
      * photoThree : null
      */
 
+    private int unitId;
+    private int userId;
+    private String describe;
     private String concreteProblem;
     private String photoOne;
     private String photoTwo;
@@ -37,6 +34,30 @@ public class CheckDesJsonBena {
 
     public void setPhotoThree(String photoThree) {
         this.photoThree = photoThree == null ? "" : photoThree;
+    }
+
+    public int getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(int unitId) {
+        this.unitId = unitId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getDescribe() {
+        return describe == null ? "" : describe;
+    }
+
+    public void setDescribe(String describe) {
+        this.describe = describe == null ? "" : describe;
     }
 
     public String getConcreteProblem() {

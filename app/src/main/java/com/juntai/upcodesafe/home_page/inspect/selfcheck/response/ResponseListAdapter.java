@@ -1,14 +1,10 @@
-package com.juntai.upcodesafe.home_page.enterprise.selfcheck.response;
-
-import android.text.TextUtils;
+package com.juntai.upcodesafe.home_page.inspect.selfcheck.response;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.bean.IdNameBean;
-import com.juntai.upcodesafe.bean.NoticeBean;
-import com.juntai.upcodesafe.utils.UrlFormatUtil;
 
 /**
  * @Author: tobato

@@ -1,7 +1,4 @@
-package com.juntai.upcodesafe.home_page.enterprise.selfcheck;
-
-import android.content.Intent;
-import android.view.View;
+package com.juntai.upcodesafe.home_page.inspect.selfcheck;
 
 
 import com.juntai.upcodesafe.bean.UnitDetailBean;
@@ -31,7 +28,7 @@ public class UnitInfoMoreActivity extends BaseInspectionActivity implements Base
 
     @Override
     public void initView() {
-        idDetail = true;
+        isDetail = true;
         super.initView();
         if (getIntent() != null) {
             dataBean = getIntent().getParcelableExtra(PARCELABLE_KEY);

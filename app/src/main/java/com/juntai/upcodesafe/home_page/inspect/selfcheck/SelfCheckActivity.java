@@ -1,4 +1,4 @@
-package com.juntai.upcodesafe.home_page.enterprise.selfcheck;
+package com.juntai.upcodesafe.home_page.inspect.selfcheck;
 
 import android.content.Intent;
 

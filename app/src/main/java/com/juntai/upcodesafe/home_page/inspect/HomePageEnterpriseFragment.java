@@ -1,4 +1,4 @@
-package com.juntai.upcodesafe.home_page.enterprise;
+package com.juntai.upcodesafe.home_page.inspect;
 
 
 import android.content.Intent;
@@ -17,12 +17,11 @@ import com.juntai.upcodesafe.home_page.HomePageContract;
 import com.juntai.upcodesafe.home_page.HomePageMenuAdapter;
 import com.juntai.upcodesafe.home_page.HomePagePresent;
 import com.juntai.upcodesafe.home_page.QRScanActivity;
-import com.juntai.upcodesafe.home_page.enterprise.accidentWarn.AccidentWarnActivity;
-import com.juntai.upcodesafe.home_page.enterprise.educateOnline.EducateOnlineActivity;
-import com.juntai.upcodesafe.home_page.enterprise.notice.EnterpriseNoticeActivity;
-import com.juntai.upcodesafe.home_page.enterprise.selfcheck.SelfCheckActivity;
+import com.juntai.upcodesafe.home_page.inspect.accidentWarn.AccidentWarnActivity;
+import com.juntai.upcodesafe.home_page.inspect.educateOnline.EducateOnlineActivity;
+import com.juntai.upcodesafe.home_page.inspect.notice.EnterpriseNoticeActivity;
+import com.juntai.upcodesafe.home_page.inspect.selfcheck.SelfCheckActivity;
 import com.juntai.upcodesafe.mine.MyCenterContract;
-import com.juntai.upcodesafe.securityCheck.SecurityCheckSiteActivity;
 import com.juntai.disabled.basecomponent.utils.AppUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
