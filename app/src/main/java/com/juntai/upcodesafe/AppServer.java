@@ -187,6 +187,12 @@ public interface AppServer {
      */
     @POST(AppHttpPath.CHECK_RECORD_DETAIL)
     Observable<CheckDetailBean> getCheckRecordDetail(@Body RequestBody requestBody);
+    /**
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.ADD_PUNISH)
+    Observable<BaseResult> addPunishInfo(@Body RequestBody requestBody);
 
     /**
      * @param requestBody

@@ -68,6 +68,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     private int currentPosition;
     public TextView mCommitTv;
     public static String BASE_ID = "baseid";
+    public static String BASE_ID2 = "baseid2";
     protected int baseId;
 
     protected abstract String getTitleName();
@@ -358,6 +359,10 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             //单位名称
                             formKey = "name";
                             unitDataBean.setName(value);
+                            break;
+                        case BaseInspectContract.PUNISH_INFO:
+                            //处罚信息
+                            formKey = "content";
                             break;
                         case BaseInspectContract.INSPECTION_UNIT_ADDR_DETAIL:
                             //详细地址

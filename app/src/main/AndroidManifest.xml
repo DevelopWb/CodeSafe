@@ -41,6 +41,9 @@
             android:name=".mine.addInformation.addUnit.ManualAddUnitActivity"
             android:launchMode="singleTop" />
         <activity
+            android:name=".home_page.inspect.selfcheck.checkRecord.checkRecordInfo.AddPunishActivity"
+            android:launchMode="singleTop" />
+        <activity
             android:name=".home_page.search.SearchActivity"
             android:launchMode="singleTop" />
         <activity

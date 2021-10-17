@@ -133,6 +133,7 @@ public class AppHttpPath {
      * 检查记录详情
      */
     public static final String CHECK_RECORD_DETAIL = BASE + "/u/appUnit/selectInspectRecordInfo.shtml";
+    public static final String ADD_PUNISH = BASE + "/u/appUnit/addUnitPunish.shtml";
 
 
     /**

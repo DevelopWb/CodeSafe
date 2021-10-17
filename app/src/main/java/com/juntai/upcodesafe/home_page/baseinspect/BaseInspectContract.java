@@ -13,6 +13,7 @@ public interface BaseInspectContract {
 
 
 
+      String PUNISH_INFO = "处罚信息";
 
       String  TAB_SUPERVISE_CHECK = "监管检查";
       String  TAB_TERRITORY_SUPERVISE_CHECK = "属地检查";

@@ -1,6 +1,7 @@
 package com.juntai.upcodesafe.home_page.inspect.selfcheck;
 
 import android.content.Intent;
+import android.text.TextUtils;
 
 import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.upcodesafe.AppHttpPath;
@@ -8,6 +9,7 @@ import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.bean.ActionBean;
 import com.juntai.upcodesafe.bean.TextKeyValueBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
+import com.juntai.upcodesafe.home_page.HomePageContract;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectContract;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectionActivity;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectionInfoActivity;
@@ -32,10 +34,12 @@ public class UnitInfoActivity extends BaseInspectionInfoActivity {
     public void initData() {
         if (getIntent() != null) {
             String uuid = getIntent().getStringExtra(BASE_ID);
-            mPresenter.getEnterpriseInfoByUUID(getBaseBuilder().add("uuid",uuid).build(), AppHttpPath.GET_ENTERPRIZSE_INFO);
-        }else {
-            mPresenter.getEnterpriseInfo(getBaseBuilder().add("unitId", String.valueOf(UserInfoManager.getUnitId())).build(), AppHttpPath.GET_ENTERPRIZSE_INFO);
+            if (HomePageContract.HOMEPAGE_MENU_ENTERPRISE_CHECK.equals(uuid)) {
+                mPresenter.getEnterpriseInfo(getBaseBuilder().add("unitId", String.valueOf(UserInfoManager.getUnitId())).build(), AppHttpPath.GET_ENTERPRIZSE_INFO);
+            }else {
+                mPresenter.getEnterpriseInfoByUUID(getBaseBuilder().add("uuid",uuid).build(), AppHttpPath.GET_ENTERPRIZSE_INFO);
 
+            }
         }
     }
 

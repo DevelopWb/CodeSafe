@@ -47,7 +47,6 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
     //
     CGBroadcastReceiver broadcastReceiver = new CGBroadcastReceiver();
 
-    PopupWindow popupWindow;
     private ImageView mAaa;
 
 
