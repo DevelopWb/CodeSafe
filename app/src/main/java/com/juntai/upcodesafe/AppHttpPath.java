@@ -31,6 +31,20 @@ public class AppHttpPath {
 
 
     /**
+     * 搜索
+     */
+    public static final String SEARCH = BASE + "/u/appUnit/search.shtml";
+    /**
+     * 搜索
+     */
+    public static final String SEARCH_MORE = BASE + "/u/appUnit/searchMore.shtml";
+
+
+
+
+
+
+    /**
      * 检查更新
      */
 //    public static final String APP_UPDATE = BASE + "/detectionAppVersions.shtml";
@@ -125,7 +139,14 @@ public class AppHttpPath {
     public static final String ADD_TRAIN_PLAN = BASE + "/u/appUnit/addTrainPlan.shtml";
 
 
-
+    /**
+     * 在线教育标签
+     */
+    public static final String GET_EDUCATION_TAG = BASE + "/u/appUnit/selectEducationArticleLabel.shtml";
+    /**
+     * 在线教育列表
+     */
+    public static final String GET_EDUCATION_LIST = BASE + "/u/appUnit/selectEducationArticleList.shtml";
 
 
 }

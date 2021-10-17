@@ -7,8 +7,12 @@ import com.juntai.disabled.basecomponent.mvp.IModel;
 import com.juntai.disabled.basecomponent.utils.RxScheduler;
 import com.juntai.upcodesafe.AppNetModule;
 import com.juntai.upcodesafe.R;
+import com.juntai.upcodesafe.bean.EducationListBean;
 import com.juntai.upcodesafe.bean.HomePageMenuBean;
+import com.juntai.upcodesafe.bean.LableBean;
 import com.juntai.upcodesafe.bean.NoticeBean;
+import com.juntai.upcodesafe.bean.SearchBean;
+import com.juntai.upcodesafe.bean.SearchResultBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
 
 import java.util.ArrayList;
@@ -85,5 +89,90 @@ public class HomePagePresent extends BasePresenter<IModel, HomePageContract.IHom
                     }
                 });
     }
+    public void getEducationTag(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getEducationTag(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<LableBean>(getView()) {
+                    @Override
+                    public void onSuccess(LableBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o.getData());
+                        }
+                    }
 
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    public void getEducationList(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getEducationList(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<EducationListBean>(getView()) {
+                    @Override
+                    public void onSuccess(EducationListBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o.getData());
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    public void search(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .search(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<SearchBean>(getView()) {
+                    @Override
+                    public void onSuccess(SearchBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    /**
+     * @param requestBody
+     * @param tag
+     */
+    public void searchMore(RequestBody requestBody, String tag) {
+
+        AppNetModule.createrRetrofit()
+                .searchMore(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<SearchResultBean>(getView()) {
+                    @Override
+                    public void onSuccess(SearchResultBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+
+    }
 }

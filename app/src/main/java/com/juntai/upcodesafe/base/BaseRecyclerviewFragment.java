@@ -22,8 +22,10 @@ public abstract class BaseRecyclerviewFragment<P extends IPresenter> extends Bas
     private RecyclerView mRecyclerview;
     protected SmartRefreshLayout mSmartrefreshlayout;
     protected BaseQuickAdapter adapter;
-
+    public boolean  isLinearLayout = true;
+    public  int spanCount = 2;
     @Override
+
     protected int getLayoutRes() {
         return R.layout.recycleview_layout;
     }
@@ -33,8 +35,13 @@ public abstract class BaseRecyclerviewFragment<P extends IPresenter> extends Bas
         mRecyclerview = (RecyclerView) getView(R.id.recyclerview);
         mSmartrefreshlayout = (SmartRefreshLayout) getView(R.id.smartrefreshlayout);
         adapter = getAdapter();
-        adapter.setEmptyView(getBaseActivity().getAdapterEmptyView("一条数据也没有...",-1));
-        getBaseActivity().initRecyclerview(mRecyclerview,adapter, LinearLayoutManager.VERTICAL);
+        adapter.setEmptyView(getBaseActivity().getAdapterEmptyView("一条数据也没有...", -1));
+        if (isLinearLayout) {
+            getBaseActivity().initRecyclerview(mRecyclerview, adapter, LinearLayoutManager.VERTICAL);
+        }else {
+            getBaseActivity().initRecyclerviewGridLayout(mRecyclerview, adapter,spanCount);
+
+        }
         mSmartrefreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {

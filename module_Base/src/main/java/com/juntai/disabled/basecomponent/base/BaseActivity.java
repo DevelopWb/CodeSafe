@@ -15,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -447,6 +448,15 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
      */
     public void initRecyclerview(RecyclerView recyclerView, BaseQuickAdapter baseQuickAdapter, @RecyclerView.Orientation int orientation) {
         LinearLayoutManager managere = new LinearLayoutManager(this, orientation, false);
+        //        baseQuickAdapter.setEmptyView(getAdapterEmptyView("一条信息也没有",0));
+        recyclerView.setLayoutManager(managere);
+        recyclerView.setAdapter(baseQuickAdapter);
+    }
+    /**
+     * 初始化recyclerview LinearLayoutManager
+     */
+    public void initRecyclerviewGridLayout(RecyclerView recyclerView, BaseQuickAdapter baseQuickAdapter, int spanCount) {
+        GridLayoutManager managere = new GridLayoutManager(this, spanCount);
         //        baseQuickAdapter.setEmptyView(getAdapterEmptyView("一条信息也没有",0));
         recyclerView.setLayoutManager(managere);
         recyclerView.setAdapter(baseQuickAdapter);

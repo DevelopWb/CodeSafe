@@ -47,8 +47,8 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/item_des_tv"
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintRight_toLeftOf="@+id/item_navigation_tv"
         app:layout_constraintLeft_toRightOf="@+id/cover_pic_iv"
-        app:layout_constraintRight_toLeftOf="@+id/item_right"
         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -59,7 +59,7 @@
         android:layout_marginTop="5dp"
         android:gravity="center_vertical"
         android:maxLines="1"
-        android:visibility="gone"
+        android:ellipsize="end"
         android:text="描述"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

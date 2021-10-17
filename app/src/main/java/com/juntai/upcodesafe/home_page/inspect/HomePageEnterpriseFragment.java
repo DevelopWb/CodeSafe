@@ -21,6 +21,7 @@ import com.juntai.upcodesafe.home_page.inspect.accidentWarn.AccidentWarnActivity
 import com.juntai.upcodesafe.home_page.inspect.educateOnline.EducateOnlineActivity;
 import com.juntai.upcodesafe.home_page.inspect.notice.EnterpriseNoticeActivity;
 import com.juntai.upcodesafe.home_page.inspect.selfcheck.SelfCheckActivity;
+import com.juntai.upcodesafe.home_page.search.SearchActivity;
 import com.juntai.upcodesafe.mine.MyCenterContract;
 import com.juntai.disabled.basecomponent.utils.AppUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -89,7 +90,6 @@ public class HomePageEnterpriseFragment extends BaseMvpFragment<HomePagePresent>
             }
         });
 
-        mSearchLl = (LinearLayout) getView(R.id.search_ll);
     }
 
     @Override
@@ -133,6 +133,7 @@ public class HomePageEnterpriseFragment extends BaseMvpFragment<HomePagePresent>
             default:
                 break;
             case R.id.search_ll:
+                startActivity(new Intent(mContext, SearchActivity.class));
                 break;
             case R.id.scan_iv:
                 getActivity().startActivityForResult(new Intent(getActivity(),

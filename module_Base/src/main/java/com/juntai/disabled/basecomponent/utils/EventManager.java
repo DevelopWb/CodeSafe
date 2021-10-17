@@ -13,6 +13,7 @@ import org.greenrobot.eventbus.EventBus;
  */
 public class EventManager {
     public final static String  SINGLE_LOGIN = "single_login";//单点登录
+    public final static String START_SEARCH = "startSearch";
 
 
     private static final EventBus libraryEvent = EventBus.builder().build();

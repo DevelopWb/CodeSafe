@@ -1,11 +1,13 @@
 package com.juntai.upcodesafe.home_page.inspect.selfcheck.checkRecord.checkRecordInfo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.bean.CheckDetailBean;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectionActivity;
+import com.juntai.upcodesafe.home_page.inspect.trainPlan.AddTrainPlansActivity;
 
 /**
  * @aouther tobato
@@ -16,6 +18,12 @@ public class CheckRecordDetailActivity extends BaseInspectionActivity {
 
     @Override
     public void initData() {
+        getTitleRightTv().setText("添加");
+        getTitleRightTv().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
         mPresenter.getCheckRecordDetail(getBaseBuilder().add("recordId",String.valueOf(baseId)).build(), AppHttpPath.CHECK_RECORD_DETAIL);
     }
 

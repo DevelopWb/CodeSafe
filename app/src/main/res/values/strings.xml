@@ -5,5 +5,7 @@
     <string name="secret_xieyi_url">https://www.kb167.com/yinsi/zhcl-yinsi.html</string>
     <string name="user_xieyi_url">https://www.kb167.com/yinsi/zhcl-user.html</string>
     <string name="add_info_notice">注意:1.只有搜索不到企业信息的时候才能使用手动添加\n\u3000\u3000 2.监管单位、属地、网格只能使用后台管理端添加</string>
+    <string name="load_more">点击加载更多</string>
+    <string name="load_more_no_data">没有数据了</string>
 
 </resources>

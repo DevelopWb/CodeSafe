@@ -4,9 +4,13 @@ package com.juntai.upcodesafe;
 import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.upcodesafe.bean.CheckDetailBean;
 import com.juntai.upcodesafe.bean.CheckRecordBean;
+import com.juntai.upcodesafe.bean.EducationListBean;
 import com.juntai.upcodesafe.bean.IdNameBean;
+import com.juntai.upcodesafe.bean.LableBean;
 import com.juntai.upcodesafe.bean.NoticeBean;
 import com.juntai.upcodesafe.bean.RectifyNoticeListBean;
+import com.juntai.upcodesafe.bean.SearchBean;
+import com.juntai.upcodesafe.bean.SearchResultBean;
 import com.juntai.upcodesafe.bean.TownListBean;
 import com.juntai.upcodesafe.bean.TrainPlanListBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
@@ -53,6 +57,12 @@ public interface AppServer {
 
     @POST(AppHttpPath.LOGOUT)
     Observable<BaseResult> logout(@Body RequestBody requestBody);
+
+    @POST(AppHttpPath.SEARCH)
+    Observable<SearchBean> search(@Body RequestBody requestBody);
+
+    @POST(AppHttpPath.SEARCH_MORE)
+    Observable<SearchResultBean> searchMore(@Body RequestBody requestBody);
 
     /**
      * 获取用户信息
@@ -181,4 +191,17 @@ public interface AppServer {
 
     @POST(AppHttpPath.ADD_TRAIN_PLAN)
     Observable<BaseResult> addTrainPlans(@Body RequestBody requestBody);
+
+    /**
+     * 获取tab标签
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_EDUCATION_TAG)
+    Observable<LableBean> getEducationTag(@Body RequestBody requestBody);
+
+
+    @POST(AppHttpPath.GET_EDUCATION_LIST)
+    Observable<EducationListBean> getEducationList(@Body RequestBody requestBody);
 }
