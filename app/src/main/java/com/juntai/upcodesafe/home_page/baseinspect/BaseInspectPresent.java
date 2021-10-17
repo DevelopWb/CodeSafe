@@ -428,6 +428,26 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     }
                 });
     }
+    public void getEnterpriseInfoByUUID(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getEnterpriseInfoByUUID(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<UnitDetailBean>(getView()) {
+                    @Override
+                    public void onSuccess(UnitDetailBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o.getData());
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
 
 
     public void getResponseList(RequestBody requestBody, String tag) {

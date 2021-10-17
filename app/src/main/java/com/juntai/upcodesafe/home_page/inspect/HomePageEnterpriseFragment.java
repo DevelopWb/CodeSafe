@@ -20,7 +20,7 @@ import com.juntai.upcodesafe.home_page.QRScanActivity;
 import com.juntai.upcodesafe.home_page.inspect.accidentWarn.AccidentWarnActivity;
 import com.juntai.upcodesafe.home_page.inspect.educateOnline.EducateOnlineActivity;
 import com.juntai.upcodesafe.home_page.inspect.notice.EnterpriseNoticeActivity;
-import com.juntai.upcodesafe.home_page.inspect.selfcheck.SelfCheckActivity;
+import com.juntai.upcodesafe.home_page.inspect.selfcheck.UnitInfoActivity;
 import com.juntai.upcodesafe.home_page.search.SearchActivity;
 import com.juntai.upcodesafe.mine.MyCenterContract;
 import com.juntai.disabled.basecomponent.utils.AppUtils;
@@ -73,7 +73,7 @@ public class HomePageEnterpriseFragment extends BaseMvpFragment<HomePagePresent>
                         intent.setClass(mContext, EnterpriseNoticeActivity.class);
                         break;
                     case HomePageContract.HOMEPAGE_MENU_ENTERPRISE_CHECK:
-                        intent.setClass(mContext, SelfCheckActivity.class);
+                        intent.setClass(mContext, UnitInfoActivity.class);
                         break;
                     case HomePageContract.HOMEPAGE_MENU_WRING:
                         // 跳转到事故警示

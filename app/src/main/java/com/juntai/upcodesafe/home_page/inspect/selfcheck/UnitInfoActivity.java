@@ -21,16 +21,22 @@ import java.util.List;
 
 /**
  * @aouther tobato
- * @description 描述  企业自查
+ * @description 描述  单位信息
  * @date 2021-10-08 14:40
  */
-public class SelfCheckActivity extends BaseInspectionInfoActivity {
+public class UnitInfoActivity extends BaseInspectionInfoActivity {
 
     private UnitDetailBean.DataBean enterPriseBean;
 
     @Override
     public void initData() {
-        mPresenter.getEnterpriseInfo(getBaseBuilder().add("unitId", String.valueOf(UserInfoManager.getUnitId())).build(), AppHttpPath.GET_ENTERPRIZSE_INFO);
+        if (getIntent() != null) {
+            String uuid = getIntent().getStringExtra(BASE_ID);
+            mPresenter.getEnterpriseInfoByUUID(getBaseBuilder().add("uuid",uuid).build(), AppHttpPath.GET_ENTERPRIZSE_INFO);
+        }else {
+            mPresenter.getEnterpriseInfo(getBaseBuilder().add("unitId", String.valueOf(UserInfoManager.getUnitId())).build(), AppHttpPath.GET_ENTERPRIZSE_INFO);
+
+        }
     }
 
 

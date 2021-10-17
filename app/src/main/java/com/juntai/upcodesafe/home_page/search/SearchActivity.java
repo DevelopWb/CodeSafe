@@ -108,9 +108,9 @@ public class SearchActivity extends BaseAppActivity<HomePagePresent> implements 
                         String loadMoreMsg = searchMoreBean.getMsg();
                         if (getString(R.string.load_more).equals(loadMoreMsg)) {
                             insertPosition = position;
-                            mPresenter.searchMore(getBaseBuilder().add("keyword", textContent).add("typeId",
+                            mPresenter.searchMore(getBaseBuilder().add("keyword", textContent).add("searchType",
                                     String.valueOf(searchMoreBean.getTypeId()))
-                                            .add("startRow", String.valueOf(searchMoreBean.getCurrentOffset())).add(
+                                            .add("currentPage", String.valueOf(searchMoreBean.getCurrentOffset())).add(
                                             "pageSize", String.valueOf(limit)).build(),
                                     AppHttpPath.SEARCH_MORE);
                         }

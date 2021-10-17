@@ -9,6 +9,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.juntai.disabled.basecomponent.utils.ActionConfig;
+import com.juntai.disabled.basecomponent.utils.AppUtils;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.bdmap.service.LocateAndUpload;
 import com.juntai.upcodesafe.base.BaseAppActivity;
@@ -25,9 +27,11 @@ import com.juntai.upcodesafe.base.customview.CustomViewPager;
 import com.juntai.upcodesafe.base.customview.MainPagerAdapter;
 import com.juntai.upcodesafe.entrance.EmptyFragment;
 import com.juntai.upcodesafe.entrance.LoginActivity;
+import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectionInfoActivity;
 import com.juntai.upcodesafe.home_page.inspect.HomePageEnterpriseFragment;
 import com.juntai.upcodesafe.home_page.HomePageMornitorFragment;
 import com.juntai.upcodesafe.home_page.QRScanActivity;
+import com.juntai.upcodesafe.home_page.inspect.selfcheck.UnitInfoActivity;
 import com.juntai.upcodesafe.mine.MyCenterFragment;
 import com.juntai.upcodesafe.utils.UserInfoManager;
 
@@ -94,6 +98,21 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == AppUtils.QR_SCAN_NOMAL && resultCode == RESULT_OK) {
+            if (data != null) {
+                String result = data.getStringExtra("result");
+                Intent intent = new Intent();
+                int id = 0;
+                if (!TextUtils.isEmpty(result) && result.contains("=")) {
+                    String str = result.substring(result.lastIndexOf("=") + 1, result.length());
+                    intent.putExtra(BaseInspectionInfoActivity.BASE_ID, str);
+                    intent.setClass(mContext,UnitInfoActivity.class);
+                    startActivity(intent);
+                }
+
+            }
+
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -221,7 +240,8 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.scan_home_iv:
-                startActivity(new Intent(mContext, QRScanActivity.class));
+                startActivityForResult(new Intent(mContext,
+                        QRScanActivity.class), AppUtils.QR_SCAN_NOMAL);
                 break;
             default:
                 break;

@@ -59,7 +59,7 @@
             android:name=".home_page.inspect.BaseSearchAndListActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name=".home_page.inspect.selfcheck.SelfCheckActivity"
+            android:name=".home_page.inspect.selfcheck.UnitInfoActivity"
             android:launchMode="singleTop" />
         <activity
             android:name=".entrance.RegistActivity"

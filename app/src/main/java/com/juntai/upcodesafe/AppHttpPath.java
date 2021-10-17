@@ -100,6 +100,12 @@ public class AppHttpPath {
 
 
     /**
+     * 企业详情
+     */
+    public static final String GET_ENTERPRIZSE_INFO_BY_UUID = BASE + "/u/appUnit/selectUnitByUuid.shtml";
+
+
+    /**
      * 责任清单列表
      */
     public static final String GET_RESPONSE_LIST = BASE + "/u/appUnit/selectUnitDetailedList.shtml";

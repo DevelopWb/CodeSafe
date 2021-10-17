@@ -500,7 +500,7 @@ public class UnitDetailBean extends BaseResult {
             }
         }
 
-        public static class SuperviseUserListBean {
+        public static class SuperviseUserListBean implements Parcelable {
             /**
              * id : 1
              * name : 哈哈哈
@@ -524,6 +524,37 @@ public class UnitDetailBean extends BaseResult {
             public void setName(String name) {
                 this.name = name;
             }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeInt(this.id);
+                dest.writeString(this.name);
+            }
+
+            public SuperviseUserListBean() {
+            }
+
+            protected SuperviseUserListBean(Parcel in) {
+                this.id = in.readInt();
+                this.name = in.readString();
+            }
+
+            public static final Creator<SuperviseUserListBean> CREATOR = new Creator<SuperviseUserListBean>() {
+                @Override
+                public SuperviseUserListBean createFromParcel(Parcel source) {
+                    return new SuperviseUserListBean(source);
+                }
+
+                @Override
+                public SuperviseUserListBean[] newArray(int size) {
+                    return new SuperviseUserListBean[size];
+                }
+            };
         }
 
         public DataBean() {
