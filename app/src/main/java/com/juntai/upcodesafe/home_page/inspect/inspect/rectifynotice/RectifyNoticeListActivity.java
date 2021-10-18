@@ -1,10 +1,13 @@
-package com.juntai.upcodesafe.home_page.inspect.selfcheck.rectifynotice;
+package com.juntai.upcodesafe.home_page.inspect.inspect.rectifynotice;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
+import com.juntai.upcodesafe.bean.RectifyNoticeListBean;
+import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectionActivity;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseRecordActivity;
 
 /**
@@ -37,11 +40,10 @@ public class RectifyNoticeListActivity extends BaseRecordActivity {
 
     @Override
     protected void onAdapterItemClick(BaseQuickAdapter adapter, int position) {
-//        RectifyNoticeListBean.DataBean.DatasBean datasBean = (RectifyNoticeListBean.DataBean.DatasBean) adapter.getData().get(position);
-//        startActivity(new Intent(mContext,RectifyNoticeDetailActivity.class)
-//                .putExtra(BaseInspectionActivity.BASE_STRING,"1")
-//                .putExtra(BaseInspectionActivity.BASE_ID,
-//                datasBean.getNoticeId()));
+        RectifyNoticeListBean.DataBean datasBean = (RectifyNoticeListBean.DataBean) adapter.getData().get(position);
+        startActivity(new Intent(mContext,RectifyNoticeDetailActivity.class)
+                .putExtra(BaseInspectionActivity.BASE_ID,
+                String.valueOf(datasBean.getId())));
 
     }
 }

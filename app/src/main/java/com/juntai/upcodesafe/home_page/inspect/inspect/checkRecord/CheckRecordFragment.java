@@ -1,4 +1,4 @@
-package com.juntai.upcodesafe.home_page.inspect.selfcheck.checkRecord;
+package com.juntai.upcodesafe.home_page.inspect.inspect.checkRecord;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,9 +13,8 @@ import com.juntai.upcodesafe.bean.UnitDetailBean;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectContract;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectPresent;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectionActivity;
-import com.juntai.upcodesafe.home_page.inspect.selfcheck.checkRecord.checkRecordInfo.CheckRecordDetailActivity;
+import com.juntai.upcodesafe.home_page.inspect.inspect.checkRecord.checkRecordInfo.CheckRecordDetailActivity;
 import com.juntai.upcodesafe.utils.HawkProperty;
-import com.orhanobut.hawk.Hawk;
 
 import java.util.List;
 

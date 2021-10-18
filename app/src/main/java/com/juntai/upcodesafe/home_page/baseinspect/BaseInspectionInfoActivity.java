@@ -14,12 +14,11 @@ import com.juntai.disabled.video.img.ImageZoomActivity;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseAppActivity;
 import com.juntai.upcodesafe.bean.ActionBean;
-import com.juntai.upcodesafe.bean.TrainPlanListBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
-import com.juntai.upcodesafe.home_page.inspect.selfcheck.StartCheckSelfActivity;
-import com.juntai.upcodesafe.home_page.inspect.selfcheck.checkRecord.CheckRecordActivity;
-import com.juntai.upcodesafe.home_page.inspect.selfcheck.rectifynotice.RectifyNoticeListActivity;
-import com.juntai.upcodesafe.home_page.inspect.selfcheck.response.ResponseListActivity;
+import com.juntai.upcodesafe.home_page.inspect.inspect.StartCheckSelfActivity;
+import com.juntai.upcodesafe.home_page.inspect.inspect.checkRecord.CheckRecordActivity;
+import com.juntai.upcodesafe.home_page.inspect.inspect.rectifynotice.RectifyNoticeListActivity;
+import com.juntai.upcodesafe.home_page.inspect.inspect.response.ResponseListActivity;
 import com.juntai.upcodesafe.home_page.inspect.trainPlan.TrainPlanActivity;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.juntai.upcodesafe.home_page.inspect.selfcheck.checkRecord.checkRecordInfo;
+package com.juntai.upcodesafe.home_page.inspect.inspect.checkRecord.checkRecordInfo;
 
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectContract;

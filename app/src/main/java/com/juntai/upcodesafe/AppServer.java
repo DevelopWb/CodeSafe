@@ -8,6 +8,7 @@ import com.juntai.upcodesafe.bean.EducationListBean;
 import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.LableBean;
 import com.juntai.upcodesafe.bean.NoticeBean;
+import com.juntai.upcodesafe.bean.RectifyNoticeDeatilBean;
 import com.juntai.upcodesafe.bean.RectifyNoticeListBean;
 import com.juntai.upcodesafe.bean.SearchBean;
 import com.juntai.upcodesafe.bean.SearchResultBean;
@@ -193,6 +194,18 @@ public interface AppServer {
      */
     @POST(AppHttpPath.ADD_PUNISH)
     Observable<BaseResult> addPunishInfo(@Body RequestBody requestBody);
+    /**
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.ADD_RECTIFY_NOTICE)
+    Observable<BaseResult> addRectifyNotice(@Body RequestBody requestBody);
+    /**
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.RECTIFY_NOTICE_DETAIL)
+    Observable<RectifyNoticeDeatilBean> getRectifyNoticeDetail(@Body RequestBody requestBody);
 
     /**
      * @param requestBody

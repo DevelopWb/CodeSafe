@@ -1,4 +1,4 @@
-package com.juntai.upcodesafe.home_page.inspect.selfcheck.response;
+package com.juntai.upcodesafe.home_page.inspect.inspect.response;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;

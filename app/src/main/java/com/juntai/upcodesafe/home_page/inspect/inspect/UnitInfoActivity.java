@@ -1,7 +1,6 @@
-package com.juntai.upcodesafe.home_page.inspect.selfcheck;
+package com.juntai.upcodesafe.home_page.inspect.inspect;
 
 import android.content.Intent;
-import android.text.TextUtils;
 
 import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.upcodesafe.AppHttpPath;

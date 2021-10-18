@@ -16,7 +16,6 @@ import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.bean.HomePageMenuBean;
 import com.juntai.upcodesafe.mine.MyCenterContract;
-import com.juntai.upcodesafe.securityCheck.SecurityCheckSiteActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 /**
@@ -76,7 +75,6 @@ public class HomePageMornitorFragment extends BaseMvpFragment<HomePagePresent> i
                     //                        break;
                     case HomePageContract.HOMEPAGE_MENU_WRING:
                         //消防检查
-                        intent.setClass(mContext, SecurityCheckSiteActivity.class);
                         break;
                     case HomePageContract.HOMEPAGE_MENU_NOTICE:
                         //消防检查

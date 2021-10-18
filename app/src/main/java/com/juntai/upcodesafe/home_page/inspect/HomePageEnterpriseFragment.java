@@ -21,7 +21,7 @@ import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectionInfoActivity;
 import com.juntai.upcodesafe.home_page.inspect.accidentWarn.AccidentWarnActivity;
 import com.juntai.upcodesafe.home_page.inspect.educateOnline.EducateOnlineActivity;
 import com.juntai.upcodesafe.home_page.inspect.notice.EnterpriseNoticeActivity;
-import com.juntai.upcodesafe.home_page.inspect.selfcheck.UnitInfoActivity;
+import com.juntai.upcodesafe.home_page.inspect.inspect.UnitInfoActivity;
 import com.juntai.upcodesafe.home_page.search.SearchActivity;
 import com.juntai.upcodesafe.mine.MyCenterContract;
 import com.juntai.disabled.basecomponent.utils.AppUtils;

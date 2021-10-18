@@ -22,11 +22,13 @@ import com.juntai.upcodesafe.bean.ItemFragmentBean;
 import com.juntai.upcodesafe.bean.LocationBean;
 import com.juntai.upcodesafe.bean.MultipleItem;
 import com.juntai.upcodesafe.bean.PicRecycleBean;
+import com.juntai.upcodesafe.bean.RectifyNoticeDeatilBean;
 import com.juntai.upcodesafe.bean.RectifyNoticeListBean;
 import com.juntai.upcodesafe.bean.TextKeyValueBean;
 import com.juntai.upcodesafe.bean.TownListBean;
 import com.juntai.upcodesafe.bean.TrainPlanListBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
+import com.juntai.upcodesafe.home_page.inspect.inspect.rectifynotice.PicOnlyAdapter;
 import com.juntai.upcodesafe.utils.UrlFormatUtil;
 import com.juntai.upcodesafe.utils.UserInfoManager;
 
@@ -48,21 +50,6 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         return null;
     }
 
-    /**
-     * 治安巡检点更多信息
-     *
-     * @return
-     */
-    public List<MultipleItem> getMoreInfoDetail() {
-        List<MultipleItem> arrays = new ArrayList<>();
-        arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW,
-                getData()));
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, "", false, 1);
-        arrays.add(new MultipleItem(MultipleItem.ITEM_LOCATION, "地址"));
-        arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "现场图片"));
-        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, ""));
-        return arrays;
-    }
 
     /**
      * 添加处罚信息
@@ -73,6 +60,21 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         List<MultipleItem> arrays = new ArrayList<>();
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.PUNISH_INFO, "", true, 1);
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传处罚照片"));
+        List<String> fragmentPics = new ArrayList<>();
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, 3, 1, false,
+                fragmentPics)));
+        return arrays;
+    }
+
+    /**
+     * 添加整改通知书
+     *
+     * @return
+     */
+    public List<MultipleItem> getRectifyNoticeInfo() {
+        List<MultipleItem> arrays = new ArrayList<>();
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.RECTIFY_NOTICE, "", true, 1);
+        arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传整改照片"));
         List<String> fragmentPics = new ArrayList<>();
         arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, 3, 1, false,
                 fragmentPics)));
@@ -109,7 +111,36 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     }
 
     /**
-     * 消防检查记录详情  没问题
+     * 整改通知书详情
+     * @param dataBean
+     * @return
+     */
+    public List<MultipleItem> getRectifyNoticeDetailData(RectifyNoticeDeatilBean.DataBean dataBean) {
+        List<MultipleItem> arrays = new ArrayList<>();
+        arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL, new ImportantTagBean(dataBean.getContent(),
+                false)));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW, new BaseNormalRecyclerviewBean(
+                BaseInspectContract.BASE_RECYCLERVIEW_TYPE_RESPONSIBILITY_CONTENT,
+                getRectifyNoticeAdapterData(dataBean), new PicOnlyAdapter(R.layout.only_pic_item))));
+        return arrays;
+    }
+
+    private List<String> getRectifyNoticeAdapterData(RectifyNoticeDeatilBean.DataBean dataBean) {
+        List<String> pics = new ArrayList<>();
+        if (!TextUtils.isEmpty(dataBean.getPhotoOne())) {
+            pics.add(dataBean.getPhotoOne());
+        }
+        if (!TextUtils.isEmpty(dataBean.getPhotoTwo())) {
+            pics.add(dataBean.getPhotoTwo());
+        }
+        if (!TextUtils.isEmpty(dataBean.getPhotoThree())) {
+            pics.add(dataBean.getPhotoThree());
+        }
+        return pics;
+    }
+
+    /**
+     * 检查记录详情  没问题
      *
      * @param dataBean
      * @return
@@ -581,6 +612,48 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     public void onSuccess(BaseResult o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
+    public void addRectifyNotice(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .addRectifyNotice(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
+    public void getRectifyNoticeDetail(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getRectifyNoticeDetail(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<RectifyNoticeDeatilBean>(getView()) {
+                    @Override
+                    public void onSuccess(RectifyNoticeDeatilBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o.getData());
                         }
                     }
 

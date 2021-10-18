@@ -364,6 +364,10 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             //处罚信息
                             formKey = "content";
                             break;
+                        case BaseInspectContract.RECTIFY_NOTICE:
+                            //处罚信息
+                            formKey = "content";
+                            break;
                         case BaseInspectContract.INSPECTION_UNIT_ADDR_DETAIL:
                             //详细地址
                             formKey = "address";

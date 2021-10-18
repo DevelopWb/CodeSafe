@@ -1,4 +1,4 @@
-package com.juntai.upcodesafe.home_page.inspect.selfcheck.rectifynotice;
+package com.juntai.upcodesafe.home_page.inspect.inspect.rectifynotice;
 
 import android.support.constraint.ConstraintLayout;
 import android.widget.ImageView;

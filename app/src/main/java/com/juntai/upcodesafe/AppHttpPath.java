@@ -40,10 +40,6 @@ public class AppHttpPath {
     public static final String SEARCH_MORE = BASE + "/u/appUnit/searchMore.shtml";
 
 
-
-
-
-
     /**
      * 检查更新
      */
@@ -133,7 +129,11 @@ public class AppHttpPath {
      * 检查记录详情
      */
     public static final String CHECK_RECORD_DETAIL = BASE + "/u/appUnit/selectInspectRecordInfo.shtml";
+
     public static final String ADD_PUNISH = BASE + "/u/appUnit/addUnitPunish.shtml";
+
+    public static final String ADD_RECTIFY_NOTICE = BASE + "/u/appUnit/addUnitNotice.shtml";
+    public static final String RECTIFY_NOTICE_DETAIL = BASE + "/u/appUnit/selectUnitNoticeInfo.shtml";
 
 
     /**

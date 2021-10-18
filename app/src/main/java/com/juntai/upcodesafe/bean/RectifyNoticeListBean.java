@@ -33,11 +33,19 @@ public class RectifyNoticeListBean extends BaseResult {
         /**
          * gmtCreate : 2021年10月11日
          */
-
+        private int id;
         private String gmtCreate;
 
         public String getGmtCreate() {
             return gmtCreate;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
         }
 
         public void setGmtCreate(String gmtCreate) {

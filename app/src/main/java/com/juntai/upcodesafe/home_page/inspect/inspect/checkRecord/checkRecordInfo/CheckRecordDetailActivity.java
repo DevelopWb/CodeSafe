@@ -1,4 +1,4 @@
-package com.juntai.upcodesafe.home_page.inspect.selfcheck.checkRecord.checkRecordInfo;
+package com.juntai.upcodesafe.home_page.inspect.inspect.checkRecord.checkRecordInfo;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,6 +45,9 @@ public class CheckRecordDetailActivity extends BaseInspectionActivity {
             popupWindow.dismiss();
         });
         viewPop.findViewById(R.id.add_notce_tv).setOnClickListener(v -> {
+            startActivityForResult(new Intent(mContext,AddRectifyNoticeActivity.class).putExtra(BASE_ID,
+                    HawkProperty.getUnitBean().getId()).putExtra(BASE_ID2,dataBean.getId()),
+                    BASE_REQUEST_RESULT);
             popupWindow.dismiss();
         });
     }

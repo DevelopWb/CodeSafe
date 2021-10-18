@@ -14,6 +14,7 @@ public interface BaseInspectContract {
 
 
       String PUNISH_INFO = "处罚信息";
+      String RECTIFY_NOTICE = "整改信息";
 
       String  TAB_SUPERVISE_CHECK = "监管检查";
       String  TAB_TERRITORY_SUPERVISE_CHECK = "属地检查";
@@ -60,6 +61,7 @@ public interface BaseInspectContract {
 
 
       int  BASE_RECYCLERVIEW_TYPE_TEXT_VALUE = 0;//textvalue。类型
+      int  BASE_RECYCLERVIEW_TYPE_RESPONSIBILITY_CONTENT = 1;//责任书内容类型
 
 
 

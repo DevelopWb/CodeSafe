@@ -1,4 +1,4 @@
-package com.juntai.upcodesafe.home_page.inspect.selfcheck.checkRecord;
+package com.juntai.upcodesafe.home_page.inspect.inspect.checkRecord;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;

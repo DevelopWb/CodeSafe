@@ -227,6 +227,10 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                         List<TextKeyValueBean> arrays = (List<TextKeyValueBean>) baseNormalRecyclerviewBean.getObject();
                         adapter.setNewData(arrays);
                         break;
+                    case BaseInspectContract.BASE_RECYCLERVIEW_TYPE_RESPONSIBILITY_CONTENT:
+                        List<String> pics = (List<String>) baseNormalRecyclerviewBean.getObject();
+                        adapter.setNewData(pics);
+                        break;
                     default:
                         break;
                 }

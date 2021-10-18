@@ -14,7 +14,6 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
@@ -31,7 +30,7 @@ import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectionInfoActivity;
 import com.juntai.upcodesafe.home_page.inspect.HomePageEnterpriseFragment;
 import com.juntai.upcodesafe.home_page.HomePageMornitorFragment;
 import com.juntai.upcodesafe.home_page.QRScanActivity;
-import com.juntai.upcodesafe.home_page.inspect.selfcheck.UnitInfoActivity;
+import com.juntai.upcodesafe.home_page.inspect.inspect.UnitInfoActivity;
 import com.juntai.upcodesafe.mine.MyCenterFragment;
 import com.juntai.upcodesafe.utils.UserInfoManager;
 

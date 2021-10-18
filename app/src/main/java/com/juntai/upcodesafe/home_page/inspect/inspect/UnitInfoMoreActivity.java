@@ -1,4 +1,4 @@
-package com.juntai.upcodesafe.home_page.inspect.selfcheck;
+package com.juntai.upcodesafe.home_page.inspect.inspect;
 
 
 import com.juntai.upcodesafe.bean.UnitDetailBean;
