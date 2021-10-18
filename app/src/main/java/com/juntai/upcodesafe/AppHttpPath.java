@@ -156,4 +156,17 @@ public class AppHttpPath {
     public static final String GET_EDUCATION_LIST = BASE + "/u/appUnit/selectEducationArticleList.shtml";
 
 
+
+
+
+        /*====================================================    主管首页   ==============================================================*/
+
+
+
+    public static final String GET_BUSINESS_DIRECTOR = BASE + "/u/appUnit/selectUnitTypeDirector.shtml";
+    public static final String GET_BUSINESS_SUPERVISE = BASE + "/u/appUnit/selectUnitTypeSupervise.shtml";
+    public static final String GET_BUSINESS_TERRITORY = BASE + "/u/appUnit/selectUnitTypeTerritory.shtml";
+    public static final String GET_BUSINESS_GRID = BASE + "/u/appUnit/selectUnitTypeGrid.shtml";
+
+
 }

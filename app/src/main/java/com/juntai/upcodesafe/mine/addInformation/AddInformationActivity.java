@@ -76,6 +76,7 @@ public class AddInformationActivity extends BaseAppActivity<MyCenterPresent> imp
     private RecyclerView mUnitRv;
     private String TYPE_ID = "1";//搜索类型1监管单位；  2属地监管；            3网格；            4企业账号
     private int departmentId = -1;
+    private int territoryId = -1;
     private int departmentSecondId = -1;
 
 
@@ -139,6 +140,7 @@ public class AddInformationActivity extends BaseAppActivity<MyCenterPresent> imp
                 mSelectedUnitTv.setVisibility(View.VISIBLE);
                 mSelectedUnitTv.append(dataBean.getName());
                 departmentId = dataBean.getId();
+                territoryId = dataBean.getTerritoryId();
                 if (mInspectUnitRb.isChecked()) {
                     departmentSecondId = -1;
                     mNextDepartmentCl.setVisibility(View.VISIBLE);
@@ -313,7 +315,9 @@ public class AddInformationActivity extends BaseAppActivity<MyCenterPresent> imp
                         mPresenter.addInfo(builder.addFormDataPart("territoryId", String.valueOf(departmentId)).build(), AppHttpPath.ADD_INFO);
                         break;
                     case "3":
-                        mPresenter.addInfo(builder.addFormDataPart("gridId", String.valueOf(departmentId)).build(), AppHttpPath.ADD_INFO);
+                        mPresenter.addInfo(builder
+                                .addFormDataPart("territoryId",String.valueOf(territoryId))
+                                .addFormDataPart("gridId", String.valueOf(departmentId)).build(), AppHttpPath.ADD_INFO);
                         break;
                     case "4":
                         mPresenter.addInfo(builder.addFormDataPart("unitId", String.valueOf(departmentId)).build(), AppHttpPath.ADD_INFO);

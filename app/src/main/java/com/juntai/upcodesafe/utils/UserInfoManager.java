@@ -72,6 +72,30 @@ public class UserInfoManager {
         return getUser() != null && getUser().getData() != null ? getUser().getData().getUserId() : -1;
     }
     /**
+     * getDepartmentId
+     *
+     * @return
+     */
+    public static int getDepartmentId() {
+        return getUser() != null && getUser().getData() != null ? getUser().getData().getDepartmentId() : -1;
+    }
+    /**
+     * getTerritoryId
+     *
+     * @return
+     */
+    public static int getTerritoryId() {
+        return getUser() != null && getUser().getData() != null ? getUser().getData().getTerritoryId() : -1;
+    }
+    /**
+     * getGridId
+     *
+     * @return
+     */
+    public static int getGridId() {
+        return getUser() != null && getUser().getData() != null ? getUser().getData().getGridId() : -1;
+    }
+    /**
      *
      * @return
      */
@@ -80,7 +104,7 @@ public class UserInfoManager {
     }
     /**
      * 获取getUserId
-     *  1部门权限；2属地权限；3网格员；4企业人员）
+     *  1监管部门权限；2属地权限；3网格员；4企业人员）
      * @return
      */
     public static int getAccountTypeId() {

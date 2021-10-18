@@ -3,6 +3,9 @@ package com.juntai.upcodesafe.base;
 
 import com.juntai.disabled.basecomponent.base.BaseMvpFragment;
 import com.juntai.disabled.basecomponent.mvp.IPresenter;
+import com.juntai.upcodesafe.utils.UserInfoManager;
+
+import okhttp3.FormBody;
 
 /**
  * @aouther tobato
@@ -19,5 +22,19 @@ public abstract class BaseAppFragment<P extends IPresenter> extends BaseMvpFragm
      */
     public BaseAppActivity getBaseAppActivity() {
         return (BaseAppActivity) getActivity();
+    }
+
+
+    /**
+     * 获取builder
+     *
+     * @return
+     */
+    public FormBody.Builder getBaseBuilder() {
+        FormBody.Builder builder = new FormBody.Builder();
+        builder.add("account", UserInfoManager.getUserAccount());
+        builder.add("token", UserInfoManager.getUserToken());
+        builder.add("userId", String.valueOf(UserInfoManager.getUserId()));
+        return builder;
     }
 }

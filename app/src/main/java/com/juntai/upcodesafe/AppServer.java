@@ -5,6 +5,7 @@ import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.upcodesafe.bean.CheckDetailBean;
 import com.juntai.upcodesafe.bean.CheckRecordBean;
 import com.juntai.upcodesafe.bean.EducationListBean;
+import com.juntai.upcodesafe.bean.HomeBusinessBean;
 import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.LableBean;
 import com.juntai.upcodesafe.bean.NoticeBean;
@@ -133,6 +134,30 @@ public interface AppServer {
      */
     @POST(AppHttpPath.HOMEPAGE_NOTICE)
     Observable<NoticeBean> getHomePageNotice(@Body RequestBody requestBody);
+    /**
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_BUSINESS_DIRECTOR)
+    Observable<HomeBusinessBean> getHomePageBusinessDirector(@Body RequestBody requestBody);
+    /**
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_BUSINESS_SUPERVISE)
+    Observable<HomeBusinessBean> getHomePageBusinessSupervise(@Body RequestBody requestBody);
+    /**
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_BUSINESS_TERRITORY)
+    Observable<HomeBusinessBean> getHomePageBusinessTerritory(@Body RequestBody requestBody);
+    /**
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_BUSINESS_GRID)
+    Observable<HomeBusinessBean> getHomePageBusinessGrid(@Body RequestBody requestBody);
 
     /**
      * @param requestBody

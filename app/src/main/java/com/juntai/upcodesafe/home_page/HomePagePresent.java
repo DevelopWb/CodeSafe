@@ -8,6 +8,7 @@ import com.juntai.disabled.basecomponent.utils.RxScheduler;
 import com.juntai.upcodesafe.AppNetModule;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.bean.EducationListBean;
+import com.juntai.upcodesafe.bean.HomeBusinessBean;
 import com.juntai.upcodesafe.bean.HomePageMenuBean;
 import com.juntai.upcodesafe.bean.LableBean;
 import com.juntai.upcodesafe.bean.NoticeBean;
@@ -44,6 +45,106 @@ public class HomePagePresent extends BasePresenter<IModel, HomePageContract.IHom
         return arrays;
     }
 
+    /**
+     * 安全生产主管列表
+     * @param requestBody
+     * @param tag
+     */
+    public void getHomePageBusinessDirector(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getHomePageBusinessDirector(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<HomeBusinessBean>(getView()) {
+                    @Override
+                    public void onSuccess(HomeBusinessBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    /**
+     * 安全生产主管列表
+     * @param requestBody
+     * @param tag
+     */
+    public void getHomePageBusinessSupervise(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getHomePageBusinessSupervise(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<HomeBusinessBean>(getView()) {
+                    @Override
+                    public void onSuccess(HomeBusinessBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    /**
+     * 属地
+     * @param requestBody
+     * @param tag
+     */
+    public void getHomePageBusinessTerritory(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getHomePageBusinessTerritory(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<HomeBusinessBean>(getView()) {
+                    @Override
+                    public void onSuccess(HomeBusinessBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    /**
+     * 网格
+     * @param requestBody
+     * @param tag
+     */
+    public void getHomePageBusinessGrid(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getHomePageBusinessGrid(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<HomeBusinessBean>(getView()) {
+                    @Override
+                    public void onSuccess(HomeBusinessBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
     /**
      * 通知公告
      * @param requestBody

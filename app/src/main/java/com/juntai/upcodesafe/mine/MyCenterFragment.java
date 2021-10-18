@@ -147,15 +147,15 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
     @Override
     public void onResume() {
         super.onResume();
-        if (UserInfoManager.isLogin()) {
-            //  获取用户基本信息的接口
-            mPresenter.getUserInfo(getBaseAppActivity().getBaseBuilder().build(), AppHttpPath.USER_INFO);
-        }
+
     }
 
     @Override
     protected void lazyLoad() {
-
+        if (UserInfoManager.isLogin()) {
+            //  获取用户基本信息的接口
+            mPresenter.getUserInfo(getBaseAppActivity().getBaseBuilder().build(), AppHttpPath.USER_INFO);
+        }
     }
 
     @Override
@@ -187,7 +187,8 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
 
                 if (UserInfoManager.getAccountStatus() == 1) {
                     ToastUtils.toast(mContext, "待审核,请耐心等待");
-                } else if (UserInfoManager.getAccountStatus() == 1) {
+                } else if (UserInfoManager.getAccountStatus() == 2) {
+                    //审核成功
                     ToastUtils.toast(mContext, "跳转到用户详情页面");
                 } else {
                     //跳转到补充资料的界面
@@ -201,13 +202,13 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
         }
     }
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (resultCode == BaseActivity.BASE_REQUEST_RESULT) {
-//            lazyLoad();
-//        }
-//
-//    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == BaseActivity.BASE_REQUEST_RESULT) {
+            lazyLoad();
+        }
+
+    }
 
     @Override
     public void onSuccess(String tag, Object o) {
@@ -248,9 +249,6 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
                                 R.mipmap.default_user_head_icon, R.mipmap.default_user_head_icon);
                     }
                     Hawk.put(HawkProperty.LOGIN_KEY, userBean);
-
-//                    ((MainActivity) getActivity()).initHomePageFragment();
-
                 }
 
                 break;

@@ -26,9 +26,8 @@ import com.juntai.upcodesafe.base.customview.CustomViewPager;
 import com.juntai.upcodesafe.base.customview.MainPagerAdapter;
 import com.juntai.upcodesafe.entrance.EmptyFragment;
 import com.juntai.upcodesafe.entrance.LoginActivity;
+import com.juntai.upcodesafe.home_page.homepage_fragment.HomePageFragment;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectionInfoActivity;
-import com.juntai.upcodesafe.home_page.inspect.HomePageEnterpriseFragment;
-import com.juntai.upcodesafe.home_page.HomePageMornitorFragment;
 import com.juntai.upcodesafe.home_page.QRScanActivity;
 import com.juntai.upcodesafe.home_page.inspect.inspect.UnitInfoActivity;
 import com.juntai.upcodesafe.mine.MyCenterFragment;
@@ -57,12 +56,7 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
     @Override
     public void initView() {
 
-       int accountType = UserInfoManager.getAccountTypeId();
-        if (0==accountType||4==accountType) {
-            mFragments.append(0, new HomePageEnterpriseFragment());
-        }else {
-            mFragments.append(0, new HomePageMornitorFragment());//
-        }
+        mFragments.append(0, new HomePageFragment());
         mFragments.append(1, new EmptyFragment());//
         mFragments.append(2, new MyCenterFragment());//
         //
@@ -78,15 +72,6 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
         mAaa.setOnClickListener(this);
     }
 
-    public void  initHomePageFragment(){
-        mFragments.remove(0);
-        int accountType = UserInfoManager.getAccountTypeId();
-        if (4==accountType) {
-            mFragments.append(0, new HomePageEnterpriseFragment());
-        }else {
-            mFragments.append(0, new HomePageMornitorFragment());//
-        }
-    }
 
 
     @Override
@@ -104,7 +89,7 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
                 if (!TextUtils.isEmpty(result) && result.contains("=")) {
                     String str = result.substring(result.lastIndexOf("=") + 1, result.length());
                     intent.putExtra(BaseInspectionInfoActivity.BASE_ID, str);
-                    intent.setClass(mContext,UnitInfoActivity.class);
+                    intent.setClass(mContext, UnitInfoActivity.class);
                     startActivity(intent);
                 }
 
@@ -138,13 +123,13 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
                     tab.setCustomView(adapter.getTabView(i, false));
                 }
                 //设置默认选中项
-                if (2== UserInfoManager.getAccountStatus()) {
+                if (2 == UserInfoManager.getAccountStatus()) {
                     mainTablayout.addTab(tab);
-                }else {
-                    if (2==i) {
-                        mainTablayout.addTab(tab,i,true);
-                    }else {
-                        mainTablayout.addTab(tab,i,false);
+                } else {
+                    if (2 == i) {
+                        mainTablayout.addTab(tab, i, true);
+                    } else {
+                        mainTablayout.addTab(tab, i, false);
                     }
 
                 }
@@ -155,14 +140,14 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
         mainTablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (2== UserInfoManager.getAccountStatus()) {
+                if (2 == UserInfoManager.getAccountStatus()) {
                     mainViewpager.setCurrentItem(tab.getPosition());
-                }else {
+                } else {
 
                     mainTablayout.getTabAt(2).select();
-                    if (1== UserInfoManager.getAccountStatus()) {
+                    if (1 == UserInfoManager.getAccountStatus()) {
                         Toast.makeText(mContext, "资料还未审核通过", Toast.LENGTH_SHORT).show();
-                    }else{
+                    } else {
                         Toast.makeText(mContext, "资料还未完善", Toast.LENGTH_SHORT).show();
                     }
                     mainViewpager.setCurrentItem(2);
@@ -180,18 +165,19 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-        if (2== UserInfoManager.getAccountStatus()) {
+        if (2 == UserInfoManager.getAccountStatus()) {
             mainViewpager.setCurrentItem(0);
-        }else {
+        } else {
             mainViewpager.setCurrentItem(2);
         }
 
     }
+
     private View.OnClickListener mTabOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             int pos = (int) view.getTag();
-            if (2!= UserInfoManager.getAccountStatus()) {
+            if (2 != UserInfoManager.getAccountStatus()) {
                 if (pos == 0) {
 
 
@@ -205,6 +191,7 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
 
         }
     };
+
     @Override
     public void onPageScrolled(int i, float v, int i1) {
 
@@ -212,9 +199,9 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
 
     @Override
     public void onPageSelected(int i) {
-        if (0==i) {
+        if (0 == i) {
             mImmersionBar.reset().statusBarDarkFont(false).init();
-        }else {
+        } else {
             mImmersionBar.reset().statusBarDarkFont(true).init();
 
         }

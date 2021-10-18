@@ -1,4 +1,4 @@
-package com.juntai.upcodesafe.home_page;
+package com.juntai.upcodesafe.home_page.homepage_fragment;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -13,8 +13,8 @@ import com.juntai.upcodesafe.bean.HomePageMenuBean;
  * @UpdateUser: 更新者
  * @UpdateDate: 2021/4/18 15:39
  */
-public class HomePageMenuAdapter extends BaseQuickAdapter<HomePageMenuBean, BaseViewHolder> {
-    public HomePageMenuAdapter(int layoutResId) {
+public class HomePageEnterpriseMenuAdapter extends BaseQuickAdapter<HomePageMenuBean, BaseViewHolder> {
+    public HomePageEnterpriseMenuAdapter(int layoutResId) {
         super(layoutResId);
     }
 

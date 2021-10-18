@@ -1,4 +1,4 @@
-package com.juntai.upcodesafe.home_page.inspect;
+package com.juntai.upcodesafe.home_page.homepage_fragment;
 
 
 import android.content.Intent;
@@ -14,9 +14,7 @@ import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.bean.HomePageMenuBean;
 import com.juntai.upcodesafe.home_page.HomePageContract;
-import com.juntai.upcodesafe.home_page.HomePageMenuAdapter;
 import com.juntai.upcodesafe.home_page.HomePagePresent;
-import com.juntai.upcodesafe.home_page.QRScanActivity;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectionInfoActivity;
 import com.juntai.upcodesafe.home_page.inspect.accidentWarn.AccidentWarnActivity;
 import com.juntai.upcodesafe.home_page.inspect.educateOnline.EducateOnlineActivity;
@@ -24,7 +22,6 @@ import com.juntai.upcodesafe.home_page.inspect.notice.EnterpriseNoticeActivity;
 import com.juntai.upcodesafe.home_page.inspect.inspect.UnitInfoActivity;
 import com.juntai.upcodesafe.home_page.search.SearchActivity;
 import com.juntai.upcodesafe.mine.MyCenterContract;
-import com.juntai.disabled.basecomponent.utils.AppUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 /**
@@ -38,7 +35,7 @@ public class HomePageEnterpriseFragment extends BaseMvpFragment<HomePagePresent>
     private LinearLayout mSearchLl;
     private RecyclerView mRecyclerview;
     private SmartRefreshLayout mSmartrefreshlayout;
-    private HomePageMenuAdapter menuAdapter;
+    private HomePageEnterpriseMenuAdapter menuAdapter;
 
     @Override
     protected int getLayoutRes() {
@@ -55,7 +52,7 @@ public class HomePageEnterpriseFragment extends BaseMvpFragment<HomePagePresent>
         mSmartrefreshlayout = (SmartRefreshLayout) getView(R.id.smartrefreshlayout);
         mSmartrefreshlayout.setEnableLoadMore(false);
         mSmartrefreshlayout.setEnableRefresh(false);
-        menuAdapter = new HomePageMenuAdapter(R.layout.homepage_enterprise_menu_item);
+        menuAdapter = new HomePageEnterpriseMenuAdapter(R.layout.homepage_enterprise_menu_item);
         GridLayoutManager manager = new GridLayoutManager(mContext, 2);
         mRecyclerview.setLayoutManager(manager);
         mRecyclerview.setAdapter(menuAdapter);
@@ -136,10 +133,6 @@ public class HomePageEnterpriseFragment extends BaseMvpFragment<HomePagePresent>
                 break;
             case R.id.search_ll:
                 startActivity(new Intent(mContext, SearchActivity.class));
-                break;
-            case R.id.scan_iv:
-                getActivity().startActivityForResult(new Intent(getActivity(),
-                        QRScanActivity.class), AppUtils.QR_SCAN_NOMAL);
                 break;
         }
     }
