@@ -34,7 +34,7 @@ public class UnitDetailBean extends BaseResult {
         this.data = data;
     }
 
-    public static class DataBean  {
+    public static class DataBean implements Parcelable {
         /**
          * id : 2
          * name : 九州超市
@@ -456,7 +456,7 @@ public class UnitDetailBean extends BaseResult {
             this.superviseUserList = superviseUserList;
         }
 
-        public static class DirectorListBean  {
+        public static class DirectorListBean implements Parcelable {
             /**
              * id : 1
              * name : 兰山区农业农村局
@@ -481,9 +481,39 @@ public class UnitDetailBean extends BaseResult {
                 this.name = name;
             }
 
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeInt(this.id);
+                dest.writeString(this.name);
+            }
+
+            public DirectorListBean() {
+            }
+
+            protected DirectorListBean(Parcel in) {
+                this.id = in.readInt();
+                this.name = in.readString();
+            }
+
+            public static final Parcelable.Creator<DirectorListBean> CREATOR = new Parcelable.Creator<DirectorListBean>() {
+                @Override
+                public DirectorListBean createFromParcel(Parcel source) {
+                    return new DirectorListBean(source);
+                }
+
+                @Override
+                public DirectorListBean[] newArray(int size) {
+                    return new DirectorListBean[size];
+                }
+            };
         }
 
-        public static class SuperviseListBean{
+        public static class SuperviseListBean implements Parcelable {
             /**
              * id : 1
              * name : 兰山区农业农村局
@@ -508,9 +538,39 @@ public class UnitDetailBean extends BaseResult {
                 this.name = name;
             }
 
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeInt(this.id);
+                dest.writeString(this.name);
+            }
+
+            public SuperviseListBean() {
+            }
+
+            protected SuperviseListBean(Parcel in) {
+                this.id = in.readInt();
+                this.name = in.readString();
+            }
+
+            public static final Parcelable.Creator<SuperviseListBean> CREATOR = new Parcelable.Creator<SuperviseListBean>() {
+                @Override
+                public SuperviseListBean createFromParcel(Parcel source) {
+                    return new SuperviseListBean(source);
+                }
+
+                @Override
+                public SuperviseListBean[] newArray(int size) {
+                    return new SuperviseListBean[size];
+                }
+            };
         }
 
-        public static class SuperviseUserListBean {
+        public static class SuperviseUserListBean implements Parcelable {
             /**
              * id : 1
              * name : 哈哈哈
@@ -536,9 +596,148 @@ public class UnitDetailBean extends BaseResult {
             }
 
 
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeInt(this.id);
+                dest.writeString(this.name);
+            }
+
+            public SuperviseUserListBean() {
+            }
+
+            protected SuperviseUserListBean(Parcel in) {
+                this.id = in.readInt();
+                this.name = in.readString();
+            }
+
+            public static final Parcelable.Creator<SuperviseUserListBean> CREATOR = new Parcelable.Creator<SuperviseUserListBean>() {
+                @Override
+                public SuperviseUserListBean createFromParcel(Parcel source) {
+                    return new SuperviseUserListBean(source);
+                }
+
+                @Override
+                public SuperviseUserListBean[] newArray(int size) {
+                    return new SuperviseUserListBean[size];
+                }
+            };
         }
 
 
+        @Override
+        public int describeContents() {
+            return 0;
+        }
 
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(this.id);
+            dest.writeString(this.name);
+            dest.writeString(this.uuid);
+            dest.writeString(this.userId);
+            dest.writeString(this.nickname);
+            dest.writeInt(this.territoryOneId);
+            dest.writeString(this.territoryOneName);
+            dest.writeString(this.territoryName);
+            dest.writeInt(this.territoryTwoId);
+            dest.writeString(this.territoryTwoName);
+            dest.writeString(this.address);
+            dest.writeString(this.unifiedCreditCode);
+            dest.writeString(this.legal);
+            dest.writeString(this.ids);
+            dest.writeString(this.legalPhone);
+            dest.writeInt(this.type);
+            dest.writeString(this.typeName);
+            dest.writeInt(this.scale);
+            dest.writeInt(this.risk);
+            dest.writeString(this.personLiable);
+            dest.writeString(this.liablePhone);
+            dest.writeString(this.remarks);
+            dest.writeString(this.gpsAddress);
+            dest.writeString(this.longitude);
+            dest.writeString(this.latitude);
+            dest.writeInt(this.territorySuperviseId);
+            dest.writeString(this.territorySuperviseName);
+            dest.writeInt(this.gridSuperviseId);
+            dest.writeString(this.gridSuperviseName);
+            dest.writeString(this.coverPicture);
+            dest.writeString(this.photoTwo);
+            dest.writeString(this.photoThree);
+            dest.writeString(this.photoFour);
+            dest.writeString(this.photoFive);
+            dest.writeString(this.photoSix);
+            dest.writeString(this.qrCode);
+            dest.writeString(this.createAccount);
+            dest.writeString(this.gmtCreate);
+            dest.writeTypedList(this.directorList);
+            dest.writeTypedList(this.superviseList);
+            dest.writeTypedList(this.superviseUserList);
+            dest.writeInt(this.isAdd);
+        }
+
+        public DataBean() {
+        }
+
+        protected DataBean(Parcel in) {
+            this.id = in.readInt();
+            this.name = in.readString();
+            this.uuid = in.readString();
+            this.userId = in.readString();
+            this.nickname = in.readString();
+            this.territoryOneId = in.readInt();
+            this.territoryOneName = in.readString();
+            this.territoryName = in.readString();
+            this.territoryTwoId = in.readInt();
+            this.territoryTwoName = in.readString();
+            this.address = in.readString();
+            this.unifiedCreditCode = in.readString();
+            this.legal = in.readString();
+            this.ids = in.readString();
+            this.legalPhone = in.readString();
+            this.type = in.readInt();
+            this.typeName = in.readString();
+            this.scale = in.readInt();
+            this.risk = in.readInt();
+            this.personLiable = in.readString();
+            this.liablePhone = in.readString();
+            this.remarks = in.readString();
+            this.gpsAddress = in.readString();
+            this.longitude = in.readString();
+            this.latitude = in.readString();
+            this.territorySuperviseId = in.readInt();
+            this.territorySuperviseName = in.readString();
+            this.gridSuperviseId = in.readInt();
+            this.gridSuperviseName = in.readString();
+            this.coverPicture = in.readString();
+            this.photoTwo = in.readString();
+            this.photoThree = in.readString();
+            this.photoFour = in.readString();
+            this.photoFive = in.readString();
+            this.photoSix = in.readString();
+            this.qrCode = in.readString();
+            this.createAccount = in.readString();
+            this.gmtCreate = in.readString();
+            this.directorList = in.createTypedArrayList(DirectorListBean.CREATOR);
+            this.superviseList = in.createTypedArrayList(SuperviseListBean.CREATOR);
+            this.superviseUserList = in.createTypedArrayList(SuperviseUserListBean.CREATOR);
+            this.isAdd = in.readInt();
+        }
+
+        public static final Parcelable.Creator<DataBean> CREATOR = new Parcelable.Creator<DataBean>() {
+            @Override
+            public DataBean createFromParcel(Parcel source) {
+                return new DataBean(source);
+            }
+
+            @Override
+            public DataBean[] newArray(int size) {
+                return new DataBean[size];
+            }
+        };
     }
 }

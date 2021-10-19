@@ -227,6 +227,54 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 fragmentPics)));
         return arrays;
     }
+    /**
+     * 添加 单位详情
+     *
+     * @return
+     */
+    public List<MultipleItem> getUnitInfoOfAddInfomationData(UnitDetailBean.DataBean bean, boolean isDetail) {
+        List<MultipleItem> arrays = new ArrayList<>();
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_UNIT_NAME, bean == null ? "" :
+                        bean.getName(),
+                true,
+                0);
+
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_UNIT_UCC, bean == null ? "" :
+                        bean.getUnifiedCreditCode(), true
+                , 0);
+        initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_UNIT_AREA, bean == null ? "" :
+                        bean.getTerritoryOneName() + bean.getTerritoryTwoName()
+                , true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_UNIT_ADDR_DETAIL, bean == null ? "" :
+                        bean.getAddress()
+                , true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_UNIT_LEGAL_PERSON, bean == null ?
+                "" :
+                bean.getLegal(), true, 0);
+
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_LEGAL_TEL, bean == null ? "" :
+                bean.getLegalPhone(), true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_RESPONSIBLE, bean == null ? "" :
+                bean.getPersonLiable(), true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_RESPONSIBLE_TEL, bean == null ? "" :
+                bean.getLiablePhone(), true, 0);
+
+        arrays.add(new MultipleItem(MultipleItem.ITEM_LOCATION, new LocationBean(bean == null ? null :
+                bean.getGpsAddress()
+                , bean == null ? null : bean.getLatitude(), bean == null ? null : bean.getLongitude())));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传单位图片"));
+        List<String> fragmentPics = new ArrayList<>();
+        if (bean != null) {
+            addFragmentPics(bean.getCoverPicture(), fragmentPics);
+            addFragmentPics(bean.getPhotoTwo(), fragmentPics);
+            addFragmentPics(bean.getPhotoThree(), fragmentPics);
+        }
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, isDetail ?
+                fragmentPics.size() : 3,
+                3, true,
+                fragmentPics)));
+        return arrays;
+    }
 
     /**
      * 添加 单位详情

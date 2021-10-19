@@ -79,6 +79,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         addItemType(MultipleItem.ITEM_LOCATION, R.layout.item_layout_location);
         addItemType(MultipleItem.ITEM_DES_PIC, R.layout.item_des_pic);
         addItemType(MultipleItem.ITEM_ADD_MORE, R.layout.item_add_more);
+        addItemType(MultipleItem.ITEM_ADD_MANAGER, R.layout.item_add_manager);
         this.isDetail = isDetail;
         this.mFragmentManager = mFragmentManager;
     }

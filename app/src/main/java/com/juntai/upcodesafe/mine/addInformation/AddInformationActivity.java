@@ -24,9 +24,9 @@ import com.juntai.upcodesafe.base.BaseAppActivity;
 import com.juntai.upcodesafe.base.HeadCropActivity;
 import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.UnitsBean;
+import com.juntai.upcodesafe.home_page.unit.ManualAddUnitActivity;
 import com.juntai.upcodesafe.mine.MyCenterContract;
 import com.juntai.upcodesafe.mine.MyCenterPresent;
-import com.juntai.upcodesafe.mine.addInformation.addUnit.ManualAddUnitOfAddInfomationActivity;
 import com.juntai.upcodesafe.utils.UserInfoManager;
 
 import java.io.File;
@@ -269,7 +269,7 @@ public class AddInformationActivity extends BaseAppActivity<MyCenterPresent> imp
                 choseImage(0, AddInformationActivity.this, 1);
                 break;
             case R.id.add_iv:
-                startActivity(new Intent(mContext, ManualAddUnitOfAddInfomationActivity.class));
+                startActivity(new Intent(mContext, ManualAddUnitActivity.class));
                 break;
             case R.id.search_sv:
                 if (TextUtils.isEmpty(mSearchSv.getQuery().toString().trim())) {
