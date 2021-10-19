@@ -1,9 +1,8 @@
 package com.juntai.upcodesafe.home_page.homepage_fragment;
 
-import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseAppFragment;
@@ -25,7 +24,7 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
     private HomepageOtherSupervisionFragment mHomepageOtherSupervisionFragment;
     private FragmentManager fManager;
 
-//    @Override
+    //    @Override
 //    public void onCreate(Bundle savedInstanceState) {
 //        // TODO Auto-generated method stub
 //        fManager = getFragmentManager();
@@ -44,21 +43,36 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
     @Override
     protected void lazyLoad() {
         int accountType = UserInfoManager.getAccountTypeId();
-        transaction.hide(homePageSupervisionFragment)
-                .hide(homePageEnterpriseFragment)
-                .hide(mHomepageOtherSupervisionFragment);
         switch (accountType) {
             case 1:
-                transaction.show(homePageSupervisionFragment);
+                showFragment(homePageSupervisionFragment);
+                break;
+            case 2:
+                showFragment(mHomepageOtherSupervisionFragment);
+                break;
+            case 3:
+                showFragment(mHomepageOtherSupervisionFragment);
                 break;
             case 4:
-                transaction.show(homePageEnterpriseFragment);
+                showFragment(homePageEnterpriseFragment);
                 break;
             default:
-                transaction.show(mHomepageOtherSupervisionFragment);
                 break;
         }
 
+    }
+
+    /**
+     * 展示fragment
+     *
+     * @param fragment
+     */
+    private void showFragment(Fragment fragment) {
+        if (fragment.isAdded()) {
+            transaction.show(fragment);
+        } else {
+            transaction.add(R.id.homepage_fl, fragment, fragment.getClass().getName());
+        }
     }
 
     @Override
@@ -72,10 +86,10 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
         homePageSupervisionFragment = new HomepageSupervisionFragment();
         mHomepageOtherSupervisionFragment = new HomepageOtherSupervisionFragment();
         fManager = getFragmentManager();
-        transaction =fManager.beginTransaction()
-                .add(R.id.homepage_fl, mHomepageOtherSupervisionFragment,"mHomepageOtherSupervisionFragment")
-                .add(R.id.homepage_fl, homePageEnterpriseFragment,"homePageEnterpriseFragment")
-                .add(R.id.homepage_fl, homePageSupervisionFragment,"homePageSupervisionFragment");
+        transaction = fManager.beginTransaction();
+//                .add(R.id.homepage_fl, mHomepageOtherSupervisionFragment,"mHomepageOtherSupervisionFragment")
+//                .add(R.id.homepage_fl, homePageEnterpriseFragment,"homePageEnterpriseFragment")
+//                .add(R.id.homepage_fl, homePageSupervisionFragment,"homePageSupervisionFragment");
         transaction.commit();
     }
 

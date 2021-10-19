@@ -1,7 +1,6 @@
 package com.juntai.upcodesafe.mine.addInformation;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,13 +26,12 @@ import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.UnitsBean;
 import com.juntai.upcodesafe.mine.MyCenterContract;
 import com.juntai.upcodesafe.mine.MyCenterPresent;
-import com.juntai.upcodesafe.mine.addInformation.addUnit.ManualAddUnitActivity;
+import com.juntai.upcodesafe.mine.addInformation.addUnit.ManualAddUnitOfAddInfomationActivity;
 import com.juntai.upcodesafe.utils.UserInfoManager;
 
 import java.io.File;
 import java.util.List;
 
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -271,7 +269,7 @@ public class AddInformationActivity extends BaseAppActivity<MyCenterPresent> imp
                 choseImage(0, AddInformationActivity.this, 1);
                 break;
             case R.id.add_iv:
-                startActivity(new Intent(mContext, ManualAddUnitActivity.class));
+                startActivity(new Intent(mContext, ManualAddUnitOfAddInfomationActivity.class));
                 break;
             case R.id.search_sv:
                 if (TextUtils.isEmpty(mSearchSv.getQuery().toString().trim())) {

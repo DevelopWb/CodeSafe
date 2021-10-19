@@ -18,7 +18,7 @@ import okhttp3.MultipartBody;
  * @description 描述  单位
  * @date 2021/5/7 11:30
  */
-public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
+public abstract class BaseAddUnitOfAddInfomationActivity extends BaseCommitFootViewActivity {
 
     public UnitDetailBean.DataBean bean;
     private UnitDetailBean.DataBean savedUnitBean;

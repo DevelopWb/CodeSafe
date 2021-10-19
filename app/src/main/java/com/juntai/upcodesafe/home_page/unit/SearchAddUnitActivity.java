@@ -2,8 +2,9 @@ package com.juntai.upcodesafe.home_page.unit;
 
 import android.os.Bundle;
 
-import com.juntai.wisdom.inspection.AppHttpPath;
-import com.juntai.wisdom.inspection.utils.HawkProperty;
+
+import com.juntai.upcodesafe.AppHttpPath;
+import com.juntai.upcodesafe.utils.HawkProperty;
 
 import okhttp3.MultipartBody;
 
@@ -34,7 +35,7 @@ public class SearchAddUnitActivity extends BaseAddUnitActivity {
         if (bean != null) {
             builder.addFormDataPart("unitId",String.valueOf(bean.getId()));
         }
-        mPresenter.searchAddUnit(builder.build(), AppHttpPath.SEARCH_ADD_UNIT);
+//        mPresenter.searchAddUnit(builder.build(), AppHttpPath.SEARCH_ADD_UNIT);
     }
 
 

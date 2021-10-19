@@ -16,6 +16,7 @@ import com.juntai.upcodesafe.home_page.HomePageContract;
 import com.juntai.upcodesafe.home_page.HomePagePresent;
 import com.juntai.upcodesafe.home_page.inspect.notice.EnterpriseNoticeActivity;
 import com.juntai.upcodesafe.home_page.search.SearchActivity;
+import com.juntai.upcodesafe.home_page.unit.AddUnitActivity;
 import com.juntai.upcodesafe.mine.MyCenterContract;
 
 /**
@@ -103,7 +104,8 @@ public abstract class HomePageBaseSupervisionFragment extends BaseAppFragment<Ho
                 startActivity(new Intent(mContext, SearchActivity.class));
                 break;
             case R.id.add_enterprise_iv:
-                // TODO: 2021-10-18 添加企业 
+                // 添加企业
+                startActivity(new Intent(mContext, AddUnitActivity.class));
                 break;
             case R.id.notice_cl:
                 startActivity(new Intent(mContext, EnterpriseNoticeActivity.class));

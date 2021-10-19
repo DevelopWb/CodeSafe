@@ -108,7 +108,7 @@ public class UserInfoManager {
      * @return
      */
     public static int getAccountTypeId() {
-        return getUser() != null && getUser().getData() != null ? getUser().getData().getTypeId() : 4;
+        return getUser() != null && getUser().getData() != null ? getUser().getData().getTypeId() : 0;
     }
     /**
      * getAccountStatus

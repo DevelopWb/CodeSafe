@@ -105,6 +105,10 @@ public class AppHttpPath {
      * 责任清单列表
      */
     public static final String GET_RESPONSE_LIST = BASE + "/u/appUnit/selectUnitDetailedList.shtml";
+    /**
+     * 责任清单详情
+     */
+    public static final String GET_RESPONSE_DETAIL = BASE + "/u/appUnit/selectUnitDetailedInfo.shtml";
 
 
     /**

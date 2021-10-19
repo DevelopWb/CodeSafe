@@ -11,6 +11,7 @@ import com.juntai.upcodesafe.bean.LableBean;
 import com.juntai.upcodesafe.bean.NoticeBean;
 import com.juntai.upcodesafe.bean.RectifyNoticeDeatilBean;
 import com.juntai.upcodesafe.bean.RectifyNoticeListBean;
+import com.juntai.upcodesafe.bean.ResponseDetailBean;
 import com.juntai.upcodesafe.bean.SearchBean;
 import com.juntai.upcodesafe.bean.SearchResultBean;
 import com.juntai.upcodesafe.bean.TownListBean;
@@ -185,6 +186,12 @@ public interface AppServer {
      */
     @POST(AppHttpPath.GET_RESPONSE_LIST)
     Observable<IdNameBean> getResponseList(@Body RequestBody requestBody);
+    /**
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_RESPONSE_DETAIL)
+    Observable<ResponseDetailBean> getResponseDetail(@Body RequestBody requestBody);
 
     /**
      * @param requestBody

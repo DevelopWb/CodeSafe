@@ -1,6 +1,7 @@
 package com.juntai.upcodesafe.home_page.inspect.inspect.response;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -9,6 +10,7 @@ import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseRecyclerviewActivity;
 import com.juntai.upcodesafe.base.BaseWebviewActivity;
 import com.juntai.upcodesafe.bean.IdNameBean;
+import com.juntai.upcodesafe.bean.ResponseDetailBean;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectContract;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectPresent;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectionInfoActivity;
@@ -38,7 +40,9 @@ public class ResponseListActivity extends BaseRecyclerviewActivity<BaseInspectPr
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                BaseWebviewActivity.startBaseWebviewActivity(mContext,BaseWebviewActivity.class,getString(R.string.user_xieyi_url),"");
+                IdNameBean.DataBean dataBean = (IdNameBean.DataBean) adapter.getData().get(position);
+                //获取详情
+                mPresenter.getResponseDetail(getBaseBuilder().add("id", String.valueOf(dataBean.getId())).build(), AppHttpPath.GET_RESPONSE_DETAIL);
 
             }
         });
@@ -73,6 +77,15 @@ public class ResponseListActivity extends BaseRecyclerviewActivity<BaseInspectPr
                 IdNameBean idNameBean = (IdNameBean) o;
                 List<IdNameBean.DataBean> arrays = idNameBean.getData();
                 adapter.setNewData(arrays);
+                break;
+            case AppHttpPath.GET_RESPONSE_DETAIL:
+                ResponseDetailBean.DataBean dataBean = (ResponseDetailBean.DataBean) o;
+                if (dataBean != null) {
+                    if (!TextUtils.isEmpty(dataBean.getContent())) {
+                        BaseWebviewActivity.startBaseWebviewActivity(mContext, BaseWebviewActivity.class, BaseWebviewActivity.WEB_CONTENT, dataBean.getContent(), dataBean.getName());
+
+                    }
+                }
                 break;
             default:
                 break;

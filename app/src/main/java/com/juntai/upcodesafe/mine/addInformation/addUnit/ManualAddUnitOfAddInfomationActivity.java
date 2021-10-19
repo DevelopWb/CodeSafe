@@ -7,11 +7,11 @@ import okhttp3.MultipartBody;
 
 /**
  * @aouther tobato
- * @description 描述  手动添加单位  manual
+ * @description 描述  补充信息中的手动添加单位
  * @date 2021/5/9 11:44
  */
 
-public class ManualAddUnitActivity extends BaseAddUnitActivity {
+public class ManualAddUnitOfAddInfomationActivity extends BaseAddUnitOfAddInfomationActivity {
 
     @Override
     protected String getCommitTextValue() {

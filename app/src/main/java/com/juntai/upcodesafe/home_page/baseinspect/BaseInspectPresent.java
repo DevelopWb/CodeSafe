@@ -24,10 +24,12 @@ import com.juntai.upcodesafe.bean.MultipleItem;
 import com.juntai.upcodesafe.bean.PicRecycleBean;
 import com.juntai.upcodesafe.bean.RectifyNoticeDeatilBean;
 import com.juntai.upcodesafe.bean.RectifyNoticeListBean;
+import com.juntai.upcodesafe.bean.ResponseDetailBean;
 import com.juntai.upcodesafe.bean.TextKeyValueBean;
 import com.juntai.upcodesafe.bean.TownListBean;
 import com.juntai.upcodesafe.bean.TrainPlanListBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
+import com.juntai.upcodesafe.bean.UnitsBean;
 import com.juntai.upcodesafe.home_page.inspect.inspect.rectifynotice.PicOnlyAdapter;
 import com.juntai.upcodesafe.utils.UrlFormatUtil;
 import com.juntai.upcodesafe.utils.UserInfoManager;
@@ -518,6 +520,26 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     }
                 });
     }
+    public void getResponseDetail(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getResponseDetail(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<ResponseDetailBean>(getView()) {
+                    @Override
+                    public void onSuccess(ResponseDetailBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o.getData());
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
 
     public void getRectifyNoticeList(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
@@ -707,6 +729,27 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     }
                 });
     }
+    public void searchAccountNature(RequestBody requestBody, String tag) {
+        AppNetModule
+                .createrRetrofit()
+                .searchAccountNature(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<UnitsBean>(getView()) {
+                    @Override
+                    public void onSuccess(UnitsBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
 
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
 
 }

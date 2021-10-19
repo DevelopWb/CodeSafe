@@ -6,11 +6,11 @@ import android.text.TextUtils;
 import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
-import com.juntai.wisdom.inspection.AppHttpPath;
-import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
-import com.juntai.wisdom.inspection.bean.firecheck.UnitDetailBean;
-import com.juntai.wisdom.inspection.home_page.baseinspect.BaseCommitFootViewActivity;
-import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectContract;
+import com.juntai.upcodesafe.AppHttpPath;
+import com.juntai.upcodesafe.bean.TextKeyValueBean;
+import com.juntai.upcodesafe.bean.UnitDetailBean;
+import com.juntai.upcodesafe.home_page.baseinspect.BaseCommitFootViewActivity;
+import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectContract;
 import com.orhanobut.hawk.Hawk;
 
 import okhttp3.MultipartBody;
@@ -27,7 +27,7 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
     public UnitDetailBean.DataBean bean;
     private UnitDetailBean.DataBean savedUnitBean;
     public int unitId;
-    public int version;
+//    public int version;
 
     @Override
     public void initData() {
@@ -75,7 +75,7 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
             bean = getIntent().getParcelableExtra(PARCELABLE_KEY);
             if (bean != null) {
                 unitId = bean.getId();
-                version = bean.getVersion();
+//                version = bean.getVersion();
                 initStatus(bean);
             }
             adapter.setNewData(mPresenter.getUnitInfoData(bean, false));
@@ -91,53 +91,6 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
     }
 
 
-    /**
-     * 检测单位名称或者社会信用代码是否唯一
-     *
-     * @param keyValueBean
-     */
-    @Override
-    public void checkUnitUnique(TextKeyValueBean keyValueBean) {
-        super.checkUnitUnique(keyValueBean);
-        String content = keyValueBean.getValue();
-        switch (keyValueBean.getKey()) {
-            case BaseInspectContract.INSPECTION_UNIT_NAME:
-                //更改后的名称如果和原名称一致 不需要检测是否唯一
-                if (bean != null) {
-                    if (!content.equals(bean.getName())) {
-                        mPresenter.checkUnitUnique(getBaseBuilder().add("keyword", content).build(),
-                                BaseInspectContract.INSPECTION_UNIT_NAME);
-                    } else {
-                        isUnitNameUnque = true;
-                    }
-                } else {
-                    //检查单位名称是否是唯一
-                    mPresenter.checkUnitUnique(getBaseBuilder().add("keyword", content).build(),
-                            BaseInspectContract.INSPECTION_UNIT_NAME);
-                }
-
-
-                break;
-            case BaseInspectContract.INSPECTION_UNIT_UCC:
-                if (bean != null) {
-                    if (!content.equals(bean.getUnifiedCreditCode())) {
-                        //检查社会信用代码是否是唯一
-                        mPresenter.checkUnitUnique(getBaseBuilder().add("unifiedCreditCode", content).build(),
-                                BaseInspectContract.INSPECTION_UNIT_UCC);
-                    } else {
-                        isUnitUCCUnique = true;
-                    }
-                } else {
-                    //检查社会信用代码是否是唯一
-                    mPresenter.checkUnitUnique(getBaseBuilder().add("unifiedCreditCode", content).build(),
-                            BaseInspectContract.INSPECTION_UNIT_UCC);
-                }
-                break;
-            default:
-
-                break;
-        }
-    }
 
     @Override
     protected void saveDraft() {
@@ -198,17 +151,17 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
                 }
                 finish();
                 break;
-            case AppHttpPath.SEARCH_ADD_UNIT:
-                ToastUtils.toast(mContext, "添加成功");
-                finish();
-                break;
-            case AppHttpPath.APPLY_EDIT_UNIT_INFO:
-                ToastUtils.toast(mContext, "提交成功");
-                if (Hawk.contains(getHawkKey())) {
-                    Hawk.delete(getHawkKey());
-                }
-                finish();
-                break;
+//            case AppHttpPath.SEARCH_ADD_UNIT:
+//                ToastUtils.toast(mContext, "添加成功");
+//                finish();
+//                break;
+//            case AppHttpPath.APPLY_EDIT_UNIT_INFO:
+//                ToastUtils.toast(mContext, "提交成功");
+//                if (Hawk.contains(getHawkKey())) {
+//                    Hawk.delete(getHawkKey());
+//                }
+//                finish();
+//                break;
             default:
                 break;
         }

@@ -70,6 +70,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     public static String BASE_ID = "baseid";
     public static String BASE_ID2 = "baseid2";
     protected int baseId;
+    public final static String ADD_UNIT = "添加单位";
 
     protected abstract String getTitleName();
 

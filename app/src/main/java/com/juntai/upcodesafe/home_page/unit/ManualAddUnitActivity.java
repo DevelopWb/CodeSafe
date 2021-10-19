@@ -1,7 +1,8 @@
 package com.juntai.upcodesafe.home_page.unit;
 
-import com.juntai.wisdom.inspection.AppHttpPath;
-import com.juntai.wisdom.inspection.utils.HawkProperty;
+
+import com.juntai.upcodesafe.AppHttpPath;
+import com.juntai.upcodesafe.utils.HawkProperty;
 
 import okhttp3.MultipartBody;
 
@@ -25,7 +26,7 @@ public class ManualAddUnitActivity extends BaseAddUnitActivity {
 
     @Override
     protected void commit(MultipartBody.Builder builder) {
-        mPresenter.manualAddUnit(builder.build(), AppHttpPath.MANUAL_ADD_UNIT);
+//        mPresenter.manualAddUnit(builder.build(), AppHttpPath.MANUAL_ADD_UNIT);
     }
 
     @Override

@@ -4,14 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
-import com.juntai.disabled.federation.R;
-import com.juntai.wisdom.inspection.AppHttpPath;
-import com.juntai.wisdom.inspection.bean.firecheck.SearchedUnitsBean;
-import com.juntai.wisdom.inspection.bean.firecheck.UnitDetailBean;
-import com.juntai.wisdom.inspection.home_page.add.BaseAddActivity;
-import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
-import com.juntai.wisdom.inspection.home_page.firecheck.UnitsAdapter;
+import com.juntai.upcodesafe.AppHttpPath;
+import com.juntai.upcodesafe.R;
+import com.juntai.upcodesafe.bean.UnitDetailBean;
+import com.juntai.upcodesafe.bean.UnitsBean;
+import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectionActivity;
+import com.juntai.upcodesafe.utils.HawkProperty;
+import com.juntai.upcodesafe.utils.UrlFormatUtil;
+import com.juntai.upcodesafe.utils.UserInfoManager;
+import com.orhanobut.hawk.Hawk;
 
 import java.util.List;
 
@@ -35,31 +38,30 @@ public class AddUnitActivity extends BaseAddActivity {
 
     @Override
     protected void onAdapterItemClick(BaseQuickAdapter adapter, int position) {
-        UnitDetailBean.DataBean bean =
-                (UnitDetailBean.DataBean) adapter.getData().get(position);
-        if (0==bean.getIsAdd()) {
+        UnitsBean.DataBean bean =
+                (UnitsBean.DataBean) adapter.getData().get(position);
+        if (0 == bean.getIsAdd()) {
             //未添加  搜索添加 需要将系统封面清空
-            bean.setCoverPicture(null);
-            startActivityForResult(new Intent(mContext, SearchAddUnitActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY,bean),BASE_REQUEST_RESULT);
-        }else {
-            ToastUtils.toast(mContext,"该单位已添加");
-        
+//            bean.setLogo(null);
+            //获取单位详情
+            mPresenter.getEnterpriseInfo(getBaseBuilder().add("unitId", String.valueOf(bean.getId())).build(), AppHttpPath.GET_ENTERPRIZSE_INFO);
+        } else {
+            ToastUtils.toast(mContext, "该单位已添加");
+
         }
-        
+
 
     }
 
     @Override
     protected BaseQuickAdapter getAdapter() {
-        return new UnitsAdapter(R.layout.check_item,false);
+        return new UnitsAdapter(R.layout.check_item, false);
     }
 
     @Override
     protected void startSearch(String s) {
-        mPresenter.searchCompanys(getBaseBuilder()
-                        .add("keyword", s).add("pageSize", String.valueOf(pagesize)).add("currentPage",
-                        String.valueOf(currentPage)).build(),
-                AppHttpPath.SEARCH_COMPANYS);
+        mPresenter.searchAccountNature(getBaseBuilder().add("keyword", s).add("typeId", "4").build(), AppHttpPath.SEARCH_ACCOUNT_NATURE);
+
     }
 
     @Override
@@ -70,20 +72,25 @@ public class AddUnitActivity extends BaseAddActivity {
     @Override
     public void onSuccess(String tag, Object o) {
         super.onSuccess(tag, o);
-        SearchedUnitsBean searchedUnitsBean = (SearchedUnitsBean) o;
-        if (searchedUnitsBean != null) {
-            SearchedUnitsBean.DataBean dataBean = searchedUnitsBean.getData();
-            if (dataBean != null) {
-                List<UnitDetailBean.DataBean> arrays = dataBean.getDatas();
-                if (currentPage == 1) {
+        switch (tag) {
+            case AppHttpPath.SEARCH_ACCOUNT_NATURE:
+                UnitsBean unitsBean = (UnitsBean) o;
+                if (unitsBean != null) {
+                    List<UnitsBean.DataBean> arrays = unitsBean.getData();
                     adapter.setNewData(arrays);
-                } else {
-                    adapter.addData(arrays);
+                    if (arrays.isEmpty()) {
+                        ToastUtils.toast(mContext, "没有查到相关信息");
+                    }
                 }
-                if (arrays != null && arrays.size() < pagesize) {
-                    mSmartrefreshlayout.finishLoadMoreWithNoMoreData();
-                }
-            }
+                break;
+            case AppHttpPath.GET_ENTERPRIZSE_INFO:
+                UnitDetailBean.DataBean enterPriseBean = (UnitDetailBean.DataBean) o;
+                startActivityForResult(new Intent(mContext, SearchAddUnitActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY, enterPriseBean), BASE_REQUEST_RESULT);
+
+                break;
+            default:
+                break;
         }
+
     }
 }

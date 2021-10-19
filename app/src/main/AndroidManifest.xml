@@ -39,7 +39,16 @@
         <activity android:name=".home_page.inspect.inspect.response.ResponseListActivity" />
         <activity android:name=".mine.ModifyPwdActivity" />
         <activity
-            android:name=".mine.addInformation.addUnit.ManualAddUnitActivity"
+            android:name=".mine.addInformation.addUnit.ManualAddUnitOfAddInfomationActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".home_page.unit.AddUnitActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".home_page.unit.ManualAddUnitActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".home_page.unit.SearchAddUnitActivity"
             android:launchMode="singleTop" />
         <activity
             android:name=".home_page.inspect.inspect.checkRecord.checkRecordInfo.AddRectifyNoticeActivity"

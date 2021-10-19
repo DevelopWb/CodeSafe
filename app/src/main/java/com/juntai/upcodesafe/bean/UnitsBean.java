@@ -1,5 +1,8 @@
 package com.juntai.upcodesafe.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.juntai.disabled.basecomponent.base.BaseResult;
 
 import java.util.List;
@@ -29,7 +32,7 @@ public class UnitsBean  extends BaseResult {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Parcelable {
         /**
          * id : 1
          * territoryId : 0
@@ -43,6 +46,15 @@ public class UnitsBean  extends BaseResult {
         private String name;
         private String address;
         private String logo;
+        private int isAdd;//0未添加
+
+        public int getIsAdd() {
+            return isAdd;
+        }
+
+        public void setIsAdd(int isAdd) {
+            this.isAdd = isAdd;
+        }
 
         public int getId() {
             return id;
@@ -83,5 +95,44 @@ public class UnitsBean  extends BaseResult {
         public void setLogo(String logo) {
             this.logo = logo == null ? "" : logo;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(this.id);
+            dest.writeInt(this.territoryId);
+            dest.writeString(this.name);
+            dest.writeString(this.address);
+            dest.writeString(this.logo);
+            dest.writeInt(this.isAdd);
+        }
+
+        public DataBean() {
+        }
+
+        protected DataBean(Parcel in) {
+            this.id = in.readInt();
+            this.territoryId = in.readInt();
+            this.name = in.readString();
+            this.address = in.readString();
+            this.logo = in.readString();
+            this.isAdd = in.readInt();
+        }
+
+        public static final Parcelable.Creator<DataBean> CREATOR = new Parcelable.Creator<DataBean>() {
+            @Override
+            public DataBean createFromParcel(Parcel source) {
+                return new DataBean(source);
+            }
+
+            @Override
+            public DataBean[] newArray(int size) {
+                return new DataBean[size];
+            }
+        };
     }
 }
