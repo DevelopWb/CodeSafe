@@ -20,11 +20,35 @@ public class TextKeyValueBean {
     private boolean isImportant;//是否必填
     private boolean valueGravityToRight;//value靠右
 
+    private String oneValue;
+    private String twoValue;
+
+    public String getOneValue() {
+        return oneValue == null ? "" : oneValue;
+    }
+
+    public void setOneValue(String oneValue) {
+        this.oneValue = oneValue == null ? "" : oneValue;
+    }
+
+    public String getTwoValue() {
+        return twoValue == null ? "" : twoValue;
+    }
+
+    public void setTwoValue(String twoValue) {
+        this.twoValue = twoValue == null ? "" : twoValue;
+    }
+
     public TextKeyValueBean(String key, String value) {
         this.key = key;
         this.value = value;
     }
 
+    public TextKeyValueBean(String key, String value, String ids) {
+        this.key = key;
+        this.value = value;
+        this.ids = ids;
+    }
 
     public TextKeyValueBean(String key, String value, String hint, int type, boolean isImportant) {
         this.key = key;
@@ -32,6 +56,16 @@ public class TextKeyValueBean {
         this.hint = hint;
         this.type = type;
         this.isImportant = isImportant;
+    }
+
+    public TextKeyValueBean(String key, String ids, String hint, boolean isImportant, String oneValue, String twoValue) {
+        this.key = key;
+        this.ids = ids;
+        this.hint = hint;
+        this.isImportant = isImportant;
+        this.oneValue = oneValue;
+        this.twoValue = twoValue;
+        this.value = oneValue+"  "+twoValue;
     }
 
 

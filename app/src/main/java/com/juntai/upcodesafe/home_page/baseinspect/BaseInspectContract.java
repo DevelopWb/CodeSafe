@@ -48,13 +48,15 @@ public interface BaseInspectContract {
       String INSPECTION_UNIT_ADDR_DETAIL = "详细地址";
       String INSPECTION_UNIT_LEGAL_PERSON = "单位法人";
       String INSPECTION_UNIT_UCC = "社会信用代码";
-      String UNIT_TYPE = "单位类型";
+      String UNIT_TYPE = "行业类型";
       String UNIT_SIZE = "单位规模";
       String UNIT_RISK = "单位风险";
       String UNIT_DIRECTOR = "安全生产主管";
       String UNIT_SUPERVISE = "安全生产直接监管";
       String UNIT_TERRITORY_SUPERVISE = "属地监管";
       String UNIT_UNIT_SUPERVISE_PEOPLE = "监督(管理)人";
+      String BUSINESS_PRODUCTION_DEPARTMENT = "行业安全生产主管部门";
+      String BUSINESS_PRODUCTION_DIRECT_DEPARTMENT = "行业安全生产直接监管责任部门";
       String UNIT_GRID_SUPERVISE = "所属网格";
 
 

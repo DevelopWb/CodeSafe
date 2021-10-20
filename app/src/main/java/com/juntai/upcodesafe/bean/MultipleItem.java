@@ -30,6 +30,7 @@ public class MultipleItem implements MultiItemEntity {
     public static final int ITEM_DES_PIC = 18;//  描述+图片
     public static final int ITEM_ADD_MORE = 19;//  添加更多
     public static final int ITEM_ADD_MANAGER = 20;//  添加管理部门
+    public static final int ITEM_BUSINESS_TYPES = 21;//  行业类型
 //    public static final int ITEM_PIC_RECYCLE = 20;//  加载图片
 
 

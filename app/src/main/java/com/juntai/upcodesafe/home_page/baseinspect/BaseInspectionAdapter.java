@@ -2,6 +2,7 @@ package com.juntai.upcodesafe.home_page.baseinspect;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,8 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,13 +28,17 @@ import com.juntai.upcodesafe.base.selectPics.SelectPhotosFragment;
 import com.juntai.upcodesafe.base.selectPics.ShowSelectedPicsAdapter;
 import com.juntai.upcodesafe.bean.AddDesPicBean;
 import com.juntai.upcodesafe.bean.BaseNormalRecyclerviewBean;
+import com.juntai.upcodesafe.bean.BindManagerBean;
 import com.juntai.upcodesafe.bean.DesAndPicBean;
+import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.ImportantTagBean;
 import com.juntai.upcodesafe.bean.ItemFragmentBean;
 import com.juntai.upcodesafe.bean.LocationBean;
 import com.juntai.upcodesafe.bean.MultipleItem;
 import com.juntai.upcodesafe.bean.PicRecycleBean;
 import com.juntai.upcodesafe.bean.TextKeyValueBean;
+import com.juntai.upcodesafe.utils.HawkProperty;
+import com.orhanobut.hawk.Hawk;
 
 import java.util.List;
 
@@ -80,6 +87,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         addItemType(MultipleItem.ITEM_DES_PIC, R.layout.item_des_pic);
         addItemType(MultipleItem.ITEM_ADD_MORE, R.layout.item_add_more);
         addItemType(MultipleItem.ITEM_ADD_MANAGER, R.layout.item_add_manager);
+        addItemType(MultipleItem.ITEM_BUSINESS_TYPES, R.layout.item_business_types);
         this.isDetail = isDetail;
         this.mFragmentManager = mFragmentManager;
     }
@@ -88,6 +96,55 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
     protected void convert(BaseViewHolder helper, MultipleItem item) {
 
         switch (item.getItemType()) {
+            case MultipleItem.ITEM_BUSINESS_TYPES:
+                TextKeyValueBean businessTypeBean = (TextKeyValueBean) item.getObject();
+                AutoCompleteTextView autoCompleteTextView = helper.getView(R.id.business_type_tv);
+                autoCompleteTextView.setText(businessTypeBean.getValue());
+                List<IdNameBean.DataBean> businessTypes  = Hawk.get(HawkProperty.BUSINESS_TYPES_KEY);
+                DataValueAdapter  dataValueAdapter = new DataValueAdapter(mContext, businessTypes);
+                autoCompleteTextView.setAdapter(dataValueAdapter);
+                dataValueAdapter.setOnNoDataCallBack(new DataValueAdapter.OnNoDataCallBack() {
+                    @Override
+                    public void noSearchedData() {
+                       autoCompleteTextView.postDelayed(new Runnable() {
+                           @Override
+                           public void run() {
+                               autoCompleteTextView.setText("");
+                           }
+                       },1000);
+                    }
+                });
+                autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        IdNameBean.DataBean idnameBean =dataValueAdapter.getDatas().get(position);
+                        autoCompleteTextView.setText(idnameBean.getName());
+                        autoCompleteTextView.setSelection(autoCompleteTextView.getText().length());
+                        businessTypeBean.setValue(idnameBean.getName());
+                        businessTypeBean.setIds(String.valueOf(idnameBean.getId()));
+
+                    }
+                });
+                break;
+            case MultipleItem.ITEM_ADD_MANAGER:
+                BindManagerBean bindManagerBean = (BindManagerBean) item.getObject();
+                helper.setText(R.id.manager_name_iv, bindManagerBean.getManagerName());
+                if (TextUtils.isEmpty(bindManagerBean.getManagerInfo())) {
+                    helper.setGone(R.id.manager_info_tv, false);
+                } else {
+                    helper.setGone(R.id.manager_info_tv, true);
+                }
+                helper.addOnClickListener(R.id.manager_bind_tv);
+                if (bindManagerBean.isBound()) {
+                    helper.setTextColor(R.id.manager_bind_tv, ContextCompat.getColor(mContext,R.color.red));
+                    helper.setText(R.id.manager_bind_tv, "移除"+bindManagerBean.getBtName());
+                }else {
+                    helper.setTextColor(R.id.manager_bind_tv, ContextCompat.getColor(mContext,R.color.colorAccent));
+                    helper.setText(R.id.manager_bind_tv, "添加"+bindManagerBean.getBtName());
+                }
+
+                ImageLoadUtil.loadImage(mContext, bindManagerBean.getManagerIcon(), helper.getView(R.id.manager_logo_iv));
+                break;
             case MultipleItem.ITEM_HEAD_PIC:
                 if (!isDetail) {
                     helper.addOnClickListener(R.id.form_head_pic_iv);
@@ -243,21 +300,21 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
             case MultipleItem.ITEM_ADD_MORE:
                 AddDesPicBean addDesPicBean = (AddDesPicBean) item.getObject();
                 helper.addOnClickListener(R.id.add_more_item_ll);
-                helper.setText(R.id.add_more_item_tv,addDesPicBean.getAddTvValue());
+                helper.setText(R.id.add_more_item_tv, addDesPicBean.getAddTvValue());
                 break;
 
             case MultipleItem.ITEM_DES_PIC:
-                helper.setGone(R.id.item_des_title_tv,false);
-                helper.setGone(R.id.important_tag_tv,false);
-                helper.setGone(R.id.edit_value_et,false);
+                helper.setGone(R.id.item_des_title_tv, false);
+                helper.setGone(R.id.important_tag_tv, false);
+                helper.setGone(R.id.edit_value_et, false);
                 DesAndPicBean desAndPicBean = (DesAndPicBean) item.getObject();
                 if (desAndPicBean.getImportantTagBean() != null) {
-                    helper.setGone(R.id.item_des_title_tv,true);
+                    helper.setGone(R.id.item_des_title_tv, true);
                     helper.setText(R.id.item_des_title_tv, desAndPicBean.getImportantTagBean().getTitleName());
                     helper.setGone(R.id.important_tag_tv, desAndPicBean.getImportantTagBean().isImportant());
                 }
                 if (desAndPicBean.getTextKeyValueBean() != null) {
-                    helper.setGone(R.id.edit_value_et,true);
+                    helper.setGone(R.id.edit_value_et, true);
                     EditText desEt = helper.getView(R.id.edit_value_et);
                     initEditTextData(desAndPicBean.getTextKeyValueBean(), desEt);
                 }
@@ -285,7 +342,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                     @Override
                     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                         if (onPicRecyclerviewCallBack != null) {
-                            onPicRecyclerviewCallBack.onItemClick(adapter,view,position,picRecycleBean,helper.getAdapterPosition());
+                            onPicRecyclerviewCallBack.onItemClick(adapter, view, position, picRecycleBean, helper.getAdapterPosition());
                         }
                     }
 
@@ -427,7 +484,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
     }
 
 
-    public  interface OnPicRecyclerviewCallBack{
-        void onItemClick(BaseQuickAdapter adapter, View view, int position,PicRecycleBean picRecycleBean,int parentsPosition);
+    public interface OnPicRecyclerviewCallBack {
+        void onItemClick(BaseQuickAdapter adapter, View view, int position, PicRecycleBean picRecycleBean, int parentsPosition);
     }
 }

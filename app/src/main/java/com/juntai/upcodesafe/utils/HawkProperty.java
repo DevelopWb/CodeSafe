@@ -19,6 +19,8 @@ public class HawkProperty {
     public final static String TOKEN_KEY = "token_key";
     //当前企业信息
     public final static String UNIT_KEY = "unit_key";
+    //行业种类
+    public final static String BUSINESS_TYPES_KEY = "business_types_key";
 
     public static String ADD_UNIT_KEY = "add_unit";//手动添加单位  这个key唯一  搜索添加的时候 需要绑定单位的id
 

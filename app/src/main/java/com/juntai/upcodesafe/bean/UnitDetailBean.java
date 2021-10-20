@@ -465,6 +465,11 @@ public class UnitDetailBean extends BaseResult {
             private int id;
             private String name;
 
+            public DirectorListBean(int id, String name) {
+                this.id = id;
+                this.name = name;
+            }
+
             public int getId() {
                 return id;
             }
@@ -522,6 +527,11 @@ public class UnitDetailBean extends BaseResult {
             private int id;
             private String name;
 
+            public SuperviseListBean(int id, String name) {
+                this.id = id;
+                this.name = name;
+            }
+
             public int getId() {
                 return id;
             }
@@ -571,6 +581,11 @@ public class UnitDetailBean extends BaseResult {
         }
 
         public static class SuperviseUserListBean implements Parcelable {
+            public SuperviseUserListBean(int id, String name) {
+                this.id = id;
+                this.name = name;
+            }
+
             /**
              * id : 1
              * name : 哈哈哈

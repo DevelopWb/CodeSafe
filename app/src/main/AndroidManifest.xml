@@ -30,7 +30,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".home_page.inspect.inspect.rectifynotice.RectifyNoticeDetailActivity"></activity>
+        <activity android:name=".home_page.unit.AddUnitInAddInfoActivity"></activity>
+        <activity android:name=".home_page.inspect.inspect.rectifynotice.RectifyNoticeDetailActivity" />
         <activity android:name=".home_page.inspect.trainPlan.AddTrainPlansActivity" />
         <activity android:name=".home_page.inspect.trainPlan.TrainPlanActivity" />
         <activity android:name=".home_page.inspect.inspect.checkRecord.checkRecordInfo.CheckRecordDetailActivity" />
@@ -38,9 +39,6 @@
         <activity android:name=".home_page.inspect.inspect.StartCheckSelfActivity" />
         <activity android:name=".home_page.inspect.inspect.response.ResponseListActivity" />
         <activity android:name=".mine.ModifyPwdActivity" />
-        <activity
-            android:name=".mine.addInformation.addUnit.ManualAddUnitOfAddInfomationActivity"
-            android:launchMode="singleTop" />
         <activity
             android:name=".home_page.unit.AddUnitActivity"
             android:launchMode="singleTop" />

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="15dp"
+    android:paddingTop="3dp"
+    android:paddingRight="15dp"
+    android:paddingBottom="3dp">
+
+    <AutoCompleteTextView
+        android:id="@+id/business_type_tv"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_weight="1"
+        android:background="@drawable/sp_filled_gray_lighter"
+        android:imeOptions="actionDone"
+        android:padding="5dp"
+        android:textSize="14dp"
+        android:cacheColorHint="#00000000"
+        android:completionThreshold="1"
+        android:dropDownHorizontalOffset="0dp"
+        android:ems="10"
+        android:gravity="center_vertical"
+        android:hint="请输入行业类型" />
+</LinearLayout>

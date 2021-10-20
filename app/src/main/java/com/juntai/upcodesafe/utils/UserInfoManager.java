@@ -80,6 +80,22 @@ public class UserInfoManager {
         return getUser() != null && getUser().getData() != null ? getUser().getData().getDepartmentId() : -1;
     }
     /**
+     * getDepartmentId
+     *
+     * @return
+     */
+    public static String getDepartmentDetailInfo() {
+        return getUser() != null && getUser().getData() != null ? getUser().getData().getDepartmentName()+getUser().getData().getDepartmentSecondId() : "";
+    }
+    /**
+     * getDepartmentId
+     *
+     * @return
+     */
+    public static String getDepartmentName() {
+        return getUser() != null && getUser().getData() != null ? getUser().getData().getDepartmentName() : "";
+    }
+    /**
      * getTerritoryId
      *
      * @return

@@ -2,16 +2,21 @@ package com.juntai.upcodesafe.home_page.unit;
 
 import android.content.DialogInterface;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.upcodesafe.AppHttpPath;
+import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.TextKeyValueBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseCommitFootViewActivity;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectContract;
+import com.juntai.upcodesafe.utils.HawkProperty;
 import com.orhanobut.hawk.Hawk;
+
+import java.util.List;
 
 import okhttp3.MultipartBody;
 
@@ -31,6 +36,11 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
 
     @Override
     public void initData() {
+        if (!isAddInfo()) {
+            //  获取行业类型
+            mPresenter.getBusinessTypes(getBaseBuilder().build(), AppHttpPath.GET_BUSINESS_TYPES);
+        }
+
         unSavedLogic();
         savedUnitBean = Hawk.get(getHawkKey());
         if (savedUnitBean != null) {
@@ -39,7 +49,7 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             initStatus(savedUnitBean);
-                            adapter.setNewData(mPresenter.getUnitInfoData(savedUnitBean, false));
+                            adapter.setNewData(mPresenter.getUnitInfoData(savedUnitBean, false, isAddInfo()));
                         }
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {
                         @Override
@@ -50,6 +60,13 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
         }
 
     }
+
+    /**
+     * 是在补充资料
+     *
+     * @return
+     */
+    protected abstract boolean isAddInfo();
 
     private void initStatus(UnitDetailBean.DataBean bean) {
         if (!TextUtils.isEmpty(bean.getName())) {
@@ -78,7 +95,7 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
 //                version = bean.getVersion();
                 initStatus(bean);
             }
-            adapter.setNewData(mPresenter.getUnitInfoData(bean, false));
+            adapter.setNewData(mPresenter.getUnitInfoData(bean, false, isAddInfo()));
         }
     }
 
@@ -89,7 +106,6 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
         }
         return true;
     }
-
 
 
     @Override
@@ -150,6 +166,13 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
                     Hawk.delete(getHawkKey());
                 }
                 finish();
+                break;
+            case AppHttpPath.GET_BUSINESS_TYPES:
+                IdNameBean idNameBean = (IdNameBean) o;
+                if (idNameBean != null) {
+                    List<IdNameBean.DataBean> arrays = idNameBean.getData();
+                    Hawk.put(HawkProperty.BUSINESS_TYPES_KEY, arrays);
+                }
                 break;
 //            case AppHttpPath.SEARCH_ADD_UNIT:
 //                ToastUtils.toast(mContext, "添加成功");

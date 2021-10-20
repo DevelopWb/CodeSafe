@@ -73,9 +73,13 @@ public class AppHttpPath {
 
 
     /**
-     * 新增企业
+     * 新增企业  补充资料时
      */
     public static final String MANUAL_ADD_UNIT = BASE + "/u/appUserStaff/addSupplementUnit.shtml";
+    /**
+     * 新增企业   监管单位添加的时候
+     */
+    public static final String ADD_UNIT = BASE + "/u/appUnit/addUnit.shtml";
 
 
     /**
@@ -163,14 +167,19 @@ public class AppHttpPath {
 
 
 
-        /*====================================================    主管首页   ==============================================================*/
-
+    /*====================================================    主管首页   ==============================================================*/
 
 
     public static final String GET_BUSINESS_DIRECTOR = BASE + "/u/appUnit/selectUnitTypeDirector.shtml";
     public static final String GET_BUSINESS_SUPERVISE = BASE + "/u/appUnit/selectUnitTypeSupervise.shtml";
     public static final String GET_BUSINESS_TERRITORY = BASE + "/u/appUnit/selectUnitTypeTerritory.shtml";
     public static final String GET_BUSINESS_GRID = BASE + "/u/appUnit/selectUnitTypeGrid.shtml";
+
+
+    /**
+     * 行业类型
+     */
+    public static final String GET_BUSINESS_TYPES = BASE + "/u/appUnit/selectUnitType.shtml";
 
 
 }

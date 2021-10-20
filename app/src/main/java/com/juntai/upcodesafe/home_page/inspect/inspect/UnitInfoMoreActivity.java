@@ -16,7 +16,7 @@ public class UnitInfoMoreActivity extends BaseInspectionActivity implements Base
     private UnitDetailBean.DataBean dataBean;
     @Override
     public void initData() {
-        adapter.setNewData(mPresenter.getUnitInfoData(dataBean,true));
+        adapter.setNewData(mPresenter.getUnitInfoMoreData(dataBean,true));
     }
 
     @Override

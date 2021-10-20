@@ -13,12 +13,23 @@ public class BindManagerBean {
     private String managerName;
     private String managerInfo;
     private String btName;
+    private boolean isBound;//是否已经被绑定
 
-    public BindManagerBean(int managerIcon, String managerName, String managerInfo, String btName) {
+
+    public BindManagerBean(int managerIcon, String managerName, String managerInfo, String btName, boolean isBound) {
         this.managerIcon = managerIcon;
         this.managerName = managerName;
         this.managerInfo = managerInfo;
         this.btName = btName;
+        this.isBound = isBound;
+    }
+
+    public boolean isBound() {
+        return isBound;
+    }
+
+    public void setBound(boolean bound) {
+        isBound = bound;
     }
 
     public int getManagerIcon() {

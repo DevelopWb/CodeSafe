@@ -122,6 +122,12 @@ public interface AppServer {
      */
     @POST(AppHttpPath.MANUAL_ADD_UNIT)
     Observable<BaseResult> manualAddUnit(@Body RequestBody requestBody);
+    /**
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.ADD_UNIT)
+    Observable<BaseResult> ddUnit(@Body RequestBody requestBody);
 
 
 
@@ -159,6 +165,12 @@ public interface AppServer {
      */
     @POST(AppHttpPath.GET_BUSINESS_GRID)
     Observable<HomeBusinessBean> getHomePageBusinessGrid(@Body RequestBody requestBody);
+    /**
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_BUSINESS_TYPES)
+    Observable<IdNameBean> getBusinessTypes(@Body RequestBody requestBody);
 
     /**
      * @param requestBody

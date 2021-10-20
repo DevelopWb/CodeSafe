@@ -21,6 +21,7 @@ import com.juntai.upcodesafe.base.BaseAppActivity;
 import com.juntai.upcodesafe.base.selectPics.SelectPhotosFragment;
 import com.juntai.upcodesafe.bean.AddDesPicBean;
 import com.juntai.upcodesafe.bean.BaseAdapterDataBean;
+import com.juntai.upcodesafe.bean.BindManagerBean;
 import com.juntai.upcodesafe.bean.DesPicJsonBena;
 import com.juntai.upcodesafe.bean.DesAndPicBean;
 import com.juntai.upcodesafe.bean.IdNameBean;
@@ -163,28 +164,41 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             case BaseInspectContract.INSPECTION_UNIT_AREA:
                                 mPresenter.getTownList(getBaseBuilder().build(), AppHttpPath.GET_TOWN_LIST);
                                 break;
-//                            case BaseInspectContract.INSPECTION_VISIT_TIMES:
-//                                List<String> nums = getNums();
-//                                List<List<String>> timeUnits = getTimeUnits();
-//                                PickerManager.getInstance().showOptionPicker(mContext, nums, timeUnits,
-//                                        new PickerManager.OnOptionPickerSelectedListener() {
-//                                            @Override
-//                                            public void onOptionsSelect(int options1, int option2, int options3,
-//                                                                        View v) {
-//                                                String day = String.format("%s%s", nums.get(options1),
-//                                                        timeUnits.get(options1).get(option2));
-//                                                selectBean.setValue(String.valueOf(getVistTime(nums.get(options1),
-//                                                        timeUnits.get(options1).get(option2))));
-//                                                mSelectTv.setText(day);
-//                                            }
-//                                        });
-//                                break;
+                            case BaseInspectContract.UNIT_SIZE:
+                                List<IdNameBean.DataBean> scales = mPresenter.getScales();
+                                PickerManager.getInstance().showOptionPicker(mContext, scales,
+                                        (options1, option2, options3, v) -> {
+                                            IdNameBean.DataBean scale = scales.get(options1);
+                                            selectBean.setValue(scale.getName());
+                                            selectBean.setIds(String.valueOf(scale.getId()));
+                                            mSelectTv.setText(scale.getName());
+                                        });
+                                break;
+                            case BaseInspectContract.UNIT_RISK:
+                                List<IdNameBean.DataBean> risks = mPresenter.getRisks();
+                                PickerManager.getInstance().showOptionPicker(mContext, risks,
+                                        (options1, option2, options3, v) -> {
+                                            IdNameBean.DataBean scale = risks.get(options1);
+                                            selectBean.setValue(scale.getName());
+                                            selectBean.setIds(String.valueOf(scale.getId()));
+                                            mSelectTv.setText(scale.getName());
+                                        });
+                                break;
 
                             default:
                                 break;
                         }
                         break;
-
+                    case R.id.manager_bind_tv:
+                        //添加或者移除企业
+                        BindManagerBean bindManagerBean = (BindManagerBean) multipleItem.getObject();
+                        if (bindManagerBean.isBound()) {
+                            bindManagerBean.setBound(false);
+                        } else {
+                            bindManagerBean.setBound(true);
+                        }
+                        adapter.notifyItemChanged(position);
+                        break;
                     case R.id.location_ll:
                         //跳转到选择位置类
                         startActivityForResult(new Intent(mContext, LocateSelectionActivity.class),
@@ -288,6 +302,65 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         List<MultipleItem> arrays = adapter.getData();
         for (MultipleItem array : arrays) {
             switch (array.getItemType()) {
+
+                case MultipleItem.ITEM_ADD_MANAGER:
+                    BindManagerBean bindManagerBean = (BindManagerBean) array.getObject();
+                    switch (bindManagerBean.getManagerName()) {
+                        case BaseInspectContract.BUSINESS_PRODUCTION_DEPARTMENT:
+                            if (bindManagerBean.isBound()) {
+                                List<UnitDetailBean.DataBean.DirectorListBean> directorList = new ArrayList<>();
+                                directorList.add(new UnitDetailBean.DataBean.DirectorListBean(UserInfoManager.getDepartmentId(), UserInfoManager.getDepartmentName()));
+                                builder.addFormDataPart("directorId", String.valueOf(UserInfoManager.getDepartmentId()));
+                                unitDataBean.setDirectorList(directorList);
+                            }
+                            break;
+                        case BaseInspectContract.BUSINESS_PRODUCTION_DIRECT_DEPARTMENT:
+                            if (bindManagerBean.isBound()) {
+                                builder.addFormDataPart("superviseId", String.valueOf(UserInfoManager.getDepartmentId()));
+                                List<UnitDetailBean.DataBean.SuperviseListBean> list = new ArrayList<>();
+                                list.add(new UnitDetailBean.DataBean.SuperviseListBean(UserInfoManager.getDepartmentId(), UserInfoManager.getDepartmentName()));
+                                unitDataBean.setSuperviseList(list);
+                            }
+                            break;
+                        case BaseInspectContract.UNIT_TERRITORY_SUPERVISE:
+                            if (bindManagerBean.isBound()) {
+                                unitDataBean.setTerritorySuperviseId(UserInfoManager.getTerritoryId());
+                                builder.addFormDataPart("territorySuperviseId", String.valueOf(UserInfoManager.getTerritoryId()));
+                            }
+                            break;
+                        case BaseInspectContract.UNIT_UNIT_SUPERVISE_PEOPLE:
+                            if (bindManagerBean.isBound()) {
+                                List<UnitDetailBean.DataBean.SuperviseUserListBean> list = new ArrayList<>();
+                                list.add(new UnitDetailBean.DataBean.SuperviseUserListBean(UserInfoManager.getDepartmentId(), UserInfoManager.getDepartmentName()));
+                                unitDataBean.setSuperviseUserList(list);
+                                builder.addFormDataPart("superviseUserId", String.valueOf(UserInfoManager.getUserId()));
+                            }
+                            break;
+                        case BaseInspectContract.UNIT_GRID_SUPERVISE:
+                            if (bindManagerBean.isBound()) {
+                                unitDataBean.setGridSuperviseId(UserInfoManager.getGridId());
+                                builder.addFormDataPart("gridSuperviseId", String.valueOf(UserInfoManager.getGridId()));
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+
+
+                    break;
+                case MultipleItem.ITEM_BUSINESS_TYPES:
+                    TextKeyValueBean businessTypeBean = (TextKeyValueBean) array.getObject();
+                    if (!skipFilter) {
+                        if (TextUtils.isEmpty(businessTypeBean.getValue()) || TextUtils.isEmpty(businessTypeBean.getIds())) {
+                            ToastUtils.toast(mContext, "请输入后选择行业类型");
+                            return null;
+                        }
+                    }
+
+                    builder.addFormDataPart("type", businessTypeBean.getIds());
+                    unitDataBean.setType(Integer.parseInt(businessTypeBean.getIds()));
+                    unitDataBean.setTypeName(businessTypeBean.getValue());
+                    break;
 //                case MultipleItem.ITEM_SIGN:
 //                    //签名
 //                    ItemSignBean signBean = (ItemSignBean) array.getObject();
@@ -453,12 +526,20 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 String[] ids = textValueSelectBean.getIds().split(",");
                                 builder.addFormDataPart("territoryOneId", ids[0]);
                                 builder.addFormDataPart("territoryTwoId", ids[1]);
+                                unitDataBean.setTerritoryOneId(Integer.parseInt(ids[0]));
+                                unitDataBean.setTerritoryTwoId(Integer.parseInt(ids[1]));
                             }
-                            unitDataBean.setTerritoryName(selectBeanValue);
-                            if (!TextUtils.isEmpty(textValueSelectBean.getIds())) {
-                                unitDataBean.setIds(textValueSelectBean.getIds());
-                            }
+                            unitDataBean.setTerritoryOneName(textValueSelectBean.getOneValue());
+                            unitDataBean.setTerritoryTwoName(textValueSelectBean.getTwoValue());
 
+                            break;
+                        case BaseInspectContract.UNIT_SIZE:
+                            builder.addFormDataPart("scale", textValueSelectBean.getIds());
+                            unitDataBean.setScale(Integer.parseInt(textValueSelectBean.getIds()));
+                            break;
+                        case BaseInspectContract.UNIT_RISK:
+                            builder.addFormDataPart("risk", textValueSelectBean.getIds());
+                            unitDataBean.setRisk(Integer.parseInt(textValueSelectBean.getIds()));
                             break;
                         default:
                             break;
@@ -656,7 +737,8 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
                                 String area =
                                         String.format("%s%s%s", countys.get(options1).getName(), "   ", towns.get(options1).get(option2).getName());
-                                selectBean.setValue(area);
+                                selectBean.setOneValue(countys.get(options1).getName());
+                                selectBean.setTwoValue(towns.get(options1).get(option2).getName());
                                 mSelectTv.setText(area);
                             }
                         });

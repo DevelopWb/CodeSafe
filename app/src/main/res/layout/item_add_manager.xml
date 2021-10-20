@@ -38,6 +38,7 @@
         app:layout_constraintTop_toBottomOf="@+id/manager_name_iv"></TextView>
 
     <TextView
+        android:id="@+id/manager_bind_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"

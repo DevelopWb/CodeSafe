@@ -20,13 +20,18 @@ public class ManualAddUnitActivity extends BaseAddUnitActivity {
     }
 
     @Override
+    protected boolean isAddInfo() {
+        return false;
+    }
+
+    @Override
     protected String getHawkKey() {
         return HawkProperty.ADD_UNIT_KEY;
     }
 
     @Override
     protected void commit(MultipartBody.Builder builder) {
-//        mPresenter.manualAddUnit(builder.build(), AppHttpPath.MANUAL_ADD_UNIT);
+        mPresenter.ddUnit(builder.build(), AppHttpPath.ADD_UNIT);
     }
 
     @Override
