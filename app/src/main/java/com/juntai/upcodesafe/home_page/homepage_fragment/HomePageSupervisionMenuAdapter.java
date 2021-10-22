@@ -21,6 +21,7 @@ public class HomePageSupervisionMenuAdapter extends BaseQuickAdapter<HomeBusines
 
     @Override
     protected void convert(BaseViewHolder helper, HomeBusinessBean.DataBean item) {
-
+        helper.setText(R.id.supervision_menu_title_tv, item.getName());
+        helper.setText(R.id.supervision_menu_amount_tv, String.valueOf(item.getTotal()));
     }
 }

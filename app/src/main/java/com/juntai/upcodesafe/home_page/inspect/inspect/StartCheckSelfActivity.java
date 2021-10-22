@@ -14,7 +14,9 @@ import com.juntai.upcodesafe.bean.TextKeyValueBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseCommitFootViewActivity;
 import com.juntai.upcodesafe.home_page.baseinspect.TextKeyValueAdapter;
+import com.juntai.upcodesafe.utils.HawkProperty;
 import com.juntai.upcodesafe.utils.UserInfoManager;
+import com.orhanobut.hawk.Hawk;
 
 import okhttp3.MultipartBody;
 
@@ -40,7 +42,7 @@ public class StartCheckSelfActivity extends BaseCommitFootViewActivity {
     @Override
     public void initData() {
         adapter.setHeaderView(getHeadView());
-        adapter.setNewData(mPresenter.addDesPicLayout("检查情况描述","上传检查图片",0));
+        adapter.setNewData(mPresenter.addDesPicLayout("检查情况描述", "上传检查图片", 0));
         if (getIntent() != null) {
             unitBean = getIntent().getParcelableExtra(PARCELABLE_KEY);
             if (unitBean != null) {
@@ -57,17 +59,35 @@ public class StartCheckSelfActivity extends BaseCommitFootViewActivity {
 
     @Override
     protected void commitRequest(MultipartBody.Builder builder) {
-        MultipartBody body = builder.addFormDataPart("typeId", "1")
+        MultipartBody.Builder body = builder
                 .addFormDataPart("unitId", String.valueOf(unitBean.getId()))
                 .addFormDataPart("checkTime", ((TextKeyValueBean) headAdapter.getData().get(0)).getValue())
-                .addFormDataPart("checkType", "1")
+                .addFormDataPart("checkType", String.valueOf(UserInfoManager.getCheckType()))
                 .addFormDataPart("userId", String.valueOf(UserInfoManager.getUserId()))
                 .addFormDataPart("personLiable", unitBean.getPersonLiable())
                 .addFormDataPart("phoneNumber", unitBean.getLiablePhone())
-                .addFormDataPart("qualified", mRadioQualifiedRb.isChecked() ? "1" : "2").build();
-        mPresenter.startInspect(body, AppHttpPath.START_INSPECT);
+                .addFormDataPart("qualified", mRadioQualifiedRb.isChecked() ? "1" : "2");
+
+        if (UserInfoManager.getAccountTypeId() != 4) {
+            //监管账号需要传部门id
+            body.addFormDataPart("departmentId", String.valueOf(UserInfoManager.getDepartmentId()));
+            //是否为验收检查（0不是；1是）
+            body.addFormDataPart("acceptance", Hawk.get(HawkProperty.IS_YANSHOU_CHECK,false)?"1":"0");
+        }
+        if (UserInfoManager.getAccountTypeId() == 3 || UserInfoManager.getAccountTypeId() == 4) {
+            //企业账户或者网格员账户 只有常规检查
+            builder.addFormDataPart("typeId", "1");
+        }else {
+            boolean isNormalCheck = Hawk.get(HawkProperty.IS_NORMAL_CHECK,true);
+            builder.addFormDataPart("typeId", isNormalCheck?"1":"2");
+        }
+
+
+
+        mPresenter.startInspect(body.build(), AppHttpPath.START_INSPECT);
 
     }
+
 
     @Override
     protected void saveDraft() {
@@ -116,7 +136,7 @@ public class StartCheckSelfActivity extends BaseCommitFootViewActivity {
     @Override
     public void onSuccess(String tag, Object o) {
         super.onSuccess(tag, o);
-        ToastUtils.toast(mContext,"提交成功");
+        ToastUtils.toast(mContext, "提交成功");
         finish();
     }
 }

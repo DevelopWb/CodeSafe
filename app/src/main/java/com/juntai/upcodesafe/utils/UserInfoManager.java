@@ -126,6 +126,32 @@ public class UserInfoManager {
     public static int getAccountTypeId() {
         return getUser() != null && getUser().getData() != null ? getUser().getData().getTypeId() : 0;
     }
+
+    /**
+     * 获取检查类型
+     *
+     * @return
+     */
+    public static int getCheckType() {
+        int type = 0;
+        switch (getAccountTypeId()) {
+            case 1:
+                type = 2;
+                break;
+            case 2:
+                type = 3;
+                break;
+            case 3:
+                type = 4;
+                break;
+            case 4:
+                type = 1;
+                break;
+            default:
+                break;
+        }
+        return type;
+    }
     /**
      * getAccountStatus
      *账号审核状态（1审核中；2审核成功；3未提交或审核失败）

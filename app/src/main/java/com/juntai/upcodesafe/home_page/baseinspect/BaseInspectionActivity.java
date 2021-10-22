@@ -501,6 +501,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         case BaseInspectContract.REMARK:
                             //备注
                             formKey = "remarks";
+                            unitDataBean.setRemarks(value);
                             break;
                         default:
                             break;

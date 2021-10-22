@@ -32,13 +32,28 @@ public class UnitInfoActivity extends BaseInspectionInfoActivity {
     @Override
     public void initData() {
         if (getIntent() != null) {
-            String uuid = getIntent().getStringExtra(BASE_ID);
-            if (HomePageContract.HOMEPAGE_MENU_ENTERPRISE_CHECK.equals(uuid)) {
-                mPresenter.getEnterpriseInfo(getBaseBuilder().add("unitId", String.valueOf(UserInfoManager.getUnitId())).build(), AppHttpPath.GET_ENTERPRIZSE_INFO);
-            }else {
-                mPresenter.getEnterpriseInfoByUUID(getBaseBuilder().add("uuid",uuid).build(), AppHttpPath.GET_ENTERPRIZSE_INFO);
-
+            String  stringType = getIntent().getStringExtra(BaseInspectionInfoActivity.BASE_STRING);
+            String id = getIntent().getStringExtra(BASE_ID);
+            if (stringType == null) {
+                return;
             }
+            switch (stringType) {
+                case BaseInspectionInfoActivity.BASE_STRING_VALUE1:
+                    //企业明细
+                    mPresenter.getEnterpriseInfo(getBaseBuilder().add("unitId", id).build(), AppHttpPath.GET_ENTERPRIZSE_INFO);
+                    break;
+                case BaseInspectionInfoActivity.BASE_STRING_VALUE2:
+                    //企业自身明细
+                    mPresenter.getEnterpriseInfo(getBaseBuilder().add("unitId", String.valueOf(UserInfoManager.getUnitId())).build(), AppHttpPath.GET_ENTERPRIZSE_INFO);
+                    break;
+                case BaseInspectionInfoActivity.BASE_STRING_VALUE3:
+                    //通过uuid查询企业明细
+                    mPresenter.getEnterpriseInfoByUUID(getBaseBuilder().add("uuid",id).build(), AppHttpPath.GET_ENTERPRIZSE_INFO);
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
 
@@ -64,12 +79,18 @@ public class UnitInfoActivity extends BaseInspectionInfoActivity {
 
     @Override
     protected String getTitleName() {
-        return "企业自查";
+        if (UserInfoManager.getAccountTypeId()==4) {
+            return "企业自查";
+        }
+        return "单位详情";
     }
 
     @Override
     protected String getStartWorkName() {
-        return "开始自查";
+        if (UserInfoManager.getAccountTypeId()==4) {
+            return "开始自查";
+        }
+        return "开始检查";
     }
 
     @Override

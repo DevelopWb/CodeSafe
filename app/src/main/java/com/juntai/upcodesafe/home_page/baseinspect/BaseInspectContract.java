@@ -21,6 +21,10 @@ public interface BaseInspectContract {
       String  TAB_GRID_SUPERVISE_CHECK = "网格检查";
       String  TAB_CHECK_SELF = "企业自查";
       String  TAB_ALL = "全部";
+      String  TAB_WAIT_FOR_CHECK = "待检查";
+      String  TAB_CHECKED = "已检查";
+      String  TAB_RECTIFYING = "整改中";
+      String  TAB_WAIT_FOR_ACCEPT = "待验收";
       String  TAB_TITLES = "tabtitles";
 
 
@@ -42,6 +46,7 @@ public interface BaseInspectContract {
       String  REPAIRE_NOTICE = "整改通知书";
       String  TRAIN_PLAN = "培训计划";
       String  START_CHECK_SELF = "开始自查";
+      String  START_CHECK = "开始检查";
 
       String INSPECTION_UNIT_NAME = "单位名称";
       String INSPECTION_UNIT_AREA = "单位区域";

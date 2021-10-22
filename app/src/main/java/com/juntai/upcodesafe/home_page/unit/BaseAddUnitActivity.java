@@ -161,10 +161,12 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
                 }
                 break;
             case AppHttpPath.MANUAL_ADD_UNIT:
+            case AppHttpPath.ADD_UNIT:
                 ToastUtils.toast(mContext, "添加成功");
-                if (Hawk.contains(getHawkKey())) {
-                    Hawk.delete(getHawkKey());
-                }
+                // TODO: 2021-10-21 暂时注销
+//                if (Hawk.contains(getHawkKey())) {
+//                    Hawk.delete(getHawkKey());
+//                }
                 finish();
                 break;
             case AppHttpPath.GET_BUSINESS_TYPES:
@@ -174,7 +176,7 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
                     Hawk.put(HawkProperty.BUSINESS_TYPES_KEY, arrays);
                 }
                 break;
-//            case AppHttpPath.SEARCH_ADD_UNIT:
+//            case AppHttpPath.ADD_UNIT:
 //                ToastUtils.toast(mContext, "添加成功");
 //                finish();
 //                break;

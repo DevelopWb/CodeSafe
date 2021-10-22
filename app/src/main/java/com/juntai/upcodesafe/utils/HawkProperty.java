@@ -15,6 +15,9 @@ public class HawkProperty {
 
     //0 代表企业  1代表非企业  监督部门
     public static String  ACCOUNT_TYPE = "account_type";
+    //常规检查或者专项检查的标识
+    public static String IS_NORMAL_CHECK = "checktype";
+    public static String IS_YANSHOU_CHECK = "checktypeYanshou";
     public final static String LOGIN_KEY = "login_bean";
     public final static String TOKEN_KEY = "token_key";
     //当前企业信息

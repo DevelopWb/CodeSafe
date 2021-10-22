@@ -37,6 +37,10 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
     public final static String START_CHECK = "开始检查";//
     public final static String START_INSPECT = "开始巡检";//
     public final static String BASE_ID = "baseid";//
+    public final static String BASE_STRING = "baseString";//
+    public final static String BASE_STRING_VALUE1 = "baseString1";//
+    public final static String BASE_STRING_VALUE2 = "baseString2";//
+    public final static String BASE_STRING_VALUE3 = "baseString3";//
     public final static String BASE_ID2 = "baseid2";//
     public int baseId;
     public int contentId;
@@ -179,23 +183,10 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
             case R.id.start_work_tv:
                 switch (getStartWorkName()) {
                     case BaseInspectContract.START_CHECK_SELF:
-                        //   自查
+                    case BaseInspectContract.START_CHECK:
+                        //   开始检查
                         startActivity(new Intent(mContext, StartCheckSelfActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY, ((UnitDetailBean.DataBean) getBaseBean())));
-
                         break;
-//                    case START_CHECK:
-//                        //  单位详情中的开始检查
-//                        startActivity(new Intent(mContext, StartCheckActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY, ((UnitDetailBean.DataBean) getBaseBean())));
-//                        break;
-//                    case START_INSPECT:
-//                        //开始巡检
-//                        startActivity(new Intent(mContext, StartSecurityInspectActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY, ((InspectionSiteBean.DataBean) getBaseBean())));
-//                        break;
-//                    case START_VISIT:
-//                        startActivity(new Intent(mContext, StartVisitActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY, ((ImportantorBean.DataBean) getBaseBean())));
-//                        break;
-//                    default:
-//                        break;
                 }
 
                 break;

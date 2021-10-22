@@ -12,6 +12,7 @@ import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.MultipleItem;
 import com.juntai.upcodesafe.bean.MyMenuBean;
+import com.juntai.upcodesafe.bean.MyMsgBean;
 import com.juntai.upcodesafe.bean.UnitsBean;
 
 import java.util.ArrayList;
@@ -41,6 +42,50 @@ public class MyCenterPresent extends BasePresenter<IModel, MyCenterContract.ICen
     public void logout(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .logout(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    public void getMyMsgs(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getMyMSG(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<MyMsgBean>(getView()) {
+                    @Override
+                    public void onSuccess(MyMsgBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
+
+    public void getMyMsgUnread(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getMyMsgUnread(requestBody)
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
                     @Override

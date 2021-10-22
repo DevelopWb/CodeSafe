@@ -3,6 +3,7 @@ package com.juntai.upcodesafe.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.contrarywind.interfaces.IPickerViewData;
 import com.juntai.disabled.basecomponent.base.BaseResult;
 
 import java.util.List;
@@ -32,7 +33,12 @@ public class UnitsBean  extends BaseResult {
         this.data = data;
     }
 
-    public static class DataBean implements Parcelable {
+    public static class DataBean implements Parcelable, IPickerViewData {
+        public DataBean(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
         /**
          * id : 1
          * territoryId : 0
@@ -134,5 +140,10 @@ public class UnitsBean  extends BaseResult {
                 return new DataBean[size];
             }
         };
+
+        @Override
+        public String getPickerViewText() {
+            return name;
+        }
     }
 }

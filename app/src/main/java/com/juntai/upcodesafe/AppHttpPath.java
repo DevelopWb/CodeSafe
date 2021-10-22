@@ -43,8 +43,7 @@ public class AppHttpPath {
     /**
      * 检查更新
      */
-//    public static final String APP_UPDATE = BASE + "/detectionAppVersions.shtml";
-    public static final String APP_UPDATE = BASE + "";
+    public static final String APP_UPDATE = BASE + "/u/appUserStaff/detectionAppVersions.shtml";
 
     /**
      * 获取短信验证码
@@ -180,6 +179,28 @@ public class AppHttpPath {
      * 行业类型
      */
     public static final String GET_BUSINESS_TYPES = BASE + "/u/appUnit/selectUnitType.shtml";
+
+    /**
+     * 常规检查
+     */
+    public static final String GET_NORMAL_CHECK_LIST= BASE + "/u/appUnit/selectUnitRoutine.shtml";
+    /**
+     * 专项检查
+     */
+    public static final String GET_SPECIAL_CHECK_LIST= BASE + "/u/appUnit/selectUnitSpecial.shtml";
+
+
+    /**
+     * 我的消息
+     */
+
+    public static final String MY_NEWS= BASE + "/u/appUserStaff/selectUserMessage.shtml";
+
+    /**
+     * 我的消息 未读数
+     */
+
+    public static final String MY_NEWS_UNREAD= BASE + "/u/appUserStaff/selectUserUnreadMessageCount.shtml";
 
 
 }

@@ -8,12 +8,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.basecomponent.base.BaseActivity;
+import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.basecomponent.utils.FileCacheUtils;
 import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
@@ -29,6 +31,7 @@ import com.juntai.upcodesafe.bean.MyMenuBean;
 import com.juntai.upcodesafe.bean.UserBean;
 import com.juntai.upcodesafe.entrance.LoginActivity;
 import com.juntai.upcodesafe.mine.addInformation.AddInformationActivity;
+import com.juntai.upcodesafe.mine.mymsg.MyMessageActivity;
 import com.juntai.upcodesafe.utils.HawkProperty;
 import com.juntai.upcodesafe.utils.UrlFormatUtil;
 import com.juntai.upcodesafe.utils.UserInfoManager;
@@ -99,7 +102,7 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
                                 break;
                             case MyCenterContract.SET_CLEAR_TAG:
                                 // 清理缓存
-                                getBaseActivity().setAlertDialogHeightWidth( DialogUtil.getMessageDialog(mContext, "将清理掉应用本地的图片和视频缓存文件",
+                                getBaseActivity().setAlertDialogHeightWidth(DialogUtil.getMessageDialog(mContext, "将清理掉应用本地的图片和视频缓存文件",
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
@@ -116,11 +119,15 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
                                                     }
                                                 });
                                             }
-                                        }).show(),-1,0);
+                                        }).show(), -1, 0);
                                 break;
                             case MyCenterContract.SET_UPDATE_TAG:
                                 //检查更新
                                 getBaseAppActivity().update(true);
+                                break;
+                            case MyCenterContract.MENU_NEWS:
+                                //我的消息
+                                startActivity(new Intent(mContext, MyMessageActivity.class));
                                 break;
                             default:
                                 break;
@@ -147,7 +154,7 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
     @Override
     public void onResume() {
         super.onResume();
-
+        mPresenter.getMyMsgUnread(getBaseBuilder().build(), AppHttpPath.MY_NEWS_UNREAD);
     }
 
     @Override
@@ -221,7 +228,18 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
                 startActivity(new Intent(mContext, LoginActivity.class));
 
                 break;
+            case AppHttpPath.MY_NEWS_UNREAD:
+                BaseResult result = (BaseResult) o;
+                if (result != null) {
+                    if (!TextUtils.isEmpty(result.message)) {
+                        MultipleItem  multipleItem = myMenuAdapter.getData().get(1);
+                        MyMenuBean  myMenuBean = (MyMenuBean) multipleItem.getObject();
+                        myMenuBean.setNumber(Integer.parseInt(result.message));
+                        myMenuAdapter.notifyItemChanged(1);
+                    }
+                }
 
+                break;
             case AppHttpPath.USER_INFO:
                 UserBean userBean = (UserBean) o;
                 UserBean.DataBean dataBean = userBean.getData();

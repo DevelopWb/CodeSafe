@@ -28,7 +28,7 @@
             android:id="@+id/record_time_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             app:layout_constraintVertical_chainStyle="packed"
             android:text="2012年03月05日"
             app:layout_constraintBottom_toTopOf="@+id/check_big_tag_tv"
@@ -43,7 +43,6 @@
             android:text="张三"
             app:layout_constraintBottom_toBottomOf="@+id/record_time_tv"
             app:layout_constraintLeft_toRightOf="@+id/record_time_tv"
-            app:layout_constraintRight_toLeftOf="@+id/record_type_tv"
             app:layout_constraintTop_toTopOf="@+id/record_time_tv"></TextView>
 
         <TextView
@@ -61,11 +60,10 @@
             android:id="@+id/punish_tag_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
             android:background="@drawable/sp_filled_accent"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:layout_marginRight="15dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:layout_marginRight="10dp"
             android:text="罚"
             android:textColor="@color/white"
             android:visibility="invisible"

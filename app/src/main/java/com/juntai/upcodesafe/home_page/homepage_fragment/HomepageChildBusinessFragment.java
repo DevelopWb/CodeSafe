@@ -8,17 +8,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseRecyclerviewFragment;
-import com.juntai.upcodesafe.bean.CheckRecordBean;
 import com.juntai.upcodesafe.bean.HomeBusinessBean;
-import com.juntai.upcodesafe.bean.UnitDetailBean;
 import com.juntai.upcodesafe.home_page.HomePageContract;
 import com.juntai.upcodesafe.home_page.HomePagePresent;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectContract;
-import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectPresent;
-import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectionActivity;
-import com.juntai.upcodesafe.home_page.inspect.inspect.checkRecord.CheckRecordAdapter;
-import com.juntai.upcodesafe.home_page.inspect.inspect.checkRecord.checkRecordInfo.CheckRecordDetailActivity;
-import com.juntai.upcodesafe.utils.HawkProperty;
+import com.juntai.upcodesafe.home_page.industryDetail.IndustryInfoActivity;
 import com.juntai.upcodesafe.utils.UserInfoManager;
 
 import java.util.List;
@@ -29,6 +23,9 @@ import java.util.List;
  * @date 2021/6/1 15:58
  */
 public class HomepageChildBusinessFragment extends BaseRecyclerviewFragment<HomePagePresent> implements HomePageContract.IHomePageView {
+
+    private String type;
+
     @Override
     protected void initView() {
         isLinearLayout = false;
@@ -38,7 +35,7 @@ public class HomepageChildBusinessFragment extends BaseRecyclerviewFragment<Home
 
     @Override
     protected void lazyLoad() {
-        String type = getArguments().getString(BaseInspectContract.TAB_TITLES);
+        type = getArguments().getString(BaseInspectContract.TAB_TITLES);
         switch (type) {
             case BaseInspectContract.UNIT_DIRECTOR:
                 mPresenter.getHomePageBusinessDirector(getBaseBuilder()
@@ -52,6 +49,7 @@ public class HomepageChildBusinessFragment extends BaseRecyclerviewFragment<Home
                 break;
         }
     }
+
 
     @Override
     protected HomePagePresent createPresenter() {
@@ -68,6 +66,15 @@ public class HomepageChildBusinessFragment extends BaseRecyclerviewFragment<Home
 
     @Override
     protected void initData() {
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                HomeBusinessBean.DataBean dataBean = (HomeBusinessBean.DataBean) adapter.getData().get(position);
+                startActivity(new Intent(mContext, IndustryInfoActivity.class)
+                        .putExtra(IndustryInfoActivity.TYPE_ID,BaseInspectContract.UNIT_DIRECTOR.equals(type)?"1":"2")
+                        .putExtra(IndustryInfoActivity.BASE_ID,dataBean.getId()));
+            }
+        });
     }
 
     @Override

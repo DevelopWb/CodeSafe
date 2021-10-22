@@ -220,4 +220,15 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="base_tag_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/sp_filled_accent</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
 </resources>

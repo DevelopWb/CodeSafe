@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/sp_filled_gray_lighter">
+
+        <android.support.v7.widget.SearchView
+            android:id="@+id/search_sv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:paddingLeft="-10dp"
+            app:defaultQueryHint="请输入关键字"
+            app:iconifiedByDefault="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/back_textview"
+            app:layout_constraintRight_toLeftOf="@+id/search_tv"
+            app:layout_constraintTop_toTopOf="parent"
+            app:queryBackground="@null"
+            app:searchIcon="@mipmap/search_icon"
+            app:showDividers="none"
+            app:submitBackground="@null" />
+
+        <LinearLayout
+            android:id="@+id/search_type_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingRight="10dp">
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="25dp"
+                android:background="@color/gray"></View>
+
+            <TextView
+                android:id="@+id/search_type_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="盗窃"></TextView>
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="8dp"
+                android:src="@mipmap/arrow_down"></ImageView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/check_type_cl"
+        android:layout_width="match_parent"
+        android:background="@drawable/bg_white_only_bottom_gray_shape_1px"
+        android:layout_height="40dp">
+
+        <TextView
+            android:id="@+id/normal_check_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="常规检查"
+            android:textColor="@color/colorAccent"
+            android:textSize="16dp"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/special_check_tv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></TextView>
+
+        <TextView
+            android:id="@+id/special_check_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="专项检查"
+            android:layout_marginLeft="40dp"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/normal_check_tv"
+            app:layout_constraintTop_toTopOf="parent"></TextView>
+    </android.support.constraint.ConstraintLayout>
+
+    <include layout="@layout/base_tab_page_layout"></include>
+
+</LinearLayout>

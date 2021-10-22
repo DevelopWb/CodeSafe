@@ -15,6 +15,8 @@ import com.juntai.upcodesafe.bean.NoticeBean;
 import com.juntai.upcodesafe.bean.SearchBean;
 import com.juntai.upcodesafe.bean.SearchResultBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
+import com.juntai.upcodesafe.bean.UnitOfInductryBean;
+import com.juntai.upcodesafe.bean.UnitsBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +46,28 @@ public class HomePagePresent extends BasePresenter<IModel, HomePageContract.IHom
 
         return arrays;
     }
+    public void searchAccountNature(RequestBody requestBody, String tag) {
+        AppNetModule
+                .createrRetrofit()
+                .searchAccountNature(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<UnitsBean>(getView()) {
+                    @Override
+                    public void onSuccess(UnitsBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
 
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
     /**
      * 安全生产主管列表
      * @param requestBody
@@ -262,6 +285,58 @@ public class HomePagePresent extends BasePresenter<IModel, HomePageContract.IHom
                 .subscribe(new BaseObserver<SearchResultBean>(getView()) {
                     @Override
                     public void onSuccess(SearchResultBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+
+    }
+    /**
+     * @param requestBody
+     * @param tag
+     */
+    public void getNormalCheckList(RequestBody requestBody, String tag) {
+
+        AppNetModule.createrRetrofit()
+                .getNormalCheckList(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<UnitOfInductryBean>(getView()) {
+                    @Override
+                    public void onSuccess(UnitOfInductryBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+
+    }
+    /**
+     * @param requestBody
+     * @param tag
+     */
+    public void getSpecialCheckList(RequestBody requestBody, String tag) {
+
+        AppNetModule.createrRetrofit()
+                .getSpecialCheckList(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<UnitOfInductryBean>(getView()) {
+                    @Override
+                    public void onSuccess(UnitOfInductryBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

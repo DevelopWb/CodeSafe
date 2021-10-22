@@ -72,7 +72,8 @@ public class HomePageEnterpriseFragment extends BaseMvpFragment<HomePagePresent>
                         break;
                     case HomePageContract.HOMEPAGE_MENU_ENTERPRISE_CHECK:
                         intent.setClass(mContext, UnitInfoActivity.class)
-                        .putExtra(BaseInspectionInfoActivity.BASE_ID,HomePageContract.HOMEPAGE_MENU_ENTERPRISE_CHECK);
+                                .putExtra(BaseInspectionInfoActivity.BASE_STRING, BaseInspectionInfoActivity.BASE_STRING_VALUE2)
+                                .putExtra(BaseInspectionInfoActivity.BASE_ID, "");
                         break;
                     case HomePageContract.HOMEPAGE_MENU_WRING:
                         // 跳转到事故警示

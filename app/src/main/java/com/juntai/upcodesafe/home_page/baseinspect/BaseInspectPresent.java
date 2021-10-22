@@ -254,7 +254,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
 
 
         }
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, "", false, 1);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, bean==null?"":bean.getRemarks(), false, 1);
         arrays.add(new MultipleItem(MultipleItem.ITEM_LOCATION, new LocationBean(bean == null ? null :
                 bean.getGpsAddress()
                 , bean == null ? null : bean.getLatitude(), bean == null ? null : bean.getLongitude())));

@@ -8,6 +8,7 @@ import com.juntai.upcodesafe.bean.EducationListBean;
 import com.juntai.upcodesafe.bean.HomeBusinessBean;
 import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.LableBean;
+import com.juntai.upcodesafe.bean.MyMsgBean;
 import com.juntai.upcodesafe.bean.NoticeBean;
 import com.juntai.upcodesafe.bean.RectifyNoticeDeatilBean;
 import com.juntai.upcodesafe.bean.RectifyNoticeListBean;
@@ -17,6 +18,7 @@ import com.juntai.upcodesafe.bean.SearchResultBean;
 import com.juntai.upcodesafe.bean.TownListBean;
 import com.juntai.upcodesafe.bean.TrainPlanListBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
+import com.juntai.upcodesafe.bean.UnitOfInductryBean;
 import com.juntai.upcodesafe.bean.UnitsBean;
 import com.juntai.upcodesafe.bean.UserBean;
 
@@ -122,6 +124,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.MANUAL_ADD_UNIT)
     Observable<BaseResult> manualAddUnit(@Body RequestBody requestBody);
+
     /**
      * @param requestBody
      * @return
@@ -141,30 +144,35 @@ public interface AppServer {
      */
     @POST(AppHttpPath.HOMEPAGE_NOTICE)
     Observable<NoticeBean> getHomePageNotice(@Body RequestBody requestBody);
+
     /**
      * @param requestBody
      * @return
      */
     @POST(AppHttpPath.GET_BUSINESS_DIRECTOR)
     Observable<HomeBusinessBean> getHomePageBusinessDirector(@Body RequestBody requestBody);
+
     /**
      * @param requestBody
      * @return
      */
     @POST(AppHttpPath.GET_BUSINESS_SUPERVISE)
     Observable<HomeBusinessBean> getHomePageBusinessSupervise(@Body RequestBody requestBody);
+
     /**
      * @param requestBody
      * @return
      */
     @POST(AppHttpPath.GET_BUSINESS_TERRITORY)
     Observable<HomeBusinessBean> getHomePageBusinessTerritory(@Body RequestBody requestBody);
+
     /**
      * @param requestBody
      * @return
      */
     @POST(AppHttpPath.GET_BUSINESS_GRID)
     Observable<HomeBusinessBean> getHomePageBusinessGrid(@Body RequestBody requestBody);
+
     /**
      * @param requestBody
      * @return
@@ -185,6 +193,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.GET_ENTERPRIZSE_INFO)
     Observable<UnitDetailBean> getEnterpriseInfo(@Body RequestBody requestBody);
+
     /**
      * @param requestBody
      * @return
@@ -198,6 +207,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.GET_RESPONSE_LIST)
     Observable<IdNameBean> getResponseList(@Body RequestBody requestBody);
+
     /**
      * @param requestBody
      * @return
@@ -232,18 +242,21 @@ public interface AppServer {
      */
     @POST(AppHttpPath.CHECK_RECORD_DETAIL)
     Observable<CheckDetailBean> getCheckRecordDetail(@Body RequestBody requestBody);
+
     /**
      * @param requestBody
      * @return
      */
     @POST(AppHttpPath.ADD_PUNISH)
     Observable<BaseResult> addPunishInfo(@Body RequestBody requestBody);
+
     /**
      * @param requestBody
      * @return
      */
     @POST(AppHttpPath.ADD_RECTIFY_NOTICE)
     Observable<BaseResult> addRectifyNotice(@Body RequestBody requestBody);
+
     /**
      * @param requestBody
      * @return
@@ -273,4 +286,15 @@ public interface AppServer {
 
     @POST(AppHttpPath.GET_EDUCATION_LIST)
     Observable<EducationListBean> getEducationList(@Body RequestBody requestBody);
+
+    @POST(AppHttpPath.GET_NORMAL_CHECK_LIST)
+    Observable<UnitOfInductryBean> getNormalCheckList(@Body RequestBody requestBody);
+
+    @POST(AppHttpPath.GET_SPECIAL_CHECK_LIST)
+    Observable<UnitOfInductryBean> getSpecialCheckList(@Body RequestBody requestBody);
+
+    @POST(AppHttpPath.MY_NEWS)
+    Observable<MyMsgBean> getMyMSG(@Body RequestBody requestBody);
+    @POST(AppHttpPath.MY_NEWS_UNREAD)
+    Observable<BaseResult> getMyMsgUnread(@Body RequestBody requestBody);
 }
