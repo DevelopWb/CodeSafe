@@ -305,21 +305,23 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
                 case MultipleItem.ITEM_ADD_MANAGER:
                     BindManagerBean bindManagerBean = (BindManagerBean) array.getObject();
+                    List<IdNameBean.DataBean> bindedManagers = bindManagerBean.getData();
+                    if (bindedManagers == null) {
+                        bindedManagers = new ArrayList<>();
+                    }
                     switch (bindManagerBean.getManagerName()) {
                         case BaseInspectContract.BUSINESS_PRODUCTION_DEPARTMENT:
                             if (bindManagerBean.isBound()) {
-                                List<UnitDetailBean.DataBean.DirectorListBean> directorList = new ArrayList<>();
-                                directorList.add(new UnitDetailBean.DataBean.DirectorListBean(UserInfoManager.getDepartmentId(), UserInfoManager.getDepartmentName()));
+                                bindedManagers.add(new IdNameBean.DataBean(UserInfoManager.getDepartmentId(), UserInfoManager.getDepartmentName()));
                                 builder.addFormDataPart("directorId", String.valueOf(UserInfoManager.getDepartmentId()));
-                                unitDataBean.setDirectorList(directorList);
+                                unitDataBean.setDirectorList(bindedManagers);
                             }
                             break;
                         case BaseInspectContract.BUSINESS_PRODUCTION_DIRECT_DEPARTMENT:
                             if (bindManagerBean.isBound()) {
                                 builder.addFormDataPart("superviseId", String.valueOf(UserInfoManager.getDepartmentId()));
-                                List<UnitDetailBean.DataBean.SuperviseListBean> list = new ArrayList<>();
-                                list.add(new UnitDetailBean.DataBean.SuperviseListBean(UserInfoManager.getDepartmentId(), UserInfoManager.getDepartmentName()));
-                                unitDataBean.setSuperviseList(list);
+                                bindedManagers.add(new IdNameBean.DataBean(UserInfoManager.getDepartmentId(), UserInfoManager.getDepartmentName()));
+                                unitDataBean.setSuperviseList(bindedManagers);
                             }
                             break;
                         case BaseInspectContract.UNIT_TERRITORY_SUPERVISE:
@@ -330,9 +332,8 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             break;
                         case BaseInspectContract.UNIT_UNIT_SUPERVISE_PEOPLE:
                             if (bindManagerBean.isBound()) {
-                                List<UnitDetailBean.DataBean.SuperviseUserListBean> list = new ArrayList<>();
-                                list.add(new UnitDetailBean.DataBean.SuperviseUserListBean(UserInfoManager.getDepartmentId(), UserInfoManager.getDepartmentName()));
-                                unitDataBean.setSuperviseUserList(list);
+                                bindedManagers.add(new IdNameBean.DataBean(UserInfoManager.getDepartmentId(), UserInfoManager.getDepartmentName()));
+                                unitDataBean.setSuperviseUserList(bindedManagers);
                                 builder.addFormDataPart("superviseUserId", String.valueOf(UserInfoManager.getUserId()));
                             }
                             break;

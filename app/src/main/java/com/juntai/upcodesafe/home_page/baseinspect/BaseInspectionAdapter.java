@@ -37,6 +37,7 @@ import com.juntai.upcodesafe.bean.LocationBean;
 import com.juntai.upcodesafe.bean.MultipleItem;
 import com.juntai.upcodesafe.bean.PicRecycleBean;
 import com.juntai.upcodesafe.bean.TextKeyValueBean;
+import com.juntai.upcodesafe.home_page.unit.ManagerListAdapter;
 import com.juntai.upcodesafe.utils.HawkProperty;
 import com.orhanobut.hawk.Hawk;
 
@@ -129,11 +130,17 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
             case MultipleItem.ITEM_ADD_MANAGER:
                 BindManagerBean bindManagerBean = (BindManagerBean) item.getObject();
                 helper.setText(R.id.manager_name_iv, bindManagerBean.getManagerName());
-                if (TextUtils.isEmpty(bindManagerBean.getManagerInfo())) {
-                    helper.setGone(R.id.manager_info_tv, false);
+                if (bindManagerBean.getData()==null||bindManagerBean.getData().isEmpty()) {
+                    helper.setGone(R.id.managers_name_rv, false);
                 } else {
-                    helper.setGone(R.id.manager_info_tv, true);
+                    helper.setGone(R.id.managers_name_rv, true);
                 }
+                RecyclerView  bindManagerRv = helper.getView(R.id.managers_name_rv);
+                GridLayoutManager bindmanager = new GridLayoutManager(mContext, 2);
+                bindManagerRv.setLayoutManager(bindmanager);
+                ManagerListAdapter managerListAdapter = new ManagerListAdapter(R.layout.single_text_layout);
+                bindManagerRv.setAdapter(managerListAdapter);
+
                 helper.addOnClickListener(R.id.manager_bind_tv);
                 if (bindManagerBean.isBound()) {
                     helper.setTextColor(R.id.manager_bind_tv, ContextCompat.getColor(mContext,R.color.red));

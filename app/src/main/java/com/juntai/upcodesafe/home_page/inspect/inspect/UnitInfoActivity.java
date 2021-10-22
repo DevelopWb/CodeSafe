@@ -20,6 +20,8 @@ import com.orhanobut.hawk.Hawk;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.FormBody;
+
 /**
  * @aouther tobato
  * @description 描述  单位信息
@@ -33,22 +35,28 @@ public class UnitInfoActivity extends BaseInspectionInfoActivity {
     public void initData() {
         if (getIntent() != null) {
             String  stringType = getIntent().getStringExtra(BaseInspectionInfoActivity.BASE_STRING);
-            String id = getIntent().getStringExtra(BASE_ID);
             if (stringType == null) {
                 return;
             }
+            FormBody.Builder builder = getBaseBuilder();
+            if (contentId > 0) {
+                builder.add("messageId", String.valueOf(contentId));
+            }
             switch (stringType) {
+
                 case BaseInspectionInfoActivity.BASE_STRING_VALUE1:
+
+
                     //企业明细
-                    mPresenter.getEnterpriseInfo(getBaseBuilder().add("unitId", id).build(), AppHttpPath.GET_ENTERPRIZSE_INFO);
+                    mPresenter.getEnterpriseInfo(builder.add("unitId", String.valueOf(baseId)).build(), AppHttpPath.GET_ENTERPRIZSE_INFO);
                     break;
                 case BaseInspectionInfoActivity.BASE_STRING_VALUE2:
                     //企业自身明细
-                    mPresenter.getEnterpriseInfo(getBaseBuilder().add("unitId", String.valueOf(UserInfoManager.getUnitId())).build(), AppHttpPath.GET_ENTERPRIZSE_INFO);
+                    mPresenter.getEnterpriseInfo(builder.add("unitId", String.valueOf(UserInfoManager.getUnitId())).build(), AppHttpPath.GET_ENTERPRIZSE_INFO);
                     break;
                 case BaseInspectionInfoActivity.BASE_STRING_VALUE3:
                     //通过uuid查询企业明细
-                    mPresenter.getEnterpriseInfoByUUID(getBaseBuilder().add("uuid",id).build(), AppHttpPath.GET_ENTERPRIZSE_INFO);
+                    mPresenter.getEnterpriseInfoByUUID(builder.add("uuid",String.valueOf(baseId)).build(), AppHttpPath.GET_ENTERPRIZSE_INFO);
                     break;
                 default:
                     break;

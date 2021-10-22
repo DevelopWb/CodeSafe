@@ -1,5 +1,8 @@
 package com.juntai.upcodesafe.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.contrarywind.interfaces.IPickerViewData;
 import com.juntai.disabled.basecomponent.base.BaseResult;
 
@@ -30,10 +33,13 @@ public class IdNameBean extends BaseResult {
         this.data = data;
     }
 
-    public static class DataBean implements IPickerViewData {
+    public static class DataBean implements IPickerViewData, Parcelable {
         public DataBean(int id, String name) {
             this.id = id;
             this.name = name;
+        }
+
+        public DataBean() {
         }
 
         /**
@@ -91,5 +97,39 @@ public class IdNameBean extends BaseResult {
         public String getPickerViewText() {
             return name;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(this.id);
+            dest.writeString(this.name);
+            dest.writeString(this.content);
+            dest.writeInt(this.checkTime);
+            dest.writeByte(this.selecte ? (byte) 1 : (byte) 0);
+        }
+
+        protected DataBean(Parcel in) {
+            this.id = in.readInt();
+            this.name = in.readString();
+            this.content = in.readString();
+            this.checkTime = in.readInt();
+            this.selecte = in.readByte() != 0;
+        }
+
+        public static final Parcelable.Creator<DataBean> CREATOR = new Parcelable.Creator<DataBean>() {
+            @Override
+            public DataBean createFromParcel(Parcel source) {
+                return new DataBean(source);
+            }
+
+            @Override
+            public DataBean[] newArray(int size) {
+                return new DataBean[size];
+            }
+        };
     }
 }

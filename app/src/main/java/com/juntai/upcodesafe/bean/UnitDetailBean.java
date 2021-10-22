@@ -115,10 +115,44 @@ public class UnitDetailBean extends BaseResult {
         private String qrCode;
         private String createAccount;
         private String gmtCreate;
-        private List<DirectorListBean> directorList;
-        private List<SuperviseListBean> superviseList;
-        private List<SuperviseUserListBean> superviseUserList;
+        private List<IdNameBean.DataBean> directorList;
+        private List<IdNameBean.DataBean> superviseList;
+        private List<IdNameBean.DataBean> superviseUserList;
         private int isAdd;//0未添加
+
+        public List<IdNameBean.DataBean> getDirectorList() {
+            if (directorList == null) {
+                return new ArrayList<>();
+            }
+            return directorList;
+        }
+
+        public void setDirectorList(List<IdNameBean.DataBean> directorList) {
+            this.directorList = directorList;
+        }
+
+        public List<IdNameBean.DataBean> getSuperviseList() {
+            if (superviseList == null) {
+                return new ArrayList<>();
+            }
+            return superviseList;
+        }
+
+        public void setSuperviseList(List<IdNameBean.DataBean> superviseList) {
+            this.superviseList = superviseList;
+        }
+
+        public List<IdNameBean.DataBean> getSuperviseUserList() {
+            if (superviseUserList == null) {
+                return new ArrayList<>();
+            }
+            return superviseUserList;
+        }
+
+        public void setSuperviseUserList(List<IdNameBean.DataBean> superviseUserList) {
+            this.superviseUserList = superviseUserList;
+        }
+
         public String getIds() {
             return ids == null ? "" : ids;
         }
@@ -432,217 +466,6 @@ public class UnitDetailBean extends BaseResult {
             this.gmtCreate = gmtCreate;
         }
 
-        public List<DirectorListBean> getDirectorList() {
-            return directorList;
-        }
-
-        public void setDirectorList(List<DirectorListBean> directorList) {
-            this.directorList = directorList;
-        }
-
-        public List<SuperviseListBean> getSuperviseList() {
-            return superviseList;
-        }
-
-        public void setSuperviseList(List<SuperviseListBean> superviseList) {
-            this.superviseList = superviseList;
-        }
-
-        public List<SuperviseUserListBean> getSuperviseUserList() {
-            return superviseUserList;
-        }
-
-        public void setSuperviseUserList(List<SuperviseUserListBean> superviseUserList) {
-            this.superviseUserList = superviseUserList;
-        }
-
-        public static class DirectorListBean implements Parcelable {
-            /**
-             * id : 1
-             * name : 兰山区农业农村局
-             */
-
-            private int id;
-            private String name;
-
-            public DirectorListBean(int id, String name) {
-                this.id = id;
-                this.name = name;
-            }
-
-            public int getId() {
-                return id;
-            }
-
-            public void setId(int id) {
-                this.id = id;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
-
-            @Override
-            public int describeContents() {
-                return 0;
-            }
-
-            @Override
-            public void writeToParcel(Parcel dest, int flags) {
-                dest.writeInt(this.id);
-                dest.writeString(this.name);
-            }
-
-            public DirectorListBean() {
-            }
-
-            protected DirectorListBean(Parcel in) {
-                this.id = in.readInt();
-                this.name = in.readString();
-            }
-
-            public static final Parcelable.Creator<DirectorListBean> CREATOR = new Parcelable.Creator<DirectorListBean>() {
-                @Override
-                public DirectorListBean createFromParcel(Parcel source) {
-                    return new DirectorListBean(source);
-                }
-
-                @Override
-                public DirectorListBean[] newArray(int size) {
-                    return new DirectorListBean[size];
-                }
-            };
-        }
-
-        public static class SuperviseListBean implements Parcelable {
-            /**
-             * id : 1
-             * name : 兰山区农业农村局
-             */
-
-            private int id;
-            private String name;
-
-            public SuperviseListBean(int id, String name) {
-                this.id = id;
-                this.name = name;
-            }
-
-            public int getId() {
-                return id;
-            }
-
-            public void setId(int id) {
-                this.id = id;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
-
-            @Override
-            public int describeContents() {
-                return 0;
-            }
-
-            @Override
-            public void writeToParcel(Parcel dest, int flags) {
-                dest.writeInt(this.id);
-                dest.writeString(this.name);
-            }
-
-            public SuperviseListBean() {
-            }
-
-            protected SuperviseListBean(Parcel in) {
-                this.id = in.readInt();
-                this.name = in.readString();
-            }
-
-            public static final Parcelable.Creator<SuperviseListBean> CREATOR = new Parcelable.Creator<SuperviseListBean>() {
-                @Override
-                public SuperviseListBean createFromParcel(Parcel source) {
-                    return new SuperviseListBean(source);
-                }
-
-                @Override
-                public SuperviseListBean[] newArray(int size) {
-                    return new SuperviseListBean[size];
-                }
-            };
-        }
-
-        public static class SuperviseUserListBean implements Parcelable {
-            public SuperviseUserListBean(int id, String name) {
-                this.id = id;
-                this.name = name;
-            }
-
-            /**
-             * id : 1
-             * name : 哈哈哈
-             */
-
-            private int id;
-            private String name;
-
-            public int getId() {
-                return id;
-            }
-
-            public void setId(int id) {
-                this.id = id;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
-
-
-            @Override
-            public int describeContents() {
-                return 0;
-            }
-
-            @Override
-            public void writeToParcel(Parcel dest, int flags) {
-                dest.writeInt(this.id);
-                dest.writeString(this.name);
-            }
-
-            public SuperviseUserListBean() {
-            }
-
-            protected SuperviseUserListBean(Parcel in) {
-                this.id = in.readInt();
-                this.name = in.readString();
-            }
-
-            public static final Parcelable.Creator<SuperviseUserListBean> CREATOR = new Parcelable.Creator<SuperviseUserListBean>() {
-                @Override
-                public SuperviseUserListBean createFromParcel(Parcel source) {
-                    return new SuperviseUserListBean(source);
-                }
-
-                @Override
-                public SuperviseUserListBean[] newArray(int size) {
-                    return new SuperviseUserListBean[size];
-                }
-            };
-        }
-
 
         @Override
         public int describeContents() {
@@ -737,9 +560,9 @@ public class UnitDetailBean extends BaseResult {
             this.qrCode = in.readString();
             this.createAccount = in.readString();
             this.gmtCreate = in.readString();
-            this.directorList = in.createTypedArrayList(DirectorListBean.CREATOR);
-            this.superviseList = in.createTypedArrayList(SuperviseListBean.CREATOR);
-            this.superviseUserList = in.createTypedArrayList(SuperviseUserListBean.CREATOR);
+            this.directorList = in.createTypedArrayList(IdNameBean.DataBean.CREATOR);
+            this.superviseList = in.createTypedArrayList(IdNameBean.DataBean.CREATOR);
+            this.superviseUserList = in.createTypedArrayList(IdNameBean.DataBean.CREATOR);
             this.isAdd = in.readInt();
         }
 

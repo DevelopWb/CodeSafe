@@ -43,7 +43,8 @@ public class AppHttpPath {
     /**
      * 检查更新
      */
-    public static final String APP_UPDATE = BASE + "/u/appUserStaff/detectionAppVersions.shtml";
+//    public static final String APP_UPDATE = BASE + "/u/appUserStaff/detectionAppVersions.shtml";
+    public static final String APP_UPDATE = BASE + "";
 
     /**
      * 获取短信验证码

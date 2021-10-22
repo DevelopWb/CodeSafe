@@ -235,20 +235,20 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL, new ImportantTagBean
                         ("监管单位", true)));
                 arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.unit_icon,
-                        BaseInspectContract.BUSINESS_PRODUCTION_DEPARTMENT, "", "为本单位的\"行业主管\"企业",isBindToDirectUnit(bean))));
+                        BaseInspectContract.BUSINESS_PRODUCTION_DEPARTMENT, bean==null?null:bean.getDirectorList(), "为本单位的\"行业主管\"企业", bean != null && isBinded(bean.getDirectorList()))));
                 arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.unit_icon,
-                        BaseInspectContract.BUSINESS_PRODUCTION_DIRECT_DEPARTMENT, UserInfoManager.getDepartmentDetailInfo(), "为本单位的\"直接监管责任\"企业",isBindToSuperviseUnit(bean))));
+                        BaseInspectContract.BUSINESS_PRODUCTION_DIRECT_DEPARTMENT, bean==null?null:bean.getSuperviseList(), "为本单位的\"直接监管责任\"企业",bean != null && isBinded(bean.getSuperviseList()))));
             } else if (2 == UserInfoManager.getAccountTypeId()) {
                 arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL, new ImportantTagBean("属地监管", true)));
                 arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.unit_icon,
-                        BaseInspectContract.UNIT_TERRITORY_SUPERVISE, "", "为本区域监督（管理）企业",bean!=null&&bean.getTerritorySuperviseId()>0)));
+                        BaseInspectContract.UNIT_TERRITORY_SUPERVISE, null, "为本区域监督（管理）企业",bean!=null&&bean.getTerritorySuperviseId()>0)));
                 arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.unit_icon,
-                        BaseInspectContract.UNIT_UNIT_SUPERVISE_PEOPLE, UserInfoManager.getUserName(), "为本区域监督（管理）人",isBindToSuperviseUser(bean))));
+                        BaseInspectContract.UNIT_UNIT_SUPERVISE_PEOPLE, bean==null?null:bean.getSuperviseUserList(), "为本区域监督（管理）人",bean != null && isBinded(bean.getSuperviseUserList()))));
             } else if (3 == UserInfoManager.getAccountTypeId()) {
                 arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL, new ImportantTagBean
                         ("监督(管理)人", true)));
                 arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.unit_icon,
-                        BaseInspectContract.UNIT_GRID_SUPERVISE, "", "为本网格企业",bean!=null&&bean.getGridSuperviseId()>0)));
+                        BaseInspectContract.UNIT_GRID_SUPERVISE, null, "为本网格企业",bean!=null&&bean.getGridSuperviseId()>0)));
 
             }
 
@@ -274,62 +274,18 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
 
     /**
      * 已绑定到主管单位
-     * @param bean
      * @return
      */
-    private boolean   isBindToDirectUnit(UnitDetailBean.DataBean bean){
-        if (bean == null) {
-            return false;
-        }
-        if (bean.getDirectorList()!=null&&!bean.getDirectorList().isEmpty()) {
-            for (UnitDetailBean.DataBean.DirectorListBean directorListBean : bean.getDirectorList()) {
-                if (UserInfoManager.getDepartmentName().equals(directorListBean.getName())) {
-                    return true;
-                }
+    private boolean isBinded(List<IdNameBean.DataBean> arrays){
+
+        for (IdNameBean.DataBean array : arrays) {
+            if (UserInfoManager.getDepartmentName().equals(array.getName())) {
+                return true;
             }
         }
-
         return false;
     }
 
-    /**
-     * 已绑定到监管单位
-     * @param bean
-     * @return
-     */
-    private boolean   isBindToSuperviseUnit(UnitDetailBean.DataBean bean){
-        if (bean == null) {
-            return false;
-        }
-        if (bean.getSuperviseList()!=null&&!bean.getSuperviseList().isEmpty()) {
-            for (UnitDetailBean.DataBean.SuperviseListBean directorListBean : bean.getSuperviseList()) {
-                if (UserInfoManager.getDepartmentName().equals(directorListBean.getName())) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-    /**
-     * 已绑定到监管单位
-     * @param bean
-     * @return
-     */
-    private boolean   isBindToSuperviseUser(UnitDetailBean.DataBean bean){
-        if (bean == null) {
-            return false;
-        }
-        if (bean.getSuperviseUserList()!=null&&!bean.getSuperviseUserList().isEmpty()) {
-            for (UnitDetailBean.DataBean.SuperviseUserListBean directorListBean : bean.getSuperviseUserList()) {
-                if (UserInfoManager.getDepartmentName().equals(directorListBean.getName())) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
     /**
      * 获取规模大小
      * <p>
