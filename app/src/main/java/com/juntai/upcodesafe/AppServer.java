@@ -4,7 +4,6 @@ package com.juntai.upcodesafe;
 import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.upcodesafe.bean.CheckDetailBean;
 import com.juntai.upcodesafe.bean.CheckRecordBean;
-import com.juntai.upcodesafe.bean.EducationListBean;
 import com.juntai.upcodesafe.bean.HomeBusinessBean;
 import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.LableBean;
@@ -206,6 +205,12 @@ public interface AppServer {
      */
     @POST(AppHttpPath.EDIT_UNIT_INFO)
     Observable<BaseResult> editUnitInfo(@Body RequestBody requestBody);
+    /**
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.DELETE_UNIT_MANAGER)
+    Observable<BaseResult> deleteUnitManager(@Body RequestBody requestBody);
 
     /**
      * @param requestBody
@@ -291,7 +296,7 @@ public interface AppServer {
 
 
     @POST(AppHttpPath.GET_EDUCATION_LIST)
-    Observable<EducationListBean> getEducationList(@Body RequestBody requestBody);
+    Observable<NoticeBean> getEducationList(@Body RequestBody requestBody);
 
     @POST(AppHttpPath.GET_NORMAL_CHECK_LIST)
     Observable<UnitOfInductryBean> getNormalCheckList(@Body RequestBody requestBody);

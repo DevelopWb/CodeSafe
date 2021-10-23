@@ -55,7 +55,7 @@ import okhttp3.RequestBody;
  */
 public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspectPresent> implements BaseInspectContract.IInspectView, View.OnClickListener, SelectPhotosFragment.OnPhotoItemClick {
     public boolean isDetail = false;
-
+    private BindManagerBean bindManagerBean;
     private int mParentsPosition;
     private PicRecycleBean mPicRecycleBean;
     private HorPicsAdapter mHorPicsAdapter;
@@ -121,6 +121,8 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
 
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+
+
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 currentPosition = position;
@@ -192,22 +194,27 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         break;
                     case R.id.manager_bind_tv:
                         //添加或者移除企业
-                        BindManagerBean bindManagerBean = (BindManagerBean) multipleItem.getObject();
+                        bindManagerBean = (BindManagerBean) multipleItem.getObject();
                         List<IdNameBean.DataBean> bindManagers = bindManagerBean.getData();
-                        if (bindManagers == null) {
-                            bindManagers = new ArrayList<>();
-                        }
                         if (bindManagerBean.isBound()) {
-                            bindManagerBean.setBound(false);
-                            Iterator iterator = bindManagers.iterator();
-                            while (iterator.hasNext()) {
-                                IdNameBean.DataBean bean = (IdNameBean.DataBean) iterator.next();
-                                if (UserInfoManager.getDepartmentName().equals(bean.getName())) {
-                                    iterator.remove();
+                            if (getCurrentManagerId() > 0) {
+                                //调用删除的接口
+                                mPresenter.deleteUnitManager(getBaseBuilder().add("typeId", getManagerType())
+                                        .add("id", String.valueOf(getCurrentManagerId())).build(), AppHttpPath.DELETE_UNIT_MANAGER);
+                            }else{
+                                //本地添加的数据 不用调用接口删除 直接更改状态
+                                bindManagerBean.setBound(false);
+                                Iterator iterator = bindManagers.iterator();
+                                while (iterator.hasNext()) {
+                                    IdNameBean.DataBean bean = (IdNameBean.DataBean) iterator.next();
+                                    if (UserInfoManager.getDepartmentName().equals(bean.getName())) {
+                                        iterator.remove();
+                                    }
                                 }
                             }
+
                         } else {
-                            bindManagers.add(bindManagers.size(),new IdNameBean.DataBean(UserInfoManager.getDepartmentId(),UserInfoManager.getDepartmentName()));
+                            bindManagers.add(bindManagers.size(), new IdNameBean.DataBean(UserInfoManager.getDepartmentName()));
                             bindManagerBean.setBound(true);
                         }
                         bindManagerBean.setData(bindManagers);
@@ -272,6 +279,50 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                 }
             }
         });
+    }
+
+    /**
+     * 获取管理者类型
+     *
+     * @return
+     */
+    private String getManagerType() {
+        String typeName = null;
+        switch (bindManagerBean.getManagerName()) {
+            case BaseInspectContract.BUSINESS_PRODUCTION_DEPARTMENT:
+                typeName = "1";
+                break;
+            case BaseInspectContract.BUSINESS_PRODUCTION_DIRECT_DEPARTMENT:
+                typeName = "2";
+                break;
+            case BaseInspectContract.UNIT_TERRITORY_SUPERVISE:
+                typeName = "3";
+                break;
+            case BaseInspectContract.UNIT_UNIT_SUPERVISE_PEOPLE:
+                typeName = "5";
+                break;
+            case BaseInspectContract.UNIT_GRID_SUPERVISE:
+                typeName = "4";
+                break;
+            default:
+                break;
+        }
+        return typeName;
+    }
+
+    /**
+     * 获取管理者类型
+     *
+     * @return
+     */
+    private int getCurrentManagerId() {
+        List<IdNameBean.DataBean> arrays = bindManagerBean.getData();
+        for (IdNameBean.DataBean array : arrays) {
+            if (UserInfoManager.getDepartmentName().equals(array.getName())) {
+                return array.getId();
+            }
+        }
+        return 0;
     }
 
     @Override
@@ -628,13 +679,12 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         String picPah = photos.get(i);
                         switch (i) {
                             case 0:
-
                                 if (picPah.contains(SDCARD_TAG)) {
                                     builder.addFormDataPart("pictureOne", "pictureOne",
                                             RequestBody.create(MediaType.parse("file"),
                                                     new File(picPah)));
                                 } else {
-                                    builder.addFormDataPart("pictureOne",
+                                    builder.addFormDataPart("photoOne",
                                             picPah.substring(AppHttpPath.BASE_IMAGE.length(),
                                                     picPah.length()));
                                 }
@@ -758,6 +808,20 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 mSelectTv.setText(area);
                             }
                         });
+                break;
+            case AppHttpPath.DELETE_UNIT_MANAGER:
+                bindManagerBean.setBound(false);
+                List<IdNameBean.DataBean> dataBeans = bindManagerBean.getData();
+                Iterator iterator = dataBeans.iterator();
+                while (iterator.hasNext()) {
+                    IdNameBean.DataBean bean = (IdNameBean.DataBean) iterator.next();
+                    if (UserInfoManager.getDepartmentName().equals(bean.getName())) {
+                        iterator.remove();
+                    }
+                }
+                bindManagerBean.setData(dataBeans);
+                adapter.notifyItemChanged(currentPosition);
+
                 break;
             default:
                 break;

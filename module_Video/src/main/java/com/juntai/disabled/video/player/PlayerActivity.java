@@ -1,26 +1,14 @@
 package com.juntai.disabled.video.player;
 
-import android.net.Uri;
-import android.os.Handler;
 
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelection;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.upstream.BandwidthMeter;
-import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.util.Util;
-import com.juntai.disabled.basecomponent.mvp.BasePresenter;
-import com.juntai.disabled.basecomponent.utils.BaseAppUtils;
+import com.bumptech.glide.Glide;
 import com.juntai.disabled.basecomponent.base.BaseDownLoadActivity;
+import com.juntai.disabled.basecomponent.mvp.BasePresenter;
+import com.juntai.disabled.video.Jzvd.JzvdStdPortraitScreen;
 import com.juntai.disabled.video.R;
+
+import cn.jzvd.JZDataSource;
+import cn.jzvd.Jzvd;
 
 /**
  * @aouther Ma
@@ -38,8 +26,11 @@ import com.juntai.disabled.video.R;
 
 public class PlayerActivity extends BaseDownLoadActivity {
     private String playPath;
-    private PlayerView playerview;
-    SimpleExoPlayer player;
+    private String thumbImage;
+    private JzvdStdPortraitScreen jzvdStd;
+
+    public static final String VIDEO_PATH = "video_path";
+    public static final String VIDEO_THUMB_IMAGE = "video_thumb_image";
 
     @Override
     public int getLayoutView() {
@@ -50,63 +41,39 @@ public class PlayerActivity extends BaseDownLoadActivity {
     public void initView() {
         setTitleName("视频");
         //下载视频到本地播放
-        playPath = getIntent().getStringExtra("playPath");
-        playerview = findViewById(R.id.playerview);
+        playPath = getIntent().getStringExtra(VIDEO_PATH);
+        thumbImage = getIntent().getStringExtra(VIDEO_THUMB_IMAGE);
+        jzvdStd = findViewById(R.id.videoplayer);
     }
 
 
     @Override
     public void initData() {
-        playVideo();
+        JZDataSource jzDataSource = new JZDataSource(playPath,"");
+//        jzDataSource.looping = true;
+        jzvdStd.setUp(jzDataSource, Jzvd.SCREEN_NORMAL);
+//        Jzvd.SAVE_PROGRESS = true;
+//        jzvdStd.thumbImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        if (thumbImage != null && !thumbImage.equals("")){
+            Glide.with(mContext.getApplicationContext()).load(thumbImage).into(jzvdStd.thumbImageView);
+        }else {
+            Glide.with(mContext.getApplicationContext()).load(playPath).into(jzvdStd.thumbImageView);
+        }
+        jzvdStd.startVideo();
     }
 
-
-    /**
-     * 播放视频
-     */
-    public void playVideo() {
-        //1.创建默认的 TrackSelector
-        Handler mainHandler = new Handler();
-        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-        TrackSelection.Factory videoTrackSelectionFactory =
-                new AdaptiveTrackSelection.Factory(bandwidthMeter);
-        TrackSelector trackSelector =
-                new DefaultTrackSelector(videoTrackSelectionFactory);
-        //2.创建播放器
-        player =ExoPlayerFactory.newSimpleInstance(mContext, trackSelector);
-
-        // 将播放器附加到view
-        playerview.setPlayer(player);
-
-        /**准备播放*/
-        // 在播放期间测量带宽。 如果不需要，可以为null
-        DefaultBandwidthMeter defaultBandwidthMeter = new DefaultBandwidthMeter();
-        // 生成用于加载媒体数据的 DataSource 实例
-        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(mContext,
-                Util.getUserAgent(mContext, BaseAppUtils.getAppName()), defaultBandwidthMeter);
-        // 这是要播放媒体的MediaSource
-        MediaSource videoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
-                .createMediaSource(Uri.parse(playPath));
-        // 准备播放器的资源
-        player.prepare(videoSource);
-        player.setPlayWhenReady(true);
+    @Override
+    public void onBackPressed() {
+        if (Jzvd.backPress()) {
+            return;
+        }
+        super.onBackPressed();
     }
-
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (player != null) {
-            player.stop();
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (player != null) {
-            player.release();
-        }
+        Jzvd.releaseAllVideos();
     }
 
     @Override

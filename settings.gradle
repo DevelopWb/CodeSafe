@@ -1,4 +1,4 @@
 include ':module_Base', ':module_Map', ':module_Video',
         ':app', ':banner',
         ':pushpermission',
-        ':zXingLiteLib', ':jjdxm-ijkplayer', ':richeditor'
+        ':zXingLiteLib', ':jjdxm-ijkplayer', ':richeditor', ':jiaozivideoplayer'

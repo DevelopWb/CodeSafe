@@ -1,9 +1,12 @@
 package com.juntai.upcodesafe.home_page.inspect.inspect;
 
 
+import android.content.Intent;
+
 import com.juntai.upcodesafe.bean.UnitDetailBean;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectContract;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectionActivity;
+import com.juntai.upcodesafe.home_page.unit.EditUnitInfoActivity;
 
 import okhttp3.MultipartBody;
 
@@ -30,6 +33,7 @@ public class UnitInfoMoreActivity extends BaseInspectionActivity implements Base
     public void initView() {
         isDetail = true;
         super.initView();
+        mCommitTv.setText("申请修改");
         if (getIntent() != null) {
             dataBean = getIntent().getParcelableExtra(PARCELABLE_KEY);
         }
@@ -38,6 +42,6 @@ public class UnitInfoMoreActivity extends BaseInspectionActivity implements Base
     @Override
     protected void commitLogic(MultipartBody.Builder builder) {
         //申请修改
-//        startActivity(new Intent(mContext,EditUnitInfoActivity.class).putExtra(PARCELABLE_KEY,dataBean));
+        startActivity(new Intent(mContext, EditUnitInfoActivity.class).putExtra(PARCELABLE_KEY,dataBean));
     }
 }

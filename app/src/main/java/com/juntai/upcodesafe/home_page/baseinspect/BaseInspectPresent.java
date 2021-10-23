@@ -400,13 +400,13 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.UNIT_RISK, bean == null ? "" :
                 getRiskName(bean.getRisk()), true, 0);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.UNIT_DIRECTOR, bean == null ? "" :
-                getListContent(bean.getDirectorList()), true, 0);
+                getListContent(bean.getDirectorList()), true, 1);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.UNIT_SUPERVISE, bean == null ? "" :
-                getListContent(bean.getSuperviseList()), true, 0);
+                getListContent(bean.getSuperviseList()), true, 1);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.UNIT_TERRITORY_SUPERVISE, bean == null ? "" :
                 bean.getTerritoryName(), true, 0);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.UNIT_UNIT_SUPERVISE_PEOPLE, bean == null ? "" :
-                getListContent(bean.getSuperviseUserList()), true, 0);
+                getListContent(bean.getSuperviseUserList()), true, 1);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.UNIT_GRID_SUPERVISE, bean == null ? "" :
                 bean.getGridSuperviseName(), true, 0);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, bean == null ? "" : bean.getRemarks(), false, 1);
@@ -688,6 +688,26 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     public void editUnitInfo(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .editUnitInfo(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    public void deleteUnitManager(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .deleteUnitManager(requestBody)
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
                     @Override

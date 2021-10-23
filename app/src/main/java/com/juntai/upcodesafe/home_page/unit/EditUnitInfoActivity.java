@@ -23,7 +23,7 @@ public class EditUnitInfoActivity extends BaseAddUnitActivity {
 
     @Override
     protected String getCommitTextValue() {
-        return "提交审核";
+        return "提交修改";
     }
 
     @Override
@@ -38,7 +38,7 @@ public class EditUnitInfoActivity extends BaseAddUnitActivity {
 
     @Override
     protected void commit(MultipartBody.Builder builder) {
-        mPresenter.editUnitInfo( builder.build(), AppHttpPath.EDIT_UNIT_INFO);
+        mPresenter.editUnitInfo( builder.addFormDataPart("id", String.valueOf(unitId)).build(), AppHttpPath.EDIT_UNIT_INFO);
 
     }
 }

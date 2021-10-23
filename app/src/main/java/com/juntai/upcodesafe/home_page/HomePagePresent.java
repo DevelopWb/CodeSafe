@@ -1,20 +1,17 @@
 package com.juntai.upcodesafe.home_page;
 
 import com.juntai.disabled.basecomponent.base.BaseObserver;
-import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.disabled.basecomponent.mvp.BasePresenter;
 import com.juntai.disabled.basecomponent.mvp.IModel;
 import com.juntai.disabled.basecomponent.utils.RxScheduler;
 import com.juntai.upcodesafe.AppNetModule;
 import com.juntai.upcodesafe.R;
-import com.juntai.upcodesafe.bean.EducationListBean;
 import com.juntai.upcodesafe.bean.HomeBusinessBean;
 import com.juntai.upcodesafe.bean.HomePageMenuBean;
 import com.juntai.upcodesafe.bean.LableBean;
 import com.juntai.upcodesafe.bean.NoticeBean;
 import com.juntai.upcodesafe.bean.SearchBean;
 import com.juntai.upcodesafe.bean.SearchResultBean;
-import com.juntai.upcodesafe.bean.UnitDetailBean;
 import com.juntai.upcodesafe.bean.UnitOfInductryBean;
 import com.juntai.upcodesafe.bean.UnitsBean;
 
@@ -237,9 +234,9 @@ public class HomePagePresent extends BasePresenter<IModel, HomePageContract.IHom
         AppNetModule.createrRetrofit()
                 .getEducationList(requestBody)
                 .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<EducationListBean>(getView()) {
+                .subscribe(new BaseObserver<NoticeBean>(getView()) {
                     @Override
-                    public void onSuccess(EducationListBean o) {
+                    public void onSuccess(NoticeBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o.getData());
                         }

@@ -44,8 +44,17 @@ public class NoticeBean extends BaseResult {
         private String title;
         private String content;
         private String coverPicture;
+        private String videoUrl;
         private int readNumber;
         private String gmtCreate;
+
+        public String getVideoUrl() {
+            return videoUrl == null ? "" : videoUrl;
+        }
+
+        public void setVideoUrl(String videoUrl) {
+            this.videoUrl = videoUrl == null ? "" : videoUrl;
+        }
 
         public int getId() {
             return id;

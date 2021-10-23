@@ -106,7 +106,12 @@ public class AppHttpPath {
     /**
      * 修改企业详情
      */
-    public static final String EDIT_UNIT_INFO = BASE + "/u/appUserStaff/updateUnit.shtml";
+    public static final String EDIT_UNIT_INFO = BASE + "/u/appUnit/updateUnit.shtml";
+
+    /**
+     * 删除单位管理者
+     */
+    public static final String DELETE_UNIT_MANAGER = BASE + "/u/appUnit/updateUnitManage.shtml";
 
 
     /**

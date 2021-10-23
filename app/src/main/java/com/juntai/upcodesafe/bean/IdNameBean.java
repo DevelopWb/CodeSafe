@@ -39,6 +39,10 @@ public class IdNameBean extends BaseResult {
             this.name = name;
         }
 
+        public DataBean(String name) {
+            this.name = name;
+        }
+
         public DataBean() {
         }
 

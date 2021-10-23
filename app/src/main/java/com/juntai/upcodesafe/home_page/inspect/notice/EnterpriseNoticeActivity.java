@@ -1,10 +1,13 @@
 package com.juntai.upcodesafe.home_page.inspect.notice;
 
 import android.text.TextUtils;
+import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
+import com.juntai.upcodesafe.base.BaseWebviewActivity;
+import com.juntai.upcodesafe.bean.NoticeBean;
 import com.juntai.upcodesafe.home_page.inspect.BaseSearchAndListActivity;
 
 /**
@@ -15,7 +18,18 @@ import com.juntai.upcodesafe.home_page.inspect.BaseSearchAndListActivity;
 public class EnterpriseNoticeActivity extends BaseSearchAndListActivity {
 
 
+    @Override
+    public void initData() {
+        super.initData();
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                NoticeBean.DataBean dataBean = (NoticeBean.DataBean) adapter.getData().get(position);
+                BaseWebviewActivity.startBaseWebviewActivity(mContext, BaseWebviewActivity.class, BaseWebviewActivity.WEB_CONTENT, dataBean.getContent(), "通知详情");
 
+            }
+        });
+    }
 
     @Override
     protected BaseQuickAdapter getAdapter() {

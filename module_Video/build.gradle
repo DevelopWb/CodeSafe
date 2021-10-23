@@ -41,4 +41,5 @@ dependencies {
     implementation project(':module_Base')
     //完整版引入
     api 'com.shuyu:GSYVideoPlayer:6.0.3'
+    api project(path: ':jiaozivideoplayer')
 }

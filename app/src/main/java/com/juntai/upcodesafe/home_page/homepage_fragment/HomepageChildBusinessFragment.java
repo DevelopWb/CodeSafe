@@ -34,7 +34,17 @@ public class HomepageChildBusinessFragment extends BaseRecyclerviewFragment<Home
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        getData();
+    }
+
+    @Override
     protected void lazyLoad() {
+
+    }
+
+    private void getData() {
         type = getArguments().getString(BaseInspectContract.TAB_TITLES);
         switch (type) {
             case BaseInspectContract.UNIT_DIRECTOR:
@@ -66,6 +76,8 @@ public class HomepageChildBusinessFragment extends BaseRecyclerviewFragment<Home
 
     @Override
     protected void initData() {
+        mSmartrefreshlayout.setEnableRefresh(false);
+        mSmartrefreshlayout.setEnableLoadMore(false);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {

@@ -38,16 +38,17 @@ public class UnitsAdapter extends BaseQuickAdapter<UnitsBean.DataBean, BaseViewH
             helper.setTextColor(R.id.item_navigation_tv, ContextCompat.getColor(mContext,R.color.white));
             helper.setBackgroundRes(R.id.item_navigation_tv,R.drawable.sp_blue_square_button);
         }else {
-            if (0==item.getIsAdd()) {
-                //未添加
-                helper.setText(R.id.item_navigation_tv,"添加");
-                helper.setTextColor(R.id.item_navigation_tv, ContextCompat.getColor(mContext,R.color.white));
-                helper.setBackgroundRes(R.id.item_navigation_tv,R.drawable.sp_blue_square_button);
-            }else {
-                helper.setText(R.id.item_navigation_tv,"已添加");
-                helper.setTextColor(R.id.item_navigation_tv, ContextCompat.getColor(mContext,R.color.black));
-                helper.setBackgroundRes(R.id.item_navigation_tv,R.drawable.sp_filled_gray);
-            }
+            helper.setGone(R.id.item_navigation_tv,false);
+//            if (0==item.getIsAdd()) {
+//                //未添加
+//                helper.setText(R.id.item_navigation_tv,"添加");
+//                helper.setTextColor(R.id.item_navigation_tv, ContextCompat.getColor(mContext,R.color.white));
+//                helper.setBackgroundRes(R.id.item_navigation_tv,R.drawable.sp_blue_square_button);
+//            }else {
+//                helper.setText(R.id.item_navigation_tv,"已添加");
+//                helper.setTextColor(R.id.item_navigation_tv, ContextCompat.getColor(mContext,R.color.black));
+//                helper.setBackgroundRes(R.id.item_navigation_tv,R.drawable.sp_filled_gray);
+//            }
         }
 
 

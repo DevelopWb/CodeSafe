@@ -163,10 +163,9 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
             case AppHttpPath.MANUAL_ADD_UNIT:
             case AppHttpPath.ADD_UNIT:
                 ToastUtils.toast(mContext, "添加成功");
-                // TODO: 2021-10-21 暂时注销
-//                if (Hawk.contains(getHawkKey())) {
-//                    Hawk.delete(getHawkKey());
-//                }
+                if (Hawk.contains(getHawkKey())) {
+                    Hawk.delete(getHawkKey());
+                }
                 finish();
                 break;
             case AppHttpPath.GET_BUSINESS_TYPES:
@@ -180,13 +179,13 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
 //                ToastUtils.toast(mContext, "添加成功");
 //                finish();
 //                break;
-//            case AppHttpPath.APPLY_EDIT_UNIT_INFO:
-//                ToastUtils.toast(mContext, "提交成功");
-//                if (Hawk.contains(getHawkKey())) {
-//                    Hawk.delete(getHawkKey());
-//                }
-//                finish();
-//                break;
+            case AppHttpPath.EDIT_UNIT_INFO:
+                ToastUtils.toast(mContext, "提交成功");
+                if (Hawk.contains(getHawkKey())) {
+                    Hawk.delete(getHawkKey());
+                }
+                finish();
+                break;
             default:
                 break;
         }

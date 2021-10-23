@@ -1,22 +1,21 @@
 package com.juntai.upcodesafe.home_page.inspect.educateOnline;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.juntai.disabled.basecomponent.mvp.IPresenter;
-import com.juntai.disabled.basecomponent.utils.EventManager;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
+import com.juntai.disabled.video.player.PlayerActivity;
+import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseRecyclerviewFragment;
-import com.juntai.upcodesafe.bean.EducationListBean;
+import com.juntai.upcodesafe.base.BaseWebviewActivity;
+import com.juntai.upcodesafe.bean.NoticeBean;
 import com.juntai.upcodesafe.home_page.HomePageContract;
 import com.juntai.upcodesafe.home_page.HomePagePresent;
-import com.juntai.upcodesafe.home_page.inspect.notice.EnterpriseNoticeAdapter;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import com.juntai.upcodesafe.utils.StringTools;
 
 import java.util.List;
 
@@ -87,8 +86,22 @@ public class EducationOnlineFragment extends BaseRecyclerviewFragment<HomePagePr
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                // TODO: 2021-10-16 在线教育详情
-                ToastUtils.toast(mContext, "点击了");
+                NoticeBean.DataBean dataBean = (NoticeBean.DataBean) adapter.getData().get(position);
+                int typeId = dataBean.getTypeId();
+                if (1 == typeId) {
+                    //类型id（1图文；2视频）
+                    BaseWebviewActivity.startBaseWebviewActivity(mContext, BaseWebviewActivity.class, BaseWebviewActivity.WEB_CONTENT, dataBean.getContent(), dataBean.getTitle());
+                } else {
+                    if (!TextUtils.isEmpty(dataBean.getVideoUrl())) {
+                        //   跳转到播放视频的界面   在线教育
+                        String playPath = AppHttpPath.BASE_IMAGE + dataBean.getVideoUrl();
+                        //播放视频
+                        Intent intent = new Intent(mContext, PlayerActivity.class);
+                        intent.putExtra(PlayerActivity.VIDEO_PATH, playPath);
+                        startActivity(intent);
+                    }
+                }
+
             }
         });
     }
@@ -107,7 +120,7 @@ public class EducationOnlineFragment extends BaseRecyclerviewFragment<HomePagePr
     public void onSuccess(String tag, Object o) {
         super.onSuccess(tag, o);
         if (o != null) {
-            List<EducationListBean.DataBean> arrays = (List<EducationListBean.DataBean>) o;
+            List<NoticeBean.DataBean> arrays = (List<NoticeBean.DataBean>) o;
             adapter.setNewData(arrays);
         }
 
