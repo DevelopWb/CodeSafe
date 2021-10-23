@@ -137,10 +137,13 @@ public class LoginActivity extends BaseMvpActivity<EntrancePresent> implements E
                     isHide = false;
                     //设置EditText的密码为可见的
                     mPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    mHideShowIv.setImageResource(R.mipmap.show_icon);
                 } else {
                     isHide = true;
                     //设置EditText的密码为隐藏
                     mPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    mHideShowIv.setImageResource(R.mipmap.hide_icon);
+
                 }
                 mPassword.setSelection(mPassword.getText().length());
                 break;

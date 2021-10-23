@@ -2,6 +2,7 @@ package com.juntai.upcodesafe.home_page.inspect.trainPlan;
 
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseCommitFootViewActivity;
+import com.juntai.upcodesafe.utils.HawkProperty;
 
 import okhttp3.MultipartBody;
 
@@ -14,6 +15,7 @@ public class AddTrainPlansActivity extends BaseCommitFootViewActivity {
 
     @Override
     public void initData() {
+        HawkProperty.UPLOAD_TYPE =  2;
         adapter.setNewData(mPresenter.addDesPicLayout("培训计划描述","培训计划照片或扫描件",0));
     }
 

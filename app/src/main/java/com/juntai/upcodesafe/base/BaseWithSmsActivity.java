@@ -115,10 +115,12 @@ public  abstract class BaseWithSmsActivity extends SmsCheckCodeActivity implemen
                 if (isHide) {
                     isHide = false;
                     //设置EditText的密码为可见的
+                    mHideShowIv.setImageResource(R.mipmap.show_icon);
                     mPasswordEt.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 }else {
                     isHide = true;
                     //设置EditText的密码为隐藏
+                    mHideShowIv.setImageResource(R.mipmap.hide_icon);
                     mPasswordEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
                 mPasswordEt.setSelection(mPasswordEt.getText().length());

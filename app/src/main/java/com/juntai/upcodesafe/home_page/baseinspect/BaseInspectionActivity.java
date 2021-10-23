@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.disabled.basecomponent.utils.GsonTools;
 import com.juntai.disabled.basecomponent.utils.PickerManager;
 import com.juntai.disabled.basecomponent.utils.RuleTools;
@@ -201,7 +202,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 //调用删除的接口
                                 mPresenter.deleteUnitManager(getBaseBuilder().add("typeId", getManagerType())
                                         .add("id", String.valueOf(getCurrentManagerId())).build(), AppHttpPath.DELETE_UNIT_MANAGER);
-                            }else{
+                            } else {
                                 //本地添加的数据 不用调用接口删除 直接更改状态
                                 bindManagerBean.setBound(false);
                                 Iterator iterator = bindManagers.iterator();
@@ -244,25 +245,13 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                 mPicRecycleBean = picRecycleBean;
                 mParentsPosition = parentsPosition;
                 mHorPicsAdapter = (HorPicsAdapter) adapter;
-                List<String> arrays = reSortIconList();
+                List<String> arrays = adapter.getData();
                 String icon_path = arrays.get(position);
                 switch (view.getId()) {
                     case R.id.select_pic_icon_iv:
                         if ("-1".equals(icon_path)) {
-                            int count = mMaxCount - (adapter.getData().size() - 1);
-                            choseImage(0, BaseInspectionActivity.this, count);
-                        } else {
-                            if (icon_path.contains(".mp4")) {
-//                                //视频路径
-//                                if (onPhotoItemClick != null) {
-//                                    onPhotoItemClick.onVedioPicClick(adapter, position);
-//                                }
-//                            } else {
-//                                //图片路径
-//                                if (onPhotoItemClick != null) {
-//                                    onPhotoItemClick.onPicClick(adapter, position);
-//                                }
-                            }
+//                            int count = mMaxCount - (adapter.getData().size() - 1);
+                            choseImage(0, BaseInspectionActivity.this, 1);
                         }
                         break;
                     case R.id.delete_pushed_news_iv:
@@ -328,10 +317,14 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     @Override
     protected void selectedPicsAndEmpressed(List<String> icons) {
         if (icons.size() > 0) {
-            mHorPicsAdapter.addData(icons);
-            List<String> arrays = reSortIconList();
-            mPicRecycleBean.setPics(arrays);
-            adapter.notifyItemChanged(mParentsPosition);
+            String picPah = icons.get(0);
+            //上传图片
+            mPresenter.uploadPic(getPublishMultipartBody()
+                    .addFormDataPart("typeId", String.valueOf(HawkProperty.UPLOAD_TYPE))
+                    .addFormDataPart("picture", "picture",
+                            RequestBody.create(MediaType.parse("file"),
+                                    new File(picPah))).build(), AppHttpPath.UPLOAD_PIC);
+
         }
     }
 
@@ -427,44 +420,6 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     unitDataBean.setType(Integer.parseInt(businessTypeBean.getIds()));
                     unitDataBean.setTypeName(businessTypeBean.getValue());
                     break;
-//                case MultipleItem.ITEM_SIGN:
-//                    //签名
-//                    ItemSignBean signBean = (ItemSignBean) array.getObject();
-//                    if (!StringTools.isStringValueOk(signBean.getSignPicPath())) {
-//                        ToastUtils.toast(mContext, "请签名");
-//                        return null;
-//                    }
-//                    builder.addFormDataPart("pictureSign", "pictureSign",
-//                            RequestBody.create(MediaType.parse(
-//                                    "file"), new File(getSignPath(FileCacheUtils.SIGN_PIC_NAME))));
-//                    break;
-//                case MultipleItem.ITEM_HEAD_PIC:
-//                    HeadPicBean headPicBean = (HeadPicBean) array.getObject();
-//                    String headPicPath = headPicBean.getPicPath();
-//
-//                    if (!skipFilter) {
-//                        if (TextUtils.isEmpty(headPicPath)) {
-//                            ToastUtils.toast(mContext, "请选择头像照片");
-//                            return null;
-//                        }
-//                    }
-//
-//                    importantorBean.setPersonnelPhoto(headPicPath);
-//                    workerBean.setPersonnelPhoto(headPicPath);
-//
-//                    if (headPicPath.contains(SDCARD_TAG)) {
-//                        builder.addFormDataPart("personnelPicture", "personnelPicture",
-//                                RequestBody.create(MediaType.parse("file"),
-//                                        new File(headPicPath)));
-//                    } else {
-//                        if (headPicPath.contains(AppHttpPath.BASE_IMAGE)) {
-//                            builder.addFormDataPart("personnelPhoto",
-//                                    headPicPath.substring(AppHttpPath.BASE_IMAGE.length(),
-//                                            headPicPath.length()));
-//                        }
-//
-//                    }
-//                    break;
                 case MultipleItem.ITEM_EDIT:
                     TextKeyValueBean textValueEditBean = (TextKeyValueBean) array
                             .getObject();
@@ -473,11 +428,6 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         if (textValueEditBean.isImportant() && TextUtils.isEmpty(textValueEditBean
                                 .getValue())) {
                             String key = textValueEditBean.getKey();
-                            //                        if (key.contains(mPresenter.FAMILY_TAG)) {
-                            //                            key = "监护人" + key.substring(1, key.length());
-                            //                        } else if (key.contains(mPresenter.PERSIONAL_TAG)) {
-                            //                            key = "残疾人" + key.substring(1, key.length());
-                            //                        }
                             ToastUtils.toast(mContext, "请输入" + key);
                             return null;
                         }
@@ -652,7 +602,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
                         }
                     }
-                    // TODO: 2021-10-15 这个应该能解决间隔填写内容的问题
+                    //  这个应该能解决间隔填写内容的问题
                     if (TextUtils.isEmpty(desAndPicBean.getTextKeyValueBean().getValue()) && picRecycleBean.getPics().isEmpty()) {
 
                     } else {
@@ -821,6 +771,16 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                 }
                 bindManagerBean.setData(dataBeans);
                 adapter.notifyItemChanged(currentPosition);
+
+                break;
+
+            case AppHttpPath.UPLOAD_PIC:
+                BaseResult baseResult = (BaseResult) o;
+                String picPath = baseResult.message;
+                mHorPicsAdapter.addData(picPath);
+                List<String> arrays = reSortIconList();
+                mPicRecycleBean.setPics(arrays);
+                adapter.notifyItemChanged(mParentsPosition);
 
                 break;
             default:

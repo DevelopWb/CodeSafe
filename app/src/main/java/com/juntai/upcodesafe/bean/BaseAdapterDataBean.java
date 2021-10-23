@@ -14,7 +14,7 @@ public class BaseAdapterDataBean {
 
     private  MultipartBody.Builder  builder;
     private UnitDetailBean.DataBean  unitDataBean;
-    private  String concreteProblems;
+    private  String concreteProblems;//描述和图片组合的json串
 
     public String getConcreteProblems() {
         return concreteProblems == null ? "" : concreteProblems;

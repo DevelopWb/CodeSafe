@@ -196,7 +196,8 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
                     ToastUtils.toast(mContext, "待审核,请耐心等待");
                 } else if (UserInfoManager.getAccountStatus() == 2) {
                     //审核成功
-                    ToastUtils.toast(mContext, "跳转到用户详情页面");
+                    // TODO: 2021-10-23  跳转到用户详情页面
+//                    ToastUtils.toast(mContext, "跳转到用户详情页面");
                 } else {
                     //跳转到补充资料的界面
                     startActivityForResult(new Intent(mContext, AddInformationActivity.class), BaseActivity.BASE_REQUEST_RESULT);

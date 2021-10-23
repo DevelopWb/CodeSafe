@@ -61,6 +61,8 @@ public interface AppServer {
 
     @POST(AppHttpPath.LOGOUT)
     Observable<BaseResult> logout(@Body RequestBody requestBody);
+    @POST(AppHttpPath.UPLOAD_PIC)
+    Observable<BaseResult> uploadPic(@Body RequestBody requestBody);
 
     @POST(AppHttpPath.SEARCH)
     Observable<SearchBean> search(@Body RequestBody requestBody);

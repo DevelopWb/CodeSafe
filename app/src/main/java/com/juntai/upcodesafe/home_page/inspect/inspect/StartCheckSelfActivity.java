@@ -41,6 +41,8 @@ public class StartCheckSelfActivity extends BaseCommitFootViewActivity {
 
     @Override
     public void initData() {
+        HawkProperty.UPLOAD_TYPE =  1;
+
         adapter.setHeaderView(getHeadView());
         adapter.setNewData(mPresenter.addDesPicLayout("检查情况描述", "上传检查图片", 0));
         if (getIntent() != null) {
@@ -72,16 +74,15 @@ public class StartCheckSelfActivity extends BaseCommitFootViewActivity {
             //监管账号需要传部门id
             body.addFormDataPart("departmentId", String.valueOf(UserInfoManager.getDepartmentId()));
             //是否为验收检查（0不是；1是）
-            body.addFormDataPart("acceptance", Hawk.get(HawkProperty.IS_YANSHOU_CHECK,false)?"1":"0");
+            body.addFormDataPart("acceptance", Hawk.get(HawkProperty.IS_YANSHOU_CHECK, false) ? "1" : "0");
         }
         if (UserInfoManager.getAccountTypeId() == 3 || UserInfoManager.getAccountTypeId() == 4) {
             //企业账户或者网格员账户 只有常规检查
             builder.addFormDataPart("typeId", "1");
-        }else {
-            boolean isNormalCheck = Hawk.get(HawkProperty.IS_NORMAL_CHECK,true);
-            builder.addFormDataPart("typeId", isNormalCheck?"1":"2");
+        } else {
+            boolean isNormalCheck = Hawk.get(HawkProperty.IS_NORMAL_CHECK, true);
+            builder.addFormDataPart("typeId", isNormalCheck ? "1" : "2");
         }
-
 
 
         mPresenter.startInspect(body.build(), AppHttpPath.START_INSPECT);
@@ -96,7 +97,10 @@ public class StartCheckSelfActivity extends BaseCommitFootViewActivity {
 
     @Override
     protected String getTitleName() {
-        return "开始自查";
+        if (UserInfoManager.getAccountTypeId() == 4) {
+            return "开始自查";
+        }
+        return "开始检查";
     }
 
     /**

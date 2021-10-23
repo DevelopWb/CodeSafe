@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.juntai.disabled.basecomponent.utils.DisplayUtil;
 import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.upcodesafe.R;
+import com.juntai.upcodesafe.utils.UrlFormatUtil;
 
 /**
  * @Author: tobato
@@ -44,6 +45,14 @@ public class HorPicsAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
             ImageLoadUtil.loadCentercropImage(mContext.getApplicationContext(), R.mipmap.add_icons, (ImageView) helper.getView(R.id.select_pic_icon_iv));
             helper.setGone(R.id.delete_pushed_news_iv, false);
         } else {
+            if (item.contains(BaseInspectionActivity.SDCARD_TAG)) {
+                //本地照片
+                ImageLoadUtil.loadImageNoCache(mContext, item, helper.getView(R.id.select_pic_icon_iv));
+            } else {
+                //网络照片
+                ImageLoadUtil.loadImageNoCache(mContext, UrlFormatUtil.getImageOriginalUrl(item),
+                        helper.getView(R.id.select_pic_icon_iv), R.mipmap.ic_error);
+            }
             ImageLoadUtil.loadImageNoCache(mContext, item, (ImageView) helper.getView(R.id.select_pic_icon_iv));
             if (delateable) {
                 helper.setGone(R.id.delete_pushed_news_iv, true);

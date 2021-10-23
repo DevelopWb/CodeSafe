@@ -18,6 +18,9 @@ public class HawkProperty {
     //常规检查或者专项检查的标识
 
     public static String IS_NORMAL_CHECK = "checktype";
+    //1开始检查
+    //2培训计划
+    public static int UPLOAD_TYPE = 1;
     public static String IS_YANSHOU_CHECK = "checktypeYanshou";
     public final static String LOGIN_KEY = "login_bean";
     public final static String TOKEN_KEY = "token_key";

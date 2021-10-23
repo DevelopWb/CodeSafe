@@ -957,6 +957,26 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     }
                 });
     }
+    public void uploadPic(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .uploadPic(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
 
     public void searchAccountNature(RequestBody requestBody, String tag) {
         AppNetModule

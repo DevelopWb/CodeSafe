@@ -28,6 +28,10 @@ public class AppHttpPath {
      *
      */
     public static final String LOGOUT = BASE + "/u/appUserStaff/logout.shtml";
+    /**
+     *图片上传
+     */
+    public static final String UPLOAD_PIC = BASE + "/u/appUnit/addPicture.shtml";
 
 
     /**
