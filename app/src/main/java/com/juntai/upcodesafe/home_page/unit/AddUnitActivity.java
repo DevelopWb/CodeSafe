@@ -42,11 +42,11 @@ public class AddUnitActivity extends BaseAddActivity {
                 (UnitsBean.DataBean) adapter.getData().get(position);
         if (0 == bean.getIsAdd()) {
             //未添加  搜索添加 需要将系统封面清空
-//            bean.setLogo(null);
             //获取单位详情
             mPresenter.getEnterpriseInfo(getBaseBuilder().add("unitId", String.valueOf(bean.getId())).build(), AppHttpPath.GET_ENTERPRIZSE_INFO);
         } else {
-            ToastUtils.toast(mContext, "该单位已添加");
+            mPresenter.getEnterpriseInfo(getBaseBuilder().add("unitId", String.valueOf(bean.getId())).build(), AppHttpPath.EDIT_UNIT_INFO);
+            //单位已添加 这时候需要跳转到申请修改的界面
 
         }
 
@@ -86,6 +86,11 @@ public class AddUnitActivity extends BaseAddActivity {
             case AppHttpPath.GET_ENTERPRIZSE_INFO:
                 UnitDetailBean.DataBean enterPriseBean = (UnitDetailBean.DataBean) o;
                 startActivityForResult(new Intent(mContext, SearchAddUnitActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY, enterPriseBean), BASE_REQUEST_RESULT);
+
+                break;
+            case AppHttpPath.EDIT_UNIT_INFO:
+                UnitDetailBean.DataBean unitBean = (UnitDetailBean.DataBean) o;
+                startActivityForResult(new Intent(mContext, EditUnitInfoActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY, unitBean), BASE_REQUEST_RESULT);
 
                 break;
             default:

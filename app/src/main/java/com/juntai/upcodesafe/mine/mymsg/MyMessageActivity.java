@@ -41,9 +41,10 @@ public class MyMessageActivity extends BaseRecyclerviewActivity<MyCenterPresent>
 //                contentId  对应单位详情里面的unitId
                 int contentId = dataBean.getContentId();
                 startActivityForResult(new Intent(mContext, UnitInfoActivity.class)
-                                        .putExtra(BaseInspectionInfoActivity.BASE_ID2, msgId)
-                                        .putExtra(BaseInspectionInfoActivity.BASE_ID, contentId),
-                                BASE_REQUEST_RESULT);
+                                .putExtra(BaseInspectionInfoActivity.BASE_STRING, BaseInspectionInfoActivity.BASE_STRING_VALUE1)
+                                .putExtra(BaseInspectionInfoActivity.BASE_ID2, msgId)
+                                .putExtra(BaseInspectionInfoActivity.BASE_ID, String.valueOf(contentId)),
+                        BASE_REQUEST_RESULT);
 
             }
         });

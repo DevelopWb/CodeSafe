@@ -42,7 +42,7 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
     public final static String BASE_STRING_VALUE2 = "baseString2";//
     public final static String BASE_STRING_VALUE3 = "baseString3";//
     public final static String BASE_ID2 = "baseid2";//
-    public int baseId;
+    public String baseId;
     public int contentId;
 
     private RecyclerView mRecyclerview;
@@ -76,7 +76,7 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
     @Override
     public void initView() {
         if (getIntent() != null) {
-            baseId = getIntent().getIntExtra(BASE_ID, 0);
+            baseId = getIntent().getStringExtra(BASE_ID);
             contentId = getIntent().getIntExtra(BASE_ID2, 0);
         }
         setTitleName(getTitleName());

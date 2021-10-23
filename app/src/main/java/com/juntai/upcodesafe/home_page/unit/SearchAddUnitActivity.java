@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.utils.HawkProperty;
+import com.juntai.upcodesafe.utils.UserInfoManager;
 
 import okhttp3.MultipartBody;
 
@@ -32,7 +33,7 @@ public class SearchAddUnitActivity extends BaseAddUnitActivity {
 
     @Override
     protected String getHawkKey() {
-        return HawkProperty.ADD_UNIT_KEY+unitId;
+        return HawkProperty.ADD_UNIT_KEY+unitId+ UserInfoManager.getUserId();
     }
 
     @Override

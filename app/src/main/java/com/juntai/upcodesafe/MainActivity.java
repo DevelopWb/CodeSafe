@@ -86,7 +86,8 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
                 int id = 0;
                 if (!TextUtils.isEmpty(result) && result.contains("=")) {
                     String str = result.substring(result.lastIndexOf("=") + 1, result.length());
-                    startActivity(new Intent(mContext, UnitInfoActivity.class).putExtra(BaseInspectionInfoActivity.BASE_STRING, BaseInspectionInfoActivity.BASE_STRING_VALUE3)
+                    startActivity(new Intent(mContext, UnitInfoActivity.class)
+                            .putExtra(BaseInspectionInfoActivity.BASE_STRING, BaseInspectionInfoActivity.BASE_STRING_VALUE3)
                             .putExtra(BaseInspectionInfoActivity.BASE_ID, str));
 
                 }

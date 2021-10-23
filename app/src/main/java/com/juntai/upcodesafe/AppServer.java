@@ -200,6 +200,12 @@ public interface AppServer {
      */
     @POST(AppHttpPath.GET_ENTERPRIZSE_INFO_BY_UUID)
     Observable<UnitDetailBean> getEnterpriseInfoByUUID(@Body RequestBody requestBody);
+    /**
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.EDIT_UNIT_INFO)
+    Observable<BaseResult> editUnitInfo(@Body RequestBody requestBody);
 
     /**
      * @param requestBody

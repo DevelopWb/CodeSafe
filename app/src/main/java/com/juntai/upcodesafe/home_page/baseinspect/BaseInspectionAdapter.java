@@ -140,7 +140,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 bindManagerRv.setLayoutManager(bindmanager);
                 ManagerListAdapter managerListAdapter = new ManagerListAdapter(R.layout.single_text_layout);
                 bindManagerRv.setAdapter(managerListAdapter);
-
+                managerListAdapter.setNewData(bindManagerBean.getData());
                 helper.addOnClickListener(R.id.manager_bind_tv);
                 if (bindManagerBean.isBound()) {
                     helper.setTextColor(R.id.manager_bind_tv, ContextCompat.getColor(mContext,R.color.red));

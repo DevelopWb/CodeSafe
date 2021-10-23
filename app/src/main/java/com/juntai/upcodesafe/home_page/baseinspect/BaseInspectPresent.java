@@ -84,34 +84,6 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         return arrays;
     }
 
-    /**
-     * @return
-     */
-    public List<MultipleItem> getEditSecurityInspectSiteInfo() {
-        List<MultipleItem> arrays = new ArrayList<>();
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_SITE, "", false, 0);
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_ADDR, "", false, 0);
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_RESPONSIBLE, "", false, 0);
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_TEL, "", false, 0);
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_SPARE_PERSON, "", false, 0);
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_SPARE_PERSON_TEL, "", false, 0);
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, "", false, 1);
-        arrays.add(new MultipleItem(MultipleItem.ITEM_LOCATION, "地址"));
-        arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "现场图片"));
-        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, ""));
-        return arrays;
-    }
-
-    private List<TextKeyValueBean> getData() {
-        List<TextKeyValueBean> arrays = new ArrayList<>();
-        arrays.add(new TextKeyValueBean("巡检点:", "暂无"));
-        arrays.add(new TextKeyValueBean("巡检地址:", "暂无"));
-        arrays.add(new TextKeyValueBean("安全责任人:", "暂无"));
-        arrays.add(new TextKeyValueBean("联系电话:", "暂无"));
-        arrays.add(new TextKeyValueBean("备用联系人:", "暂无"));
-        arrays.add(new TextKeyValueBean("联系电话:", "暂无"));
-        return arrays;
-    }
 
     /**
      * 整改通知书详情
@@ -228,33 +200,33 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                         (BaseInspectContract.UNIT_TYPE, true)));
                 arrays.add(new MultipleItem(MultipleItem.ITEM_BUSINESS_TYPES, new TextKeyValueBean(BaseInspectContract.UNIT_TYPE
                         , bean == null ? "" : bean.getTypeName(), bean == null ? "" : String.valueOf(bean.getType()))));
-                initTextSelectType(arrays, BaseInspectContract.UNIT_SIZE,bean==null?"":String.valueOf(bean.getScale()), bean == null ? "" :
+                initTextSelectType(arrays, BaseInspectContract.UNIT_SIZE, bean == null ? "" : String.valueOf(bean.getScale()), bean == null ? "" :
                         getScaleName(bean.getScale()), true, "");
-                initTextSelectType(arrays, BaseInspectContract.UNIT_RISK,bean==null?"":String.valueOf(bean.getRisk()), bean == null ? "" :
+                initTextSelectType(arrays, BaseInspectContract.UNIT_RISK, bean == null ? "" : String.valueOf(bean.getRisk()), bean == null ? "" :
                         getRiskName(bean.getRisk()), true, "");
                 arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL, new ImportantTagBean
                         ("监管单位", true)));
                 arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.unit_icon,
-                        BaseInspectContract.BUSINESS_PRODUCTION_DEPARTMENT, bean==null?null:bean.getDirectorList(), "为本单位的\"行业主管\"企业", bean != null && isBinded(bean.getDirectorList()))));
+                        BaseInspectContract.BUSINESS_PRODUCTION_DEPARTMENT, bean == null ? null : bean.getDirectorList(), "为本单位的\"行业主管\"企业", bean != null && isBinded(bean.getDirectorList()))));
                 arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.unit_icon,
-                        BaseInspectContract.BUSINESS_PRODUCTION_DIRECT_DEPARTMENT, bean==null?null:bean.getSuperviseList(), "为本单位的\"直接监管责任\"企业",bean != null && isBinded(bean.getSuperviseList()))));
+                        BaseInspectContract.BUSINESS_PRODUCTION_DIRECT_DEPARTMENT, bean == null ? null : bean.getSuperviseList(), "为本单位的\"直接监管责任\"企业", bean != null && isBinded(bean.getSuperviseList()))));
             } else if (2 == UserInfoManager.getAccountTypeId()) {
                 arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL, new ImportantTagBean("属地监管", true)));
                 arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.unit_icon,
-                        BaseInspectContract.UNIT_TERRITORY_SUPERVISE, null, "为本区域监督（管理）企业",bean!=null&&bean.getTerritorySuperviseId()>0)));
+                        BaseInspectContract.UNIT_TERRITORY_SUPERVISE, null, "为本区域监督（管理）企业", bean != null && bean.getTerritorySuperviseId() > 0)));
                 arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.unit_icon,
-                        BaseInspectContract.UNIT_UNIT_SUPERVISE_PEOPLE, bean==null?null:bean.getSuperviseUserList(), "为本区域监督（管理）人",bean != null && isBinded(bean.getSuperviseUserList()))));
+                        BaseInspectContract.UNIT_UNIT_SUPERVISE_PEOPLE, bean == null ? null : bean.getSuperviseUserList(), "为本区域监督（管理）人", bean != null && isBinded(bean.getSuperviseUserList()))));
             } else if (3 == UserInfoManager.getAccountTypeId()) {
                 arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL, new ImportantTagBean
                         ("监督(管理)人", true)));
                 arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.unit_icon,
-                        BaseInspectContract.UNIT_GRID_SUPERVISE, null, "为本网格企业",bean!=null&&bean.getGridSuperviseId()>0)));
+                        BaseInspectContract.UNIT_GRID_SUPERVISE, null, "为本网格企业", bean != null && bean.getGridSuperviseId() > 0)));
 
             }
 
 
         }
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, bean==null?"":bean.getRemarks(), false, 1);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, bean == null ? "" : bean.getRemarks(), false, 1);
         arrays.add(new MultipleItem(MultipleItem.ITEM_LOCATION, new LocationBean(bean == null ? null :
                 bean.getGpsAddress()
                 , bean == null ? null : bean.getLatitude(), bean == null ? null : bean.getLongitude())));
@@ -274,9 +246,10 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
 
     /**
      * 已绑定到主管单位
+     *
      * @return
      */
-    private boolean isBinded(List<IdNameBean.DataBean> arrays){
+    private boolean isBinded(List<IdNameBean.DataBean> arrays) {
 
         for (IdNameBean.DataBean array : arrays) {
             if (UserInfoManager.getDepartmentName().equals(array.getName())) {
@@ -284,6 +257,27 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
             }
         }
         return false;
+    }
+
+    /**
+     * 获取监管列表中的内容
+     *
+     * @return
+     */
+    private String getListContent(List<IdNameBean.DataBean> arrays) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arrays.size(); i++) {
+            IdNameBean.DataBean array = arrays.get(i);
+            if (i!=arrays.size()-1) {
+                sb.append(array.getName()+"\n");
+            }else {
+                sb.append(array.getName());
+            }
+        }
+        if (sb.toString().length()==0) {
+            return "暂无";
+        }
+        return sb.toString();
     }
 
     /**
@@ -398,8 +392,24 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 bean.getLegalPhone(), true, 0);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_RESPONSIBLE, bean == null ? "" :
                 bean.getPersonLiable(), true, 0);
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_RESPONSIBLE_TEL, bean == null ? "" :
-                bean.getLiablePhone(), true, 0);
+
+
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.UNIT_TYPE, bean == null ? "" : bean.getTypeName(), true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.UNIT_SIZE, bean == null ? "" :
+                getScaleName(bean.getScale()), true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.UNIT_RISK, bean == null ? "" :
+                getRiskName(bean.getRisk()), true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.UNIT_DIRECTOR, bean == null ? "" :
+                getListContent(bean.getDirectorList()), true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.UNIT_SUPERVISE, bean == null ? "" :
+                getListContent(bean.getSuperviseList()), true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.UNIT_TERRITORY_SUPERVISE, bean == null ? "" :
+                bean.getTerritoryName(), true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.UNIT_UNIT_SUPERVISE_PEOPLE, bean == null ? "" :
+                getListContent(bean.getSuperviseUserList()), true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.UNIT_GRID_SUPERVISE, bean == null ? "" :
+                bean.getGridSuperviseName(), true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, bean == null ? "" : bean.getRemarks(), false, 1);
 
         arrays.add(new MultipleItem(MultipleItem.ITEM_LOCATION, new LocationBean(bean == null ? null :
                 bean.getGpsAddress()
@@ -417,6 +427,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 fragmentPics)));
         return arrays;
     }
+
     /**
      * initTextType
      *
@@ -424,13 +435,14 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
      * @param key
      */
     private void initTextSelectType(List<MultipleItem> arrays, String key, String id, String value,
-                                    boolean isImportant,String other) {
+                                    boolean isImportant, String other) {
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL, new ImportantTagBean
                 (key, isImportant)));
         arrays.add(new MultipleItem(MultipleItem.ITEM_SELECT,
                 new TextKeyValueBean(key, value, id, String.format("%s%s", "请选择",
-                        key), 0, isImportant,other)));
+                        key), 0, isImportant, other)));
     }
+
     private void addFragmentPics(String picPath, List<String> fragmentPics) {
         if (!TextUtils.isEmpty(picPath)) {
             if (picPath.contains(BaseInspectionActivity.SDCARD_TAG)) {
@@ -662,6 +674,26 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     public void onSuccess(UnitDetailBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o.getData());
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    public void editUnitInfo(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .editUnitInfo(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
                         }
                     }
 

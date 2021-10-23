@@ -32,6 +32,8 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".home_page.industryDetail.IndustryInfoActivity"
             android:launchMode="singleTop"/>
+        <activity android:name=".home_page.unit.EditUnitInfoActivity"
+            android:launchMode="singleTop"/>
         <activity android:name=".mine.mymsg.MyMessageActivity"
             android:launchMode="singleTop"/>
         <activity android:name=".home_page.unit.AddUnitInAddInfoActivity"
@@ -93,18 +95,6 @@
             android:launchMode="singleTop" />
         <activity
             android:name=".home_page.inspect.inspect.UnitInfoMoreActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name=".securityCheck.EditSecurityInspectSiteActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name=".securityCheck.SecurityInspectionSiteMoreInfoActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name=".securityCheck.SecurityInspectionInfoActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name=".securityCheck.SecurityCheckSiteActivity"
             android:launchMode="singleTop" />
         <activity
             android:name=".home_page.QRScanActivity"

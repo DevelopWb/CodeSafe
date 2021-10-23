@@ -45,8 +45,6 @@ public class UnitInfoActivity extends BaseInspectionInfoActivity {
             switch (stringType) {
 
                 case BaseInspectionInfoActivity.BASE_STRING_VALUE1:
-
-
                     //企业明细
                     mPresenter.getEnterpriseInfo(builder.add("unitId", String.valueOf(baseId)).build(), AppHttpPath.GET_ENTERPRIZSE_INFO);
                     break;

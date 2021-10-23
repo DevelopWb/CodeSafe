@@ -120,6 +120,310 @@ public class UnitDetailBean extends BaseResult {
         private List<IdNameBean.DataBean> superviseUserList;
         private int isAdd;//0未添加
 
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name == null ? "暂无" : name;
+        }
+
+        public void setName(String name) {
+            this.name = name == null ? "暂无" : name;
+        }
+
+        public String getUuid() {
+            return uuid == null ? "暂无" : uuid;
+        }
+
+        public void setUuid(String uuid) {
+            this.uuid = uuid == null ? "暂无" : uuid;
+        }
+
+        public String getUserId() {
+            return userId == null ? "暂无" : userId;
+        }
+
+        public void setUserId(String userId) {
+            this.userId = userId == null ? "暂无" : userId;
+        }
+
+        public String getNickname() {
+            return nickname == null ? "暂无" : nickname;
+        }
+
+        public void setNickname(String nickname) {
+            this.nickname = nickname == null ? "暂无" : nickname;
+        }
+
+        public int getTerritoryOneId() {
+            return territoryOneId;
+        }
+
+        public void setTerritoryOneId(int territoryOneId) {
+            this.territoryOneId = territoryOneId;
+        }
+
+        public String getTerritoryOneName() {
+            return territoryOneName == null ? "暂无" : territoryOneName;
+        }
+
+        public void setTerritoryOneName(String territoryOneName) {
+            this.territoryOneName = territoryOneName == null ? "暂无" : territoryOneName;
+        }
+
+        public String getTerritoryName() {
+            return territoryName == null ? "暂无" : territoryName;
+        }
+
+        public void setTerritoryName(String territoryName) {
+            this.territoryName = territoryName == null ? "暂无" : territoryName;
+        }
+
+        public int getTerritoryTwoId() {
+            return territoryTwoId;
+        }
+
+        public void setTerritoryTwoId(int territoryTwoId) {
+            this.territoryTwoId = territoryTwoId;
+        }
+
+        public String getTerritoryTwoName() {
+            return territoryTwoName == null ? "暂无" : territoryTwoName;
+        }
+
+        public void setTerritoryTwoName(String territoryTwoName) {
+            this.territoryTwoName = territoryTwoName == null ? "暂无" : territoryTwoName;
+        }
+
+        public String getAddress() {
+            return address == null ? "暂无" : address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address == null ? "暂无" : address;
+        }
+
+        public String getUnifiedCreditCode() {
+            return unifiedCreditCode == null ? "暂无" : unifiedCreditCode;
+        }
+
+        public void setUnifiedCreditCode(String unifiedCreditCode) {
+            this.unifiedCreditCode = unifiedCreditCode == null ? "暂无" : unifiedCreditCode;
+        }
+
+        public String getLegal() {
+            return legal == null ? "暂无" : legal;
+        }
+
+        public void setLegal(String legal) {
+            this.legal = legal == null ? "暂无" : legal;
+        }
+
+        public String getIds() {
+            return ids == null ? "暂无" : ids;
+        }
+
+        public void setIds(String ids) {
+            this.ids = ids == null ? "暂无" : ids;
+        }
+
+        public String getLegalPhone() {
+            return legalPhone == null ? "暂无" : legalPhone;
+        }
+
+        public void setLegalPhone(String legalPhone) {
+            this.legalPhone = legalPhone == null ? "暂无" : legalPhone;
+        }
+
+        public int getType() {
+            return type;
+        }
+
+        public void setType(int type) {
+            this.type = type;
+        }
+
+        public String getTypeName() {
+            return typeName == null ? "暂无" : typeName;
+        }
+
+        public void setTypeName(String typeName) {
+            this.typeName = typeName == null ? "暂无" : typeName;
+        }
+
+        public int getScale() {
+            return scale;
+        }
+
+        public void setScale(int scale) {
+            this.scale = scale;
+        }
+
+        public int getRisk() {
+            return risk;
+        }
+
+        public void setRisk(int risk) {
+            this.risk = risk;
+        }
+
+        public String getPersonLiable() {
+            return personLiable == null ? "暂无" : personLiable;
+        }
+
+        public void setPersonLiable(String personLiable) {
+            this.personLiable = personLiable == null ? "暂无" : personLiable;
+        }
+
+        public String getLiablePhone() {
+            return liablePhone == null ? "暂无" : liablePhone;
+        }
+
+        public void setLiablePhone(String liablePhone) {
+            this.liablePhone = liablePhone == null ? "暂无" : liablePhone;
+        }
+
+        public String getRemarks() {
+            return remarks == null ? "暂无" : remarks;
+        }
+
+        public void setRemarks(String remarks) {
+            this.remarks = remarks == null ? "暂无" : remarks;
+        }
+
+        public String getGpsAddress() {
+            return gpsAddress == null ? "暂无" : gpsAddress;
+        }
+
+        public void setGpsAddress(String gpsAddress) {
+            this.gpsAddress = gpsAddress == null ? "暂无" : gpsAddress;
+        }
+
+        public String getLongitude() {
+            return longitude == null ? "暂无" : longitude;
+        }
+
+        public void setLongitude(String longitude) {
+            this.longitude = longitude == null ? "暂无" : longitude;
+        }
+
+        public String getLatitude() {
+            return latitude == null ? "暂无" : latitude;
+        }
+
+        public void setLatitude(String latitude) {
+            this.latitude = latitude == null ? "暂无" : latitude;
+        }
+
+        public int getTerritorySuperviseId() {
+            return territorySuperviseId;
+        }
+
+        public void setTerritorySuperviseId(int territorySuperviseId) {
+            this.territorySuperviseId = territorySuperviseId;
+        }
+
+        public String getTerritorySuperviseName() {
+            return territorySuperviseName == null ? "暂无" : territorySuperviseName;
+        }
+
+        public void setTerritorySuperviseName(String territorySuperviseName) {
+            this.territorySuperviseName = territorySuperviseName == null ? "暂无" : territorySuperviseName;
+        }
+
+        public int getGridSuperviseId() {
+            return gridSuperviseId;
+        }
+
+        public void setGridSuperviseId(int gridSuperviseId) {
+            this.gridSuperviseId = gridSuperviseId;
+        }
+
+        public String getGridSuperviseName() {
+            return gridSuperviseName == null ? "暂无" : gridSuperviseName;
+        }
+
+        public void setGridSuperviseName(String gridSuperviseName) {
+            this.gridSuperviseName = gridSuperviseName == null ? "暂无" : gridSuperviseName;
+        }
+
+        public String getCoverPicture() {
+            return coverPicture == null ? "暂无" : coverPicture;
+        }
+
+        public void setCoverPicture(String coverPicture) {
+            this.coverPicture = coverPicture == null ? "暂无" : coverPicture;
+        }
+
+        public String getPhotoTwo() {
+            return photoTwo == null ? "暂无" : photoTwo;
+        }
+
+        public void setPhotoTwo(String photoTwo) {
+            this.photoTwo = photoTwo == null ? "暂无" : photoTwo;
+        }
+
+        public String getPhotoThree() {
+            return photoThree == null ? "暂无" : photoThree;
+        }
+
+        public void setPhotoThree(String photoThree) {
+            this.photoThree = photoThree == null ? "暂无" : photoThree;
+        }
+
+        public String getPhotoFour() {
+            return photoFour == null ? "暂无" : photoFour;
+        }
+
+        public void setPhotoFour(String photoFour) {
+            this.photoFour = photoFour == null ? "暂无" : photoFour;
+        }
+
+        public String getPhotoFive() {
+            return photoFive == null ? "暂无" : photoFive;
+        }
+
+        public void setPhotoFive(String photoFive) {
+            this.photoFive = photoFive == null ? "暂无" : photoFive;
+        }
+
+        public String getPhotoSix() {
+            return photoSix == null ? "暂无" : photoSix;
+        }
+
+        public void setPhotoSix(String photoSix) {
+            this.photoSix = photoSix == null ? "暂无" : photoSix;
+        }
+
+        public String getQrCode() {
+            return qrCode == null ? "暂无" : qrCode;
+        }
+
+        public void setQrCode(String qrCode) {
+            this.qrCode = qrCode == null ? "暂无" : qrCode;
+        }
+
+        public String getCreateAccount() {
+            return createAccount == null ? "暂无" : createAccount;
+        }
+
+        public void setCreateAccount(String createAccount) {
+            this.createAccount = createAccount == null ? "暂无" : createAccount;
+        }
+
+        public String getGmtCreate() {
+            return gmtCreate == null ? "暂无" : gmtCreate;
+        }
+
+        public void setGmtCreate(String gmtCreate) {
+            this.gmtCreate = gmtCreate == null ? "暂无" : gmtCreate;
+        }
+
         public List<IdNameBean.DataBean> getDirectorList() {
             if (directorList == null) {
                 return new ArrayList<>();
@@ -153,10 +457,6 @@ public class UnitDetailBean extends BaseResult {
             this.superviseUserList = superviseUserList;
         }
 
-        public String getIds() {
-            return ids == null ? "" : ids;
-        }
-
         public int getIsAdd() {
             return isAdd;
         }
@@ -164,308 +464,6 @@ public class UnitDetailBean extends BaseResult {
         public void setIsAdd(int isAdd) {
             this.isAdd = isAdd;
         }
-
-        public void setIds(String ids) {
-            this.ids = ids == null ? "" : ids;
-        }
-
-        public String getTerritoryName() {
-            return territoryName == null ? "" : territoryName;
-        }
-
-        public void setTerritoryName(String territoryName) {
-            this.territoryName = territoryName == null ? "" : territoryName;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getUuid() {
-            return uuid;
-        }
-
-        public void setUuid(String uuid) {
-            this.uuid = uuid;
-        }
-
-        public String getUserId() {
-            return userId;
-        }
-
-        public void setUserId(String userId) {
-            this.userId = userId;
-        }
-
-        public String getNickname() {
-            return nickname;
-        }
-
-        public void setNickname(String nickname) {
-            this.nickname = nickname;
-        }
-
-        public int getTerritoryOneId() {
-            return territoryOneId;
-        }
-
-        public void setTerritoryOneId(int territoryOneId) {
-            this.territoryOneId = territoryOneId;
-        }
-
-        public String getTerritoryOneName() {
-            return territoryOneName;
-        }
-
-        public void setTerritoryOneName(String territoryOneName) {
-            this.territoryOneName = territoryOneName;
-        }
-
-        public int getTerritoryTwoId() {
-            return territoryTwoId;
-        }
-
-        public void setTerritoryTwoId(int territoryTwoId) {
-            this.territoryTwoId = territoryTwoId;
-        }
-
-        public String getTerritoryTwoName() {
-            return territoryTwoName;
-        }
-
-        public void setTerritoryTwoName(String territoryTwoName) {
-            this.territoryTwoName = territoryTwoName;
-        }
-
-        public String getAddress() {
-            return address;
-        }
-
-        public void setAddress(String address) {
-            this.address = address;
-        }
-
-        public String getUnifiedCreditCode() {
-            return unifiedCreditCode;
-        }
-
-        public void setUnifiedCreditCode(String unifiedCreditCode) {
-            this.unifiedCreditCode = unifiedCreditCode;
-        }
-
-        public String getLegal() {
-            return legal;
-        }
-
-        public void setLegal(String legal) {
-            this.legal = legal;
-        }
-
-        public String getLegalPhone() {
-            return legalPhone;
-        }
-
-        public void setLegalPhone(String legalPhone) {
-            this.legalPhone = legalPhone;
-        }
-
-
-        public String getPersonLiable() {
-            return personLiable;
-        }
-
-        public void setPersonLiable(String personLiable) {
-            this.personLiable = personLiable;
-        }
-
-        public String getLiablePhone() {
-            return liablePhone;
-        }
-
-        public void setLiablePhone(String liablePhone) {
-            this.liablePhone = liablePhone;
-        }
-
-        public String getRemarks() {
-            return remarks;
-        }
-
-        public void setRemarks(String remarks) {
-            this.remarks = remarks;
-        }
-
-        public String getGpsAddress() {
-            return gpsAddress;
-        }
-
-        public int getType() {
-            return type;
-        }
-
-        public void setType(int type) {
-            this.type = type;
-        }
-
-        public String getTypeName() {
-            return typeName == null ? "" : typeName;
-        }
-
-        public void setTypeName(String typeName) {
-            this.typeName = typeName == null ? "" : typeName;
-        }
-
-        public int getScale() {
-            return scale;
-        }
-
-        public void setScale(int scale) {
-            this.scale = scale;
-        }
-
-        public int getRisk() {
-            return risk;
-        }
-
-        public void setRisk(int risk) {
-            this.risk = risk;
-        }
-
-        public void setGpsAddress(String gpsAddress) {
-            this.gpsAddress = gpsAddress;
-        }
-
-        public String getLongitude() {
-            return longitude;
-        }
-
-        public void setLongitude(String longitude) {
-            this.longitude = longitude;
-        }
-
-        public String getLatitude() {
-            return latitude;
-        }
-
-        public void setLatitude(String latitude) {
-            this.latitude = latitude;
-        }
-
-        public int getTerritorySuperviseId() {
-            return territorySuperviseId;
-        }
-
-        public void setTerritorySuperviseId(int territorySuperviseId) {
-            this.territorySuperviseId = territorySuperviseId;
-        }
-
-        public String getTerritorySuperviseName() {
-            return territorySuperviseName;
-        }
-
-        public void setTerritorySuperviseName(String territorySuperviseName) {
-            this.territorySuperviseName = territorySuperviseName;
-        }
-
-        public int getGridSuperviseId() {
-            return gridSuperviseId;
-        }
-
-        public void setGridSuperviseId(int gridSuperviseId) {
-            this.gridSuperviseId = gridSuperviseId;
-        }
-
-        public String getGridSuperviseName() {
-            return gridSuperviseName;
-        }
-
-        public void setGridSuperviseName(String gridSuperviseName) {
-            this.gridSuperviseName = gridSuperviseName;
-        }
-
-        public String getCoverPicture() {
-            return coverPicture;
-        }
-
-        public void setCoverPicture(String coverPicture) {
-            this.coverPicture = coverPicture;
-        }
-
-        public String getPhotoTwo() {
-            return photoTwo;
-        }
-
-        public void setPhotoTwo(String photoTwo) {
-            this.photoTwo = photoTwo;
-        }
-
-        public String getPhotoThree() {
-            return photoThree;
-        }
-
-        public void setPhotoThree(String photoThree) {
-            this.photoThree = photoThree;
-        }
-
-        public String getPhotoFour() {
-            return photoFour;
-        }
-
-        public void setPhotoFour(String photoFour) {
-            this.photoFour = photoFour;
-        }
-
-        public String getPhotoFive() {
-            return photoFive;
-        }
-
-        public void setPhotoFive(String photoFive) {
-            this.photoFive = photoFive;
-        }
-
-        public String getPhotoSix() {
-            return photoSix;
-        }
-
-        public void setPhotoSix(String photoSix) {
-            this.photoSix = photoSix;
-        }
-
-        public String getQrCode() {
-            return qrCode;
-        }
-
-        public void setQrCode(String qrCode) {
-            this.qrCode = qrCode;
-        }
-
-        public String getCreateAccount() {
-            return createAccount;
-        }
-
-        public void setCreateAccount(String createAccount) {
-            this.createAccount = createAccount;
-        }
-
-        public String getGmtCreate() {
-            return gmtCreate;
-        }
-
-        public void setGmtCreate(String gmtCreate) {
-            this.gmtCreate = gmtCreate;
-        }
-
 
         @Override
         public int describeContents() {

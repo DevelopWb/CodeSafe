@@ -39,6 +39,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -192,11 +193,24 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     case R.id.manager_bind_tv:
                         //添加或者移除企业
                         BindManagerBean bindManagerBean = (BindManagerBean) multipleItem.getObject();
+                        List<IdNameBean.DataBean> bindManagers = bindManagerBean.getData();
+                        if (bindManagers == null) {
+                            bindManagers = new ArrayList<>();
+                        }
                         if (bindManagerBean.isBound()) {
                             bindManagerBean.setBound(false);
+                            Iterator iterator = bindManagers.iterator();
+                            while (iterator.hasNext()) {
+                                IdNameBean.DataBean bean = (IdNameBean.DataBean) iterator.next();
+                                if (UserInfoManager.getDepartmentName().equals(bean.getName())) {
+                                    iterator.remove();
+                                }
+                            }
                         } else {
+                            bindManagers.add(bindManagers.size(),new IdNameBean.DataBean(UserInfoManager.getDepartmentId(),UserInfoManager.getDepartmentName()));
                             bindManagerBean.setBound(true);
                         }
+                        bindManagerBean.setData(bindManagers);
                         adapter.notifyItemChanged(position);
                         break;
                     case R.id.location_ll:

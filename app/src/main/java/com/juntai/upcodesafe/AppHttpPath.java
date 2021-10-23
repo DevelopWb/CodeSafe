@@ -103,6 +103,10 @@ public class AppHttpPath {
      * 企业详情
      */
     public static final String GET_ENTERPRIZSE_INFO_BY_UUID = BASE + "/u/appUnit/selectUnitByUuid.shtml";
+    /**
+     * 修改企业详情
+     */
+    public static final String EDIT_UNIT_INFO = BASE + "/u/appUserStaff/updateUnit.shtml";
 
 
     /**
@@ -184,24 +188,24 @@ public class AppHttpPath {
     /**
      * 常规检查
      */
-    public static final String GET_NORMAL_CHECK_LIST= BASE + "/u/appUnit/selectUnitRoutine.shtml";
+    public static final String GET_NORMAL_CHECK_LIST = BASE + "/u/appUnit/selectUnitRoutine.shtml";
     /**
      * 专项检查
      */
-    public static final String GET_SPECIAL_CHECK_LIST= BASE + "/u/appUnit/selectUnitSpecial.shtml";
+    public static final String GET_SPECIAL_CHECK_LIST = BASE + "/u/appUnit/selectUnitSpecial.shtml";
 
 
     /**
      * 我的消息
      */
 
-    public static final String MY_NEWS= BASE + "/u/appUserStaff/selectUserMessage.shtml";
+    public static final String MY_NEWS = BASE + "/u/appUserStaff/selectUserMessage.shtml";
 
     /**
      * 我的消息 未读数
      */
 
-    public static final String MY_NEWS_UNREAD= BASE + "/u/appUserStaff/selectUserUnreadMessageCount.shtml";
+    public static final String MY_NEWS_UNREAD = BASE + "/u/appUserStaff/selectUserUnreadMessageCount.shtml";
 
 
 }
