@@ -25,7 +25,7 @@ public class EnterpriseNoticeAdapter extends BaseQuickAdapter<NoticeBean.DataBea
     protected void convert(BaseViewHolder helper, NoticeBean.DataBean item) {
         helper.setText(R.id.notice_content_tv, item.getTitle());
         if (TextUtils.isEmpty(item.getCoverPicture())) {
-            ImageLoadUtil.loadImageCache(mContext,R.mipmap.unit_icon,helper.getView(R.id.notice_iv));
+            ImageLoadUtil.loadImageCache(mContext,R.mipmap.message_icon,helper.getView(R.id.notice_iv));
         }else {
             ImageLoadUtil.loadImageCache(mContext, UrlFormatUtil.getImageOriginalUrl(item.getCoverPicture()),helper.getView(R.id.notice_iv));
 

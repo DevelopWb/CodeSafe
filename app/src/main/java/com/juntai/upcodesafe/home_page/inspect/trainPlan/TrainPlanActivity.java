@@ -26,6 +26,12 @@ public class TrainPlanActivity extends BaseInspectionActivity {
                 startActivity(new Intent(mContext,AddTrainPlansActivity.class));
             }
         });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         mPresenter.getTrainPlanList(getBaseBuilder().add("unitId", String.valueOf(baseId)).build(), "");
     }
 

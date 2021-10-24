@@ -193,8 +193,6 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
 
         if (!isAddInfo) {
             if (1 == UserInfoManager.getAccountTypeId()) {
-
-
                 //监管单位添加企业的时候
                 arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL, new ImportantTagBean
                         (BaseInspectContract.UNIT_TYPE, true)));
@@ -206,20 +204,20 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                         getRiskName(bean.getRisk()), true, "");
                 arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL, new ImportantTagBean
                         ("监管单位", true)));
-                arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.unit_icon,
+                arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.direct_manager_icon,
                         BaseInspectContract.BUSINESS_PRODUCTION_DEPARTMENT, bean == null ? null : bean.getDirectorList(), "为本单位的\"行业主管\"企业", bean != null && isBinded(bean.getDirectorList()))));
-                arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.unit_icon,
+                arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.direct_manager_icon,
                         BaseInspectContract.BUSINESS_PRODUCTION_DIRECT_DEPARTMENT, bean == null ? null : bean.getSuperviseList(), "为本单位的\"直接监管责任\"企业", bean != null && isBinded(bean.getSuperviseList()))));
             } else if (2 == UserInfoManager.getAccountTypeId()) {
                 arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL, new ImportantTagBean("属地监管", true)));
-                arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.unit_icon,
+                arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.supervise_icon,
                         BaseInspectContract.UNIT_TERRITORY_SUPERVISE, null, "为本区域监督（管理）企业", bean != null && bean.getTerritorySuperviseId() > 0)));
-                arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.unit_icon,
+                arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.supervise_people_icon,
                         BaseInspectContract.UNIT_UNIT_SUPERVISE_PEOPLE, bean == null ? null : bean.getSuperviseUserList(), "为本区域监督（管理）人", bean != null && isBinded(bean.getSuperviseUserList()))));
             } else if (3 == UserInfoManager.getAccountTypeId()) {
                 arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL, new ImportantTagBean
                         ("监督(管理)人", true)));
-                arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.unit_icon,
+                arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.grid_icon,
                         BaseInspectContract.UNIT_GRID_SUPERVISE, null, "为本网格企业", bean != null && bean.getGridSuperviseId() > 0)));
 
             }

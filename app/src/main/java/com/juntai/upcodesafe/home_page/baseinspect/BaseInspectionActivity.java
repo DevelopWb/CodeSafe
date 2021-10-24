@@ -252,6 +252,9 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         if ("-1".equals(icon_path)) {
 //                            int count = mMaxCount - (adapter.getData().size() - 1);
                             choseImage(0, BaseInspectionActivity.this, 1);
+                        }else {
+                            //图片路径
+                            onPicClick(adapter,position);
                         }
                         break;
                     case R.id.delete_pushed_news_iv:
@@ -798,8 +801,9 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         ArrayList<String> photos = new ArrayList<>();
         List<String> arrays = adapter.getData();
         for (String array : arrays) {
-            if (array.contains(AppHttpPath.BASE_IMAGE)) {
-                array = array.replace(AppHttpPath.BASE_IMAGE, AppHttpPath.BASE_IMAGE);
+
+            if (!array.contains(SDCARD_TAG)) {
+                array = AppHttpPath.BASE_IMAGE+array;
             }
             photos.add(array);
         }

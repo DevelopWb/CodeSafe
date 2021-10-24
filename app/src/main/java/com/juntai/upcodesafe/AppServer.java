@@ -284,9 +284,6 @@ public interface AppServer {
     @POST(AppHttpPath.GET_TRAIN_PLAN_LIST)
     Observable<TrainPlanListBean> getTrainPlanList(@Body RequestBody requestBody);
 
-    @POST(AppHttpPath.ADD_TRAIN_PLAN)
-    Observable<BaseResult> addTrainPlans(@Body RequestBody requestBody);
-
     /**
      * 获取tab标签
      *
@@ -295,6 +292,9 @@ public interface AppServer {
      */
     @POST(AppHttpPath.GET_EDUCATION_TAG)
     Observable<LableBean> getEducationTag(@Body RequestBody requestBody);
+
+    @POST(AppHttpPath.ADD_TRAIN_PLAN)
+    Observable<BaseResult> addTrainPlans(@Body RequestBody requestBody);
 
 
     @POST(AppHttpPath.GET_EDUCATION_LIST)

@@ -1,8 +1,10 @@
 package com.juntai.upcodesafe.home_page.inspect.trainPlan;
 
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
+import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseCommitFootViewActivity;
 import com.juntai.upcodesafe.utils.HawkProperty;
+import com.orhanobut.hawk.Hawk;
 
 import okhttp3.MultipartBody;
 
@@ -34,17 +36,31 @@ public class AddTrainPlansActivity extends BaseCommitFootViewActivity {
 
     @Override
     protected void commitRequest(MultipartBody.Builder builder) {
-        mPresenter.addTrainPlans(builder.build(),"");
+        mPresenter.addTrainPlans(builder.build(), AppHttpPath.ADD_TRAIN_PLAN);
     }
 
     @Override
     protected void saveDraft() {
-
+        // TODO: 2021-10-23 培训计划 保存草稿
+//        //保存草稿
+//        if (getBaseAdapterData(true) != null) {
+//            Hawk.put(getHawkKey(), getBaseAdapterData(true).getUnitDataBean());
+//            ToastUtils.toast(mContext, "草稿保存成功");
+//            finish();
+//        }
     }
 
     @Override
     public void onSuccess(String tag, Object o) {
-        ToastUtils.toast(mContext,"添加成功");
-        finish();
+        super.onSuccess(tag,o);
+        switch (tag) {
+            case AppHttpPath.ADD_TRAIN_PLAN:
+                ToastUtils.toast(mContext,"添加成功");
+                finish();
+                break;
+            default:
+                break;
+        }
+
     }
 }

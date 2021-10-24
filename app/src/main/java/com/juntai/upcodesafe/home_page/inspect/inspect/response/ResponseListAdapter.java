@@ -21,6 +21,6 @@ public class ResponseListAdapter extends BaseQuickAdapter<IdNameBean.DataBean, B
     @Override
     protected void convert(BaseViewHolder helper, IdNameBean.DataBean item) {
         helper.setText(R.id.notice_content_tv, item.getName());
-            ImageLoadUtil.loadImageCache(mContext,R.mipmap.unit_icon,helper.getView(R.id.notice_iv));
+            ImageLoadUtil.loadImageCache(mContext,R.mipmap.response_icon,helper.getView(R.id.notice_iv));
     }
 }

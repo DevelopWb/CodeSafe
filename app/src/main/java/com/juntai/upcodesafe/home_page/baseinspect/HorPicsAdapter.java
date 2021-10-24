@@ -53,7 +53,6 @@ public class HorPicsAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
                 ImageLoadUtil.loadImageNoCache(mContext, UrlFormatUtil.getImageOriginalUrl(item),
                         helper.getView(R.id.select_pic_icon_iv), R.mipmap.ic_error);
             }
-            ImageLoadUtil.loadImageNoCache(mContext, item, (ImageView) helper.getView(R.id.select_pic_icon_iv));
             if (delateable) {
                 helper.setGone(R.id.delete_pushed_news_iv, true);
             }else{

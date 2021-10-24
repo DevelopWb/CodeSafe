@@ -27,7 +27,7 @@ public class RectifyNoticeListAdapter extends BaseQuickAdapter<RectifyNoticeList
     protected void convert(BaseViewHolder helper, RectifyNoticeListBean.DataBean item) {
         ImageView iconIv = helper.getView(R.id.unread_tag_iv);
         iconIv.setBackgroundResource(0);
-        ImageLoadUtil.loadImage(mContext, R.mipmap.action_rectifynotice, iconIv);
+        ImageLoadUtil.loadImage(mContext, R.mipmap.rectify_notice_icon, iconIv);
         ConstraintLayout.LayoutParams linearParams = (ConstraintLayout.LayoutParams) iconIv.getLayoutParams(); //取控件textView当前的布局参数 linearParams.height = 20;// 控件的高强制设成20
         linearParams.width = DisplayUtil.dp2px(mContext, 25);// 控件的宽强制设成30
         linearParams.height = DisplayUtil.dp2px(mContext, 25);// 控件的高强制设成30

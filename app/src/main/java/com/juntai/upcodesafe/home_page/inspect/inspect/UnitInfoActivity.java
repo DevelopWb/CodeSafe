@@ -72,14 +72,14 @@ public class UnitInfoActivity extends BaseInspectionInfoActivity {
     @Override
     protected List<ActionBean> getActionAdapterData() {
         List<ActionBean> arrays = new ArrayList<>();
-        arrays.add(new ActionBean(R.mipmap.action_bg, BaseInspectContract.RESPONSE_LIST,
-                R.mipmap.action_check_record));
+        arrays.add(new ActionBean(R.mipmap.action_bg_yellow, BaseInspectContract.RESPONSE_LIST,
+                R.mipmap.action_response_icon));
         arrays.add(new ActionBean(R.mipmap.action_bg, BaseInspectContract.CHECK_RECORD,
                 R.mipmap.action_check_record));
         arrays.add(new ActionBean(R.mipmap.action_bg, BaseInspectContract.REPAIRE_NOTICE,
-                R.mipmap.action_check_record));
+                R.mipmap.action_rectifynotice));
         arrays.add(new ActionBean(R.mipmap.action_bg, BaseInspectContract.TRAIN_PLAN,
-                R.mipmap.action_check_record));
+                R.mipmap.action_train_plan));
         return arrays;
     }
 

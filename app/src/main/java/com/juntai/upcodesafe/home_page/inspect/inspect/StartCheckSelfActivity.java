@@ -92,7 +92,7 @@ public class StartCheckSelfActivity extends BaseCommitFootViewActivity {
 
     @Override
     protected void saveDraft() {
-
+// TODO: 2021-10-23 开始检查 保存草稿 
     }
 
     @Override
@@ -140,7 +140,14 @@ public class StartCheckSelfActivity extends BaseCommitFootViewActivity {
     @Override
     public void onSuccess(String tag, Object o) {
         super.onSuccess(tag, o);
-        ToastUtils.toast(mContext, "提交成功");
-        finish();
+        switch (tag) {
+            case AppHttpPath.START_INSPECT:
+                ToastUtils.toast(mContext, "提交成功");
+                finish();
+                break;
+            default:
+                break;
+        }
+
     }
 }
