@@ -54,7 +54,7 @@ public abstract class HomePageBaseSupervisionFragment extends BaseAppFragment<Ho
         mNoticeCl = (ConstraintLayout) getView(R.id.notice_cl);
         mNoticeCl.setOnClickListener(this);
         mCurrentUserTv = (TextView) getView(R.id.current_user_tv);
-        mCurrentUserTv.setText(UserInfoManager.getDepartmentDetailInfo());
+        mCurrentUserTv.setText(UserInfoManager.getUserDetailInfo());
         mHomepageChildFl = (FrameLayout) getView(R.id.homepage_child_fl);
         if (getChildFragmentView() != null) {
             mHomepageChildFl.addView(getChildFragmentView());

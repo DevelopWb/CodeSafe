@@ -85,7 +85,6 @@ dependencies {
     api librarys["multidex"]
     //leakcanary
     debugImplementation librarys["leakcanary-android"]
-    releaseImplementation librarys["leakcanary-android-no-op"]
 
     api librarys["logger"]
     api librarys["rxpermissions"]

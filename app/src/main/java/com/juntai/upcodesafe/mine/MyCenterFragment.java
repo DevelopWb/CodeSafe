@@ -154,17 +154,15 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
     @Override
     public void onResume() {
         super.onResume();
-        if (UserInfoManager.isLogin()) {
-            //  获取用户基本信息的接口
-            mPresenter.getUserInfo(getBaseAppActivity().getBaseBuilder().build(), AppHttpPath.USER_INFO);
-            mPresenter.getMyMsgUnread(getBaseBuilder().build(), AppHttpPath.MY_NEWS_UNREAD);
-
-        }
+        mPresenter.getMyMsgUnread(getBaseBuilder().build(), AppHttpPath.MY_NEWS_UNREAD);
     }
 
     @Override
     protected void lazyLoad() {
-
+        if (UserInfoManager.isLogin()) {
+            //  获取用户基本信息的接口
+            mPresenter.getUserInfo(getBaseAppActivity().getBaseBuilder().build(), AppHttpPath.USER_INFO);
+        }
     }
 
     @Override
@@ -256,7 +254,7 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
                             break;
                         case 2:
                             mInfoDesTv.setTextColor(ContextCompat.getColor(mContext, R.color.black));
-                            mInfoDesTv.setText(dataBean.getNickname());
+                            mInfoDesTv.setText(UserInfoManager.getUserDetailInfoWithoutName());
                             break;
                         default:
                             mInfoDesTv.setTextColor(ContextCompat.getColor(mContext, R.color.textColorPrimary));

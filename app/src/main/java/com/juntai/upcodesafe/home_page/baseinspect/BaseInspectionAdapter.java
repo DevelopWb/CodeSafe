@@ -275,7 +275,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 if (selectTextValue.contains("\\n")) {
                     selectTextValue = selectTextValue.replace("\\n", "\n");
                 }
-                textViewTv.setText(selectTextValue);
+                textViewTv.setText(selectTextValue.trim());
                 break;
             case MultipleItem.ITEM_NORMAL_RECYCLEVIEW:
                 //recycleview

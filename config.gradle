@@ -62,7 +62,6 @@ ext {
             "multidex"                     : "com.android.support:multidex:1.0.3",
 
             "leakcanary-android"           : "com.squareup.leakcanary:leakcanary-android:$rootProject.leakcanaryVersion",
-            "leakcanary-android-no-op"     : "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanaryVersion",
             //其他第三发-刷新-状态栏-适配器-标签-轮播
             "SmartRefreshLayout"           : "com.scwang.smartrefresh:SmartRefreshLayout:$rootProject.smartRefresh",
             "SmartRefreshHeader"           : "com.scwang.smartrefresh:SmartRefreshHeader:$rootProject.smartRefresh",

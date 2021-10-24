@@ -23,7 +23,7 @@ import com.juntai.upcodesafe.base.selectPics.SelectPhotosFragment;
 import com.juntai.upcodesafe.bean.AddDesPicBean;
 import com.juntai.upcodesafe.bean.BaseAdapterDataBean;
 import com.juntai.upcodesafe.bean.BindManagerBean;
-import com.juntai.upcodesafe.bean.DesPicJsonBena;
+import com.juntai.upcodesafe.bean.CheckDetailBean;
 import com.juntai.upcodesafe.bean.DesAndPicBean;
 import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.ItemFragmentBean;
@@ -356,7 +356,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
      * @return
      */
     protected BaseAdapterDataBean getBaseAdapterData(boolean skipFilter) {
-        List<DesPicJsonBena> arr = new ArrayList<>();
+        List<CheckDetailBean.DataBean.ConcreteProblemsBean> arr = new ArrayList<>();
         BaseAdapterDataBean bean = new BaseAdapterDataBean();
         UnitDetailBean.DataBean unitDataBean = new UnitDetailBean.DataBean();
         MultipartBody.Builder builder = mPresenter.getPublishMultipartBody();
@@ -577,7 +577,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                 case MultipleItem.ITEM_DES_PIC:
                     DesAndPicBean desAndPicBean = (DesAndPicBean) array.getObject();
                     PicRecycleBean picRecycleBean = desAndPicBean.getPicRecycleBean();
-                    DesPicJsonBena checkDesJsonBena = new DesPicJsonBena();
+                    CheckDetailBean.DataBean.ConcreteProblemsBean checkDesJsonBena = new CheckDetailBean.DataBean.ConcreteProblemsBean();
                     checkDesJsonBena.setUserId(UserInfoManager.getUserId());
                     checkDesJsonBena.setUnitId(HawkProperty.getUnitBean().getId());
                     if (!TextUtils.isEmpty(desAndPicBean.getTextKeyValueBean().getValue())) {
@@ -715,7 +715,8 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         }
         bean.setBuilder(builder);
         bean.setUnitDataBean(unitDataBean);
-        bean.setConcreteProblems(GsonTools.createGsonString(arr));
+        bean.setConcreteProblemsJson(GsonTools.createGsonString(arr));
+        bean.setProblems(arr);
         return bean;
     }
 

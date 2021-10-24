@@ -1,5 +1,6 @@
 package com.juntai.upcodesafe.utils;
 
+import com.juntai.upcodesafe.bean.TextKeyValueBean;
 import com.juntai.upcodesafe.bean.UserBean;
 import com.orhanobut.hawk.Hawk;
 
@@ -54,6 +55,35 @@ public class UserInfoManager {
     public static String getUnitName() {
         return getUser() != null && getUser().getData() != null ? getUser().getData().getUnitName() : "";
     }
+
+    /**
+     * 获取用户详情
+     * @return
+     */
+    public static String getUserDetailInfo() {
+        if (4== getAccountTypeId()) {
+          return getUnitName() +"  "+ getUserName();
+        }else if(1== getAccountTypeId()||2==getAccountTypeId()){
+            return getDepartmentName()+"  "+getUserName();
+        }else {
+            return getTerritoryName()+"  "+getUserName();
+
+        }
+    }
+    /**
+     * 获取用户详情
+     * @return
+     */
+    public static String getUserDetailInfoWithoutName() {
+        if (4== getAccountTypeId()) {
+          return getUnitName();
+        }else if(1== getAccountTypeId()||2==getAccountTypeId()){
+            return getDepartmentName();
+        }else {
+            return getTerritoryName();
+
+        }
+    }
     /**
      * 获取账户
      *
@@ -102,6 +132,9 @@ public class UserInfoManager {
      */
     public static String getDepartmentName() {
         return getUser() != null && getUser().getData() != null ? getUser().getData().getDepartmentName() : "";
+    }
+    public static String getTerritoryName() {
+        return getUser() != null && getUser().getData() != null ? getUser().getData().getTerritoryName() : "";
     }
     /**
      * getTerritoryId

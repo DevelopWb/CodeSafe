@@ -25,10 +25,8 @@ import io.reactivex.functions.Consumer;
  */
 public class StartActivity extends RxAppCompatActivity {
     String[] permissions = new String[]{
-            Manifest.permission.CALL_PHONE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.RECORD_AUDIO,
             Manifest.permission.CAMERA,
             Manifest.permission.ACCESS_FINE_LOCATION};
 

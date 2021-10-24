@@ -141,12 +141,29 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     pics.add(problemsBean.getPhotoThree());
                 }
                 DesAndPicBean desAndPicBean = new DesAndPicBean();
-                desAndPicBean.setBigTitle("上传检查图片");
+                desAndPicBean.setBigTitle("检查图片");
                 desAndPicBean.setPicRecycleBean(new PicRecycleBean(pics));
                 desAndPicBean.setImportantTagBean(new ImportantTagBean(BaseInspectContract.CHECK_DES, false));
                 desAndPicBean.setTextKeyValueBean(new TextKeyValueBean(BaseInspectContract.CHECK_DES, problemsBean.getConcreteProblem(), "请输入" + BaseInspectContract.CHECK_DES, 1, false));
                 arrays.add(new MultipleItem(MultipleItem.ITEM_DES_PIC, desAndPicBean));
             }
+        }
+        CheckDetailBean.DataBean.UnitPunishBean punishBean = dataBean.getUnitPunish();
+        if (punishBean != null) {
+            initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.PUNISH_INFO,
+                    dataBean == null ? "" :
+                            punishBean.getContent(), true, 1);
+            List<String> punishPics = new ArrayList<>();
+            arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "处罚照片"));
+            if (dataBean != null) {
+                addFragmentPics(punishBean.getPhotoOne(), punishPics);
+                addFragmentPics(punishBean.getPhotoTwo(), punishPics);
+                addFragmentPics(punishBean.getPhotoThree(), punishPics);
+            }
+            arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3,
+                    punishPics.size(),
+                    3, false,
+                    punishPics)));
         }
 
 
@@ -266,13 +283,13 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < arrays.size(); i++) {
             IdNameBean.DataBean array = arrays.get(i);
-            if (i!=arrays.size()-1) {
-                sb.append(array.getName()+"\n");
-            }else {
+            if (i != arrays.size() - 1) {
+                sb.append(array.getName() + "\n");
+            } else {
                 sb.append(array.getName());
             }
         }
-        if (sb.toString().length()==0) {
+        if (sb.toString().length() == 0) {
             return "暂无";
         }
         return sb.toString();
@@ -443,7 +460,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     }
 
     private void addFragmentPics(String picPath, List<String> fragmentPics) {
-        if (!TextUtils.isEmpty(picPath)) {
+        if (!TextUtils.isEmpty(picPath) && !"暂无".equals(picPath)) {
             if (picPath.contains(BaseInspectionActivity.SDCARD_TAG)) {
                 fragmentPics.add(picPath);
             } else {
@@ -516,6 +533,37 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     }
 
     /**
+     * @return
+     */
+    public List<MultipleItem> showSavedDesPics(List<CheckDetailBean.DataBean.ConcreteProblemsBean> problemsBeans) {
+        List<MultipleItem> arrays = new ArrayList<>();
+        if (!problemsBeans.isEmpty()) {
+            for (CheckDetailBean.DataBean.ConcreteProblemsBean problemsBean : problemsBeans) {
+                List<String> pics = new ArrayList<>();
+                if (!TextUtils.isEmpty(problemsBean.getPhotoOne())) {
+                    pics.add(problemsBean.getPhotoOne());
+                }
+                if (!TextUtils.isEmpty(problemsBean.getPhotoTwo())) {
+                    pics.add(problemsBean.getPhotoTwo());
+                }
+                if (!TextUtils.isEmpty(problemsBean.getPhotoThree())) {
+                    pics.add(problemsBean.getPhotoThree());
+                }
+                DesAndPicBean desAndPicBean = new DesAndPicBean();
+                desAndPicBean.setBigTitle("检查图片");
+                desAndPicBean.setPicRecycleBean(new PicRecycleBean(pics));
+                desAndPicBean.setImportantTagBean(new ImportantTagBean(BaseInspectContract.CHECK_DES, false));
+                desAndPicBean.setTextKeyValueBean(new TextKeyValueBean(BaseInspectContract.CHECK_DES, problemsBean.getConcreteProblem(), "请输入" + BaseInspectContract.CHECK_DES, 1, false));
+                arrays.add(new MultipleItem(MultipleItem.ITEM_DES_PIC, desAndPicBean));
+            }
+            arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MORE, new AddDesPicBean("", "", "增加更多")));
+        } else {
+            addDesPicLayout("检查情况描述", "上传检查图片", 0);
+        }
+        return arrays;
+    }
+
+    /**
      * 获取培训计划
      *
      * @return
@@ -556,7 +604,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     public List<TextKeyValueBean> getStartCheckData(UnitDetailBean.DataBean dataBean) {
         List<TextKeyValueBean> arrays = new ArrayList<>();
         arrays.add(new TextKeyValueBean("检查时间:", CalendarUtil.getCurrentTime("yyyy-MM-dd HH:mm:ss")));
-        arrays.add(new TextKeyValueBean("检查人员:", dataBean.getName() + UserInfoManager.getUserName() + "   单位自查"));
+        arrays.add(new TextKeyValueBean("检查人员:", UserInfoManager.getUserDetailInfo()));
         arrays.add(new TextKeyValueBean("责任人:", dataBean.getPersonLiable()));
         arrays.add(new TextKeyValueBean("电话号码:", dataBean.getLiablePhone()));
         return arrays;
@@ -572,7 +620,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     public List<TextKeyValueBean> getCheckDetailData(CheckDetailBean.DataBean dataBean) {
         List<TextKeyValueBean> arrays = new ArrayList<>();
         arrays.add(new TextKeyValueBean("检查时间:", dataBean.getCheckTime()));
-        arrays.add(new TextKeyValueBean("检查人员:", dataBean.getDepartmentName() + dataBean.getNickname() + "   单位自查"));
+        arrays.add(new TextKeyValueBean("检查人员:", UserInfoManager.getUserDetailInfo()));
         arrays.add(new TextKeyValueBean("责任人:", dataBean.getPersonLiable()));
         arrays.add(new TextKeyValueBean("电话号码:", dataBean.getPhoneNumber()));
         arrays.add(new TextKeyValueBean("是否合格:", 1 == dataBean.getQualified() ? "合格" : "不合格"));
@@ -684,6 +732,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     }
                 });
     }
+
     public void editUnitInfo(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .editUnitInfo(requestBody)
@@ -704,6 +753,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     }
                 });
     }
+
     public void deleteUnitManager(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .deleteUnitManager(requestBody)
@@ -956,6 +1006,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     }
                 });
     }
+
     public void uploadPic(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .uploadPic(requestBody)

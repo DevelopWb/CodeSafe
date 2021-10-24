@@ -1,5 +1,6 @@
 package com.juntai.upcodesafe.home_page.inspect.inspect;
 
+import android.content.DialogInterface;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,9 +8,13 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.juntai.disabled.basecomponent.utils.DialogUtil;
+import com.juntai.disabled.basecomponent.utils.GsonTools;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
+import com.juntai.upcodesafe.bean.BaseAdapterDataBean;
+import com.juntai.upcodesafe.bean.CheckDetailBean;
 import com.juntai.upcodesafe.bean.TextKeyValueBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseCommitFootViewActivity;
@@ -18,6 +23,8 @@ import com.juntai.upcodesafe.utils.HawkProperty;
 import com.juntai.upcodesafe.utils.UserInfoManager;
 import com.orhanobut.hawk.Hawk;
 
+import java.util.List;
+
 import okhttp3.MultipartBody;
 
 /**
@@ -25,7 +32,7 @@ import okhttp3.MultipartBody;
  * @description 描述  企业自查
  * @date 2021-10-14 10:28
  */
-public class StartCheckSelfActivity extends BaseCommitFootViewActivity {
+public class StartCheckActivity extends BaseCommitFootViewActivity {
     private RecyclerView mFireCheckHeadRv;
     /**
      * 合格
@@ -41,18 +48,42 @@ public class StartCheckSelfActivity extends BaseCommitFootViewActivity {
 
     @Override
     public void initData() {
-        HawkProperty.UPLOAD_TYPE =  1;
+        HawkProperty.UPLOAD_TYPE = 1;
+        unSavedLogic();
+        List<CheckDetailBean.DataBean.ConcreteProblemsBean> arrays = Hawk.get(HawkProperty.START_CHECK + unitBean.getId());
+        if (arrays!=null&&!arrays.isEmpty()) {
+            setAlertDialogHeightWidth(DialogUtil.getDialog(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
+                    .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            adapter.setNewData(mPresenter.showSavedDesPics(arrays));
+                        }
+                    }).setNegativeButton("否", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mRadioQualifiedRb.setChecked(true);
+                            startLocation();
+                        }
+                    }).show(), -1, 0);
+        }
 
-        adapter.setHeaderView(getHeadView());
-        adapter.setNewData(mPresenter.addDesPicLayout("检查情况描述", "上传检查图片", 0));
+    }
+
+    /**
+     * 未保存草稿的逻辑
+     */
+    private void unSavedLogic() {
+
         if (getIntent() != null) {
             unitBean = getIntent().getParcelableExtra(PARCELABLE_KEY);
+            adapter.setHeaderView(getHeadView());
+            adapter.setNewData(mPresenter.addDesPicLayout("检查情况描述", "上传检查图片", 0));
             if (unitBean != null) {
                 headAdapter.setNewData(mPresenter.getStartCheckData(unitBean));
             }
         }
-    }
 
+    }
 
     @Override
     protected String getCommitTextValue() {
@@ -92,7 +123,16 @@ public class StartCheckSelfActivity extends BaseCommitFootViewActivity {
 
     @Override
     protected void saveDraft() {
-// TODO: 2021-10-23 开始检查 保存草稿 
+        //保存草稿
+        BaseAdapterDataBean adapterDataBean = getBaseAdapterData(true);
+        if (adapterDataBean != null) {
+            if (!adapterDataBean.getProblems().isEmpty()) {
+                Hawk.put(HawkProperty.START_CHECK + unitBean.getId(), adapterDataBean.getProblems());
+            }
+            Hawk.put(HawkProperty.START_CHECK_ISOK + unitBean.getId(), mRadioQualifiedRb.isChecked());
+            ToastUtils.toast(mContext, "草稿保存成功");
+            finish();
+        }
     }
 
     @Override
@@ -116,14 +156,17 @@ public class StartCheckSelfActivity extends BaseCommitFootViewActivity {
         mItemRadioG = (RadioGroup) view.findViewById(R.id.item_radio_g);
         headAdapter = new TextKeyValueAdapter(R.layout.text_key_value_item);
         initRecyclerview(mFireCheckHeadRv, headAdapter, LinearLayoutManager.VERTICAL);
+        if (Hawk.get(HawkProperty.START_CHECK_ISOK+unitBean.getId(),true)) {
+            mRadioQualifiedRb.setChecked(true);
+        }else {
+            mRadioUnqualifiedRb.setChecked(true);
+        }
         mItemRadioG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.radio_qualified_rb:
                         //合格
-
-
                         break;
                     case R.id.radio_unqualified_rb:
                         //不合格
@@ -142,6 +185,8 @@ public class StartCheckSelfActivity extends BaseCommitFootViewActivity {
         super.onSuccess(tag, o);
         switch (tag) {
             case AppHttpPath.START_INSPECT:
+                Hawk.delete(HawkProperty.START_CHECK + unitBean.getId());
+                Hawk.delete(HawkProperty.START_CHECK_ISOK + unitBean.getId());
                 ToastUtils.toast(mContext, "提交成功");
                 finish();
                 break;

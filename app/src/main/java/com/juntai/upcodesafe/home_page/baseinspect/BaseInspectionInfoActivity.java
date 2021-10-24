@@ -15,7 +15,7 @@ import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseAppActivity;
 import com.juntai.upcodesafe.bean.ActionBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
-import com.juntai.upcodesafe.home_page.inspect.inspect.StartCheckSelfActivity;
+import com.juntai.upcodesafe.home_page.inspect.inspect.StartCheckActivity;
 import com.juntai.upcodesafe.home_page.inspect.inspect.checkRecord.CheckRecordActivity;
 import com.juntai.upcodesafe.home_page.inspect.inspect.rectifynotice.RectifyNoticeListActivity;
 import com.juntai.upcodesafe.home_page.inspect.inspect.response.ResponseListActivity;
@@ -185,7 +185,7 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
                     case BaseInspectContract.START_CHECK_SELF:
                     case BaseInspectContract.START_CHECK:
                         //   开始检查
-                        startActivity(new Intent(mContext, StartCheckSelfActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY, ((UnitDetailBean.DataBean) getBaseBean())));
+                        startActivity(new Intent(mContext, StartCheckActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY, ((UnitDetailBean.DataBean) getBaseBean())));
                         break;
                 }
 

@@ -353,51 +353,51 @@ public class UnitDetailBean extends BaseResult {
         }
 
         public String getCoverPicture() {
-            return coverPicture == null ? "暂无" : coverPicture;
+            return coverPicture == null ? "" : coverPicture;
         }
 
         public void setCoverPicture(String coverPicture) {
-            this.coverPicture = coverPicture == null ? "暂无" : coverPicture;
+            this.coverPicture = coverPicture == null ? "" : coverPicture;
         }
 
         public String getPhotoTwo() {
-            return photoTwo == null ? "暂无" : photoTwo;
+            return photoTwo == null ? "" : photoTwo;
         }
 
         public void setPhotoTwo(String photoTwo) {
-            this.photoTwo = photoTwo == null ? "暂无" : photoTwo;
+            this.photoTwo = photoTwo == null ? "" : photoTwo;
         }
 
         public String getPhotoThree() {
-            return photoThree == null ? "暂无" : photoThree;
+            return photoThree == null ? "" : photoThree;
         }
 
         public void setPhotoThree(String photoThree) {
-            this.photoThree = photoThree == null ? "暂无" : photoThree;
+            this.photoThree = photoThree == null ? "" : photoThree;
         }
 
         public String getPhotoFour() {
-            return photoFour == null ? "暂无" : photoFour;
+            return photoFour == null ? "" : photoFour;
         }
 
         public void setPhotoFour(String photoFour) {
-            this.photoFour = photoFour == null ? "暂无" : photoFour;
+            this.photoFour = photoFour == null ? "" : photoFour;
         }
 
         public String getPhotoFive() {
-            return photoFive == null ? "暂无" : photoFive;
+            return photoFive == null ? "" : photoFive;
         }
 
         public void setPhotoFive(String photoFive) {
-            this.photoFive = photoFive == null ? "暂无" : photoFive;
+            this.photoFive = photoFive == null ? "" : photoFive;
         }
 
         public String getPhotoSix() {
-            return photoSix == null ? "暂无" : photoSix;
+            return photoSix == null ? "" : photoSix;
         }
 
         public void setPhotoSix(String photoSix) {
-            this.photoSix = photoSix == null ? "暂无" : photoSix;
+            this.photoSix = photoSix == null ? "" : photoSix;
         }
 
         public String getQrCode() {
