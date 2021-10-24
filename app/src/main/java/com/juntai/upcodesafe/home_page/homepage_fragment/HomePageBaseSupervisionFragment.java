@@ -18,6 +18,7 @@ import com.juntai.upcodesafe.home_page.inspect.notice.EnterpriseNoticeActivity;
 import com.juntai.upcodesafe.home_page.search.SearchActivity;
 import com.juntai.upcodesafe.home_page.unit.AddUnitActivity;
 import com.juntai.upcodesafe.mine.MyCenterContract;
+import com.juntai.upcodesafe.utils.UserInfoManager;
 
 /**
  * @aouther tobato
@@ -53,6 +54,7 @@ public abstract class HomePageBaseSupervisionFragment extends BaseAppFragment<Ho
         mNoticeCl = (ConstraintLayout) getView(R.id.notice_cl);
         mNoticeCl.setOnClickListener(this);
         mCurrentUserTv = (TextView) getView(R.id.current_user_tv);
+        mCurrentUserTv.setText(UserInfoManager.getDepartmentDetailInfo());
         mHomepageChildFl = (FrameLayout) getView(R.id.homepage_child_fl);
         if (getChildFragmentView() != null) {
             mHomepageChildFl.addView(getChildFragmentView());

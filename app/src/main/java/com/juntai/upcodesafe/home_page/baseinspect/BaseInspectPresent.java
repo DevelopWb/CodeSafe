@@ -390,7 +390,8 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 bean.getLegalPhone(), true, 0);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_RESPONSIBLE, bean == null ? "" :
                 bean.getPersonLiable(), true, 0);
-
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_RESPONSIBLE_TEL, bean == null ? "" :
+                bean.getLiablePhone(), true, 0);
 
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.UNIT_TYPE, bean == null ? "" : bean.getTypeName(), true, 0);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.UNIT_SIZE, bean == null ? "" :

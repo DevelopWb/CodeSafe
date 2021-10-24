@@ -233,11 +233,11 @@ public class UnitDetailBean extends BaseResult {
         }
 
         public String getLegalPhone() {
-            return legalPhone == null ? "暂无" : legalPhone;
+            return legalPhone == null ? "" : legalPhone;
         }
 
         public void setLegalPhone(String legalPhone) {
-            this.legalPhone = legalPhone == null ? "暂无" : legalPhone;
+            this.legalPhone = legalPhone == null ? "" : legalPhone;
         }
 
         public int getType() {
@@ -281,11 +281,11 @@ public class UnitDetailBean extends BaseResult {
         }
 
         public String getLiablePhone() {
-            return liablePhone == null ? "暂无" : liablePhone;
+            return liablePhone == null ? "" : liablePhone;
         }
 
         public void setLiablePhone(String liablePhone) {
-            this.liablePhone = liablePhone == null ? "暂无" : liablePhone;
+            this.liablePhone = liablePhone == null ? "" : liablePhone;
         }
 
         public String getRemarks() {
@@ -305,19 +305,19 @@ public class UnitDetailBean extends BaseResult {
         }
 
         public String getLongitude() {
-            return longitude == null ? "暂无" : longitude;
+            return longitude == null ? "" : longitude;
         }
 
         public void setLongitude(String longitude) {
-            this.longitude = longitude == null ? "暂无" : longitude;
+            this.longitude = longitude == null ? "" : longitude;
         }
 
         public String getLatitude() {
-            return latitude == null ? "暂无" : latitude;
+            return latitude == null ? "" : latitude;
         }
 
         public void setLatitude(String latitude) {
-            this.latitude = latitude == null ? "暂无" : latitude;
+            this.latitude = latitude == null ? "" : latitude;
         }
 
         public int getTerritorySuperviseId() {

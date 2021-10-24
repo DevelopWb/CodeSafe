@@ -51,6 +51,14 @@ public class UserInfoManager {
      *
      * @return
      */
+    public static String getUnitName() {
+        return getUser() != null && getUser().getData() != null ? getUser().getData().getUnitName() : "";
+    }
+    /**
+     * 获取账户
+     *
+     * @return
+     */
     public static String getUserName() {
         return getUser() != null && getUser().getData() != null ? getUser().getData().getNickname() : "";
     }
@@ -85,7 +93,7 @@ public class UserInfoManager {
      * @return
      */
     public static String getDepartmentDetailInfo() {
-        return getUser() != null && getUser().getData() != null ? getUser().getData().getDepartmentName()+getUser().getData().getDepartmentSecondId() : "";
+        return getUser() != null && getUser().getData() != null ? getDepartmentName()+"  "+getUserName() : "";
     }
     /**
      * getDepartmentId

@@ -154,15 +154,17 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.getMyMsgUnread(getBaseBuilder().build(), AppHttpPath.MY_NEWS_UNREAD);
+        if (UserInfoManager.isLogin()) {
+            //  获取用户基本信息的接口
+            mPresenter.getUserInfo(getBaseAppActivity().getBaseBuilder().build(), AppHttpPath.USER_INFO);
+            mPresenter.getMyMsgUnread(getBaseBuilder().build(), AppHttpPath.MY_NEWS_UNREAD);
+
+        }
     }
 
     @Override
     protected void lazyLoad() {
-        if (UserInfoManager.isLogin()) {
-            //  获取用户基本信息的接口
-            mPresenter.getUserInfo(getBaseAppActivity().getBaseBuilder().build(), AppHttpPath.USER_INFO);
-        }
+
     }
 
     @Override

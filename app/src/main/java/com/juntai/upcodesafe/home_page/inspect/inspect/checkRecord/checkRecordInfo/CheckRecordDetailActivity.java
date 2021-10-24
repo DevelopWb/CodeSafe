@@ -2,11 +2,13 @@ package com.juntai.upcodesafe.home_page.inspect.inspect.checkRecord.checkRecordI
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 
+import com.juntai.disabled.basecomponent.utils.DisplayUtil;
 import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.bean.CheckDetailBean;
@@ -37,7 +39,7 @@ public class CheckRecordDetailActivity extends BaseInspectionActivity {
     public void showPop(View view) {
         View viewPop = LayoutInflater.from(this).inflate(R.layout.check_detail_other_action, null);
         popupWindow = new PopupWindow(viewPop, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        popupWindow.showAsDropDown(view, 0, 10);//显示在控件下面
+        popupWindow.showAsDropDown(view, DisplayUtil.dp2px(mContext,-50),DisplayUtil.dp2px(mContext,-5));//显示在控件下面
         viewPop.findViewById(R.id.add_punish_tv).setOnClickListener(v -> {
             startActivityForResult(new Intent(mContext,AddPunishActivity.class).putExtra(BASE_ID,
                     HawkProperty.getUnitBean().getId()).putExtra(BASE_ID2,dataBean.getId()),

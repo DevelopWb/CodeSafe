@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.basecomponent.base.BaseMvpFragment;
@@ -22,6 +23,7 @@ import com.juntai.upcodesafe.home_page.inspect.notice.EnterpriseNoticeActivity;
 import com.juntai.upcodesafe.home_page.inspect.inspect.UnitInfoActivity;
 import com.juntai.upcodesafe.home_page.search.SearchActivity;
 import com.juntai.upcodesafe.mine.MyCenterContract;
+import com.juntai.upcodesafe.utils.UserInfoManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 /**
@@ -36,6 +38,7 @@ public class HomePageEnterpriseFragment extends BaseMvpFragment<HomePagePresent>
     private RecyclerView mRecyclerview;
     private SmartRefreshLayout mSmartrefreshlayout;
     private HomePageEnterpriseMenuAdapter menuAdapter;
+    private TextView mCurrentUserTv;
 
     @Override
     protected int getLayoutRes() {
@@ -50,6 +53,8 @@ public class HomePageEnterpriseFragment extends BaseMvpFragment<HomePagePresent>
         mSearchLl.setOnClickListener(this);
         mRecyclerview = (RecyclerView) getView(R.id.recyclerview);
         mSmartrefreshlayout = (SmartRefreshLayout) getView(R.id.smartrefreshlayout);
+        mCurrentUserTv = (TextView) getView(R.id.current_user_tv);
+        mCurrentUserTv.setText(UserInfoManager.getUnitName()+"  "+UserInfoManager.getUserName());
         mSmartrefreshlayout.setEnableLoadMore(false);
         mSmartrefreshlayout.setEnableRefresh(false);
         menuAdapter = new HomePageEnterpriseMenuAdapter(R.layout.homepage_enterprise_menu_item);

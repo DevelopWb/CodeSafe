@@ -2,6 +2,7 @@ package com.juntai.upcodesafe.home_page.inspect.inspect;
 
 import android.content.Intent;
 
+import com.baidu.mapapi.model.LatLng;
 import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
@@ -33,6 +34,12 @@ public class UnitInfoActivity extends BaseInspectionInfoActivity {
 
     @Override
     public void initData() {
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         if (getIntent() != null) {
             String  stringType = getIntent().getStringExtra(BaseInspectionInfoActivity.BASE_STRING);
             if (stringType == null) {
@@ -62,7 +69,6 @@ public class UnitInfoActivity extends BaseInspectionInfoActivity {
 
         }
     }
-
 
     @Override
     protected Object getBaseBean() {
@@ -101,12 +107,15 @@ public class UnitInfoActivity extends BaseInspectionInfoActivity {
 
     @Override
     protected String getQrCodePath() {
-        return null;
+        return UrlFormatUtil.getImageOriginalUrl(enterPriseBean.getQrCode());
     }
 
     @Override
     protected void navigationLogic() {
-
+        if (enterPriseBean != null) {
+            navigationLogic(new LatLng(Double.parseDouble(enterPriseBean.getLatitude()),
+                    Double.parseDouble(enterPriseBean.getLongitude())), enterPriseBean.getGpsAddress());
+        }
     }
 
     @Override
@@ -134,7 +143,7 @@ public class UnitInfoActivity extends BaseInspectionInfoActivity {
         List<TextKeyValueBean> arrays = new ArrayList<>();
         arrays.add(new TextKeyValueBean("单位名称:", dataBean.getName()));
         arrays.add(new TextKeyValueBean("单位地址:", dataBean.getAddress()));
-        arrays.add(new TextKeyValueBean("单位法人:", dataBean.getPersonLiable()));
+        arrays.add(new TextKeyValueBean("单位法人:", dataBean.getLegal()));
         return arrays;
     }
 

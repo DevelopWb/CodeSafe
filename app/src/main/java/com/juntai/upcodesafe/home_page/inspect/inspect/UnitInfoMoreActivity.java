@@ -43,5 +43,6 @@ public class UnitInfoMoreActivity extends BaseInspectionActivity implements Base
     protected void commitLogic(MultipartBody.Builder builder) {
         //申请修改
         startActivity(new Intent(mContext, EditUnitInfoActivity.class).putExtra(PARCELABLE_KEY,dataBean));
+        finish();
     }
 }

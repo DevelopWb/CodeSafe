@@ -2,12 +2,16 @@ package com.juntai.upcodesafe.home_page.industryDetail;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
+import com.baidu.mapapi.model.LatLng;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseRecyclerviewFragment;
+import com.juntai.upcodesafe.bean.SearchBean;
 import com.juntai.upcodesafe.bean.UnitOfInductryBean;
 import com.juntai.upcodesafe.home_page.HomePageContract;
 import com.juntai.upcodesafe.home_page.HomePagePresent;
@@ -79,7 +83,19 @@ public class UnitListOfIndustryFragment extends BaseRecyclerviewFragment<HomePag
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-
+                UnitOfInductryBean.DataBean  databean = (UnitOfInductryBean.DataBean) adapter.getData().get(position);
+                switch (view.getId()) {
+                    case R.id.item_navigation_tv:
+                        if (TextUtils.isEmpty(databean.getLatitude()) || TextUtils.isEmpty(databean.getLongitude())) {
+                            ToastUtils.toast(mContext, "无法获取经纬度，不能导航");
+                            return;
+                        }
+                        getBaseAppActivity().navigationLogic(new LatLng(Double.parseDouble(databean.getLatitude()),
+                                Double.parseDouble(databean.getLongitude())), databean.getAddress());
+                        break;
+                    default:
+                        break;
+                }
             }
         });
     }

@@ -69,7 +69,7 @@ public class SearchActivity extends BaseAppActivity<HomePagePresent> implements 
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 mPresenter.search(getBaseBuilder()
-                        .add("typeId", 4==UserInfoManager.getAccountTypeId()?"2":"1")
+                                .add("typeId", 4 == UserInfoManager.getAccountTypeId() ? "2" : "1")
                                 .add("keyword", textContent).build(),
                         AppHttpPath.SEARCH);
             }
@@ -125,21 +125,21 @@ public class SearchActivity extends BaseAppActivity<HomePagePresent> implements 
         searchAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-//                MultipleItem multipleItem = (MultipleItem) adapter.getItem(position);
-//                switch (view.getId()) {
-//                    case R.id.item_navigation_tv:
-//                        SearchBean.DataBean.ListBean databean = (SearchBean.DataBean
-//                                .ListBean) multipleItem.getObject();
-//                        if (TextUtils.isEmpty(databean.getLatitude()) || TextUtils.isEmpty(databean.getLongitude())) {
-//                            ToastUtils.toast(mContext, "无法获取经纬度，不能导航");
-//                            return;
-//                        }
-//                        navigationLogic(new LatLng(Double.parseDouble(databean.getLatitude()),
-//                                Double.parseDouble(databean.getLongitude())), databean.getGpsAddress());
-//                        break;
-//                    default:
-//                        break;
-//                }
+                MultipleItem multipleItem = (MultipleItem) adapter.getItem(position);
+                switch (view.getId()) {
+                    case R.id.item_navigation_tv:
+                        SearchBean.DataBean.ListBean databean = (SearchBean.DataBean
+                                .ListBean) multipleItem.getObject();
+                        if (TextUtils.isEmpty(databean.getLatitude()) || TextUtils.isEmpty(databean.getLongitude())) {
+                            ToastUtils.toast(mContext, "无法获取经纬度，不能导航");
+                            return;
+                        }
+                        navigationLogic(new LatLng(Double.parseDouble(databean.getLatitude()),
+                                Double.parseDouble(databean.getLongitude())), databean.getAddress());
+                        break;
+                    default:
+                        break;
+                }
             }
         });
     }
@@ -234,7 +234,7 @@ public class SearchActivity extends BaseAppActivity<HomePagePresent> implements 
     public void onSearch(String textContent) {
         this.textContent = textContent;
         mPresenter.search(getBaseBuilder()
-                        .add("typeId", 4==UserInfoManager.getAccountTypeId()?"2":"1")
+                        .add("typeId", 4 == UserInfoManager.getAccountTypeId() ? "2" : "1")
                         .add("keyword", textContent).build(),
                 AppHttpPath.SEARCH);
     }
