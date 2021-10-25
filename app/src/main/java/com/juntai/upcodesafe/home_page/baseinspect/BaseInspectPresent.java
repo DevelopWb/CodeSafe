@@ -21,6 +21,7 @@ import com.juntai.upcodesafe.bean.ExpiredTimeBean;
 import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.ImportantTagBean;
 import com.juntai.upcodesafe.bean.ItemFragmentBean;
+import com.juntai.upcodesafe.bean.ItemSignBean;
 import com.juntai.upcodesafe.bean.LocationBean;
 import com.juntai.upcodesafe.bean.MultipleItem;
 import com.juntai.upcodesafe.bean.PicRecycleBean;
@@ -129,7 +130,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 getCheckDetailData(dataBean), new TextKeyValueAdapter(R.layout.text_key_value_item))));
 
         List<CheckDetailBean.DataBean.ConcreteProblemsBean> problemsBeans = dataBean.getConcreteProblems();
-        if (problemsBeans!=null&&!problemsBeans.isEmpty()) {
+        if (problemsBeans != null && !problemsBeans.isEmpty()) {
             for (CheckDetailBean.DataBean.ConcreteProblemsBean problemsBean : problemsBeans) {
                 List<String> pics = new ArrayList<>();
                 if (!TextUtils.isEmpty(problemsBean.getPhotoOne())) {
@@ -149,6 +150,21 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 arrays.add(new MultipleItem(MultipleItem.ITEM_DES_PIC, desAndPicBean));
             }
         }
+
+        if (!UserInfoManager.isEnterpriseAccount()) {
+            //添加整改期限
+            String time = dataBean == null ? "" : dataBean.getRectifyTime();
+            arrays.add(new MultipleItem(MultipleItem.ITEM_EXPIRE_TIME, new ExpiredTimeBean(time)));
+            if (TextUtils.isEmpty(dataBean.getSignPhoto())) {
+                //没有签名  显示添加签名的控件
+            } else {
+                //展示签名文件
+                arrays.add(new MultipleItem(MultipleItem.ITEM_SIGN, new ItemSignBean("责任人签字：", dataBean == null ? "" :
+                        dataBean.getSignPhoto(), 0, false)));
+            }
+        }
+
+
         CheckDetailBean.DataBean.UnitPunishBean punishBean = dataBean.getUnitPunish();
         if (punishBean != null) {
             initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.PUNISH_INFO,
@@ -562,13 +578,20 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 }
                 arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MORE, new AddDesPicBean("", "", "增加更多")));
             }
-        }else {
+        } else {
             arrays = addDesPicLayout("检查情况描述", "上传检查图片", 0);
         }
         if (!isOK) {
-            //添加整改期限
-            String time = savedCheckBean==null?"":savedCheckBean.getRectifyTime();
-            arrays.add(new MultipleItem(MultipleItem.ITEM_EXPIRE_TIME,new ExpiredTimeBean(time)));
+            if (!UserInfoManager.isEnterpriseAccount()) {
+                //添加整改期限
+                String time = savedCheckBean == null ? "" : savedCheckBean.getRectifyTime();
+                arrays.add(new MultipleItem(MultipleItem.ITEM_EXPIRE_TIME, new ExpiredTimeBean(time)));
+
+                //添加签名
+                arrays.add(new MultipleItem(MultipleItem.ITEM_SIGN, new ItemSignBean("责任人签字：", savedCheckBean == null ? "" :
+                        savedCheckBean.getSignPhoto(), 0, true)));
+            }
+
         }
 
         return arrays;
@@ -581,7 +604,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
      */
     public List<MultipleItem> getTrainPlansData(List<TrainPlanListBean.DataBean> dataBeans) {
         List<MultipleItem> arrays = new ArrayList<>();
-        if (dataBeans!=null&&!dataBeans.isEmpty()) {
+        if (dataBeans != null && !dataBeans.isEmpty()) {
             for (TrainPlanListBean.DataBean problemsBean : dataBeans) {
                 List<String> pics = new ArrayList<>();
                 if (!TextUtils.isEmpty(problemsBean.getPhotoOne())) {

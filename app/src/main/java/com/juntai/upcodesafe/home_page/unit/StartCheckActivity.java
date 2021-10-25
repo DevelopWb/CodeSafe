@@ -56,7 +56,6 @@ public class StartCheckActivity extends BaseCommitFootViewActivity {
                     .setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-//                            adapter.setNewData(mPresenter.getCheckData(savedCheckBean,1== savedCheckBean.getQualified()));
                             if (1== savedCheckBean.getQualified()) {
                                 mRadioQualifiedRb.setChecked(true);
                             } else {

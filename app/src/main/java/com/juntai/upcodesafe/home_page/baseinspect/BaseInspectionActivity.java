@@ -1,16 +1,20 @@
 package com.juntai.upcodesafe.home_page.baseinspect;
 
 import android.content.Intent;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.basecomponent.base.BaseResult;
+import com.juntai.disabled.basecomponent.utils.FileCacheUtils;
 import com.juntai.disabled.basecomponent.utils.GsonTools;
+import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.disabled.basecomponent.utils.PickerManager;
 import com.juntai.disabled.basecomponent.utils.RuleTools;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
@@ -19,6 +23,7 @@ import com.juntai.disabled.video.img.ImageZoomActivity;
 import com.juntai.upcodesafe.AppHttpPath;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseAppActivity;
+import com.juntai.upcodesafe.base.customview.GestureSignatureView;
 import com.juntai.upcodesafe.base.selectPics.SelectPhotosFragment;
 import com.juntai.upcodesafe.bean.AddDesPicBean;
 import com.juntai.upcodesafe.bean.BaseAdapterDataBean;
@@ -28,6 +33,7 @@ import com.juntai.upcodesafe.bean.DesAndPicBean;
 import com.juntai.upcodesafe.bean.ExpiredTimeBean;
 import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.ItemFragmentBean;
+import com.juntai.upcodesafe.bean.ItemSignBean;
 import com.juntai.upcodesafe.bean.LocationBean;
 import com.juntai.upcodesafe.bean.MultipleItem;
 import com.juntai.upcodesafe.bean.PicRecycleBean;
@@ -40,6 +46,7 @@ import com.juntai.upcodesafe.utils.UserInfoManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -78,7 +85,10 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
     protected abstract String getTitleName();
 
-
+    private BottomSheetDialog bottomSheetDialog;
+    private GestureSignatureView gsv_signature;
+    private ImageView mSignIv;
+    private ItemSignBean itemSignBean;
     private int townId;
     private int countyId;
 
@@ -125,6 +135,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
 
 
+
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 currentPosition = position;
@@ -150,12 +161,12 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 //                        }
 //
 //                        break;
-//                    case R.id.sign_ll:
-//                        itemSignBean = (ItemSignBean) multipleItem.getObject();
-//                        //签名
-//                        mSignIv = (ImageView) view.findViewById(R.id.sign_name_iv);
-//                        showSignatureView();
-//                        break;
+                    case R.id.sign_ll:
+                        itemSignBean = (ItemSignBean) multipleItem.getObject();
+                        //签名
+                        mSignIv = (ImageView) view.findViewById(R.id.sign_name_iv);
+                        showSignatureView();
+                        break;
 
                     case R.id.select_value_tv:
                         mSelectTv = (TextView) adapter.getViewByPosition(mRecyclerview, position,
@@ -237,7 +248,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
                         } else {
                             //添加一组条目
-                            adapter.addData(adapter.getData().size() - 2, mPresenter.addDesPicLayout(addDesPicBean.getDesTitle(), addDesPicBean.getPicTitle(), 1));
+                            adapter.addData(adapter.getData().size() - 3, mPresenter.addDesPicLayout(addDesPicBean.getDesTitle(), addDesPicBean.getPicTitle(), 1));
 
                         }
                         break;
@@ -367,7 +378,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     protected BaseAdapterDataBean getBaseAdapterData(boolean skipFilter) {
         List<CheckDetailBean.DataBean.ConcreteProblemsBean> arr = new ArrayList<>();
         BaseAdapterDataBean bean = new BaseAdapterDataBean();
-        CheckDetailBean.DataBean  checkDetailBean = new CheckDetailBean.DataBean();
+        CheckDetailBean.DataBean checkDetailBean = new CheckDetailBean.DataBean();
         UnitDetailBean.DataBean unitDataBean = new UnitDetailBean.DataBean();
         MultipartBody.Builder builder = mPresenter.getPublishMultipartBody();
         List<MultipleItem> arrays = adapter.getData();
@@ -383,7 +394,6 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     switch (bindManagerBean.getManagerName()) {
                         case BaseInspectContract.BUSINESS_PRODUCTION_DEPARTMENT:
                             if (bindManagerBean.isBound()) {
-                                bindedManagers.add(new IdNameBean.DataBean(UserInfoManager.getDepartmentId(), UserInfoManager.getDepartmentName()));
                                 builder.addFormDataPart("directorId", String.valueOf(UserInfoManager.getDepartmentId()));
                                 unitDataBean.setDirectorList(bindedManagers);
                             }
@@ -391,7 +401,6 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         case BaseInspectContract.BUSINESS_PRODUCTION_DIRECT_DEPARTMENT:
                             if (bindManagerBean.isBound()) {
                                 builder.addFormDataPart("superviseId", String.valueOf(UserInfoManager.getDepartmentId()));
-                                bindedManagers.add(new IdNameBean.DataBean(UserInfoManager.getDepartmentId(), UserInfoManager.getDepartmentName()));
                                 unitDataBean.setSuperviseList(bindedManagers);
                             }
                             break;
@@ -403,7 +412,6 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             break;
                         case BaseInspectContract.UNIT_UNIT_SUPERVISE_PEOPLE:
                             if (bindManagerBean.isBound()) {
-                                bindedManagers.add(new IdNameBean.DataBean(UserInfoManager.getDepartmentId(), UserInfoManager.getDepartmentName()));
                                 unitDataBean.setSuperviseUserList(bindedManagers);
                                 builder.addFormDataPart("superviseUserId", String.valueOf(UserInfoManager.getUserId()));
                             }
@@ -636,7 +644,21 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         ToastUtils.toast(mContext, "请选择日期");
                         return null;
                     }
+                    builder.addFormDataPart("rectifyTime", expiredTimeBean.getTime());
+
                     checkDetailBean.setRectifyTime(expiredTimeBean.getTime());
+                    break;
+                case MultipleItem.ITEM_SIGN:
+                    //签名
+                    ItemSignBean signBean = (ItemSignBean) array.getObject();
+                    if (!StringTools.isStringValueOk(signBean.getSignPicPath())) {
+                        ToastUtils.toast(mContext, "请签名");
+                        return null;
+                    }
+                    checkDetailBean.setSignPhoto(signBean.getSignPicPath());
+                    builder.addFormDataPart("signPicture", "signPicture",
+                            RequestBody.create(MediaType.parse(
+                                    "file"), new File(getSignPath(FileCacheUtils.SIGN_PIC_NAME))));
                     break;
                 case MultipleItem.ITEM_FRAGMENT:
                     ItemFragmentBean fragmentBean = (ItemFragmentBean) array.getObject();
@@ -835,10 +857,66 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                 .putExtra("paths", photos)
                 .putExtra("item", position));
     }
+    /**
+     * 展示签名的画板
+     */
+    protected void showSignatureView() {
 
+        bottomSheetDialog = new BottomSheetDialog(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.signature_view_layout, null);
+        view.findViewById(R.id.signature_view_save).setOnClickListener(this);
+        view.findViewById(R.id.signature_view_rewrite).setOnClickListener(this);
+        view.findViewById(R.id.signature_view_cancel).setOnClickListener(this);
+        //签名画板
+        gsv_signature = view.findViewById(R.id.gsv_signature);
+
+        bottomSheetDialog.setContentView(view);
+        bottomSheetDialog.setCanceledOnTouchOutside(false);
+        bottomSheetDialog.setCancelable(false);
+        bottomSheetDialog.show();
+
+
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.signature_view_save:
+                if (gsv_signature.getTouched()) {
+                    try {
+                        String signPath = FileCacheUtils.getAppImagePath() + FileCacheUtils.SIGN_PIC_NAME;
+                        //保存到本地
+                        gsv_signature.save(signPath);
+                        if (mSignIv != null) {
+                            ImageLoadUtil.loadImageNoCache(mContext, signPath, mSignIv);
+                        }
+//                        if (onSignedCallBack != null) {
+//                            onSignedCallBack.signed(signPath);
+//                        }
+                        if (itemSignBean != null) {
+                            itemSignBean.setSignPicPath(signPath);
+                        }
+                        //                        SINGE_STATE = true;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    //                    mSignNameTagIv.setVisibility(View.GONE);
+                    //                    mSignNameNoticeTv.setVisibility(View.GONE);
+                    //                    mSignRedactImg.setVisibility(View.VISIBLE);
+                    bottomSheetDialog.dismiss();
+                    //                    mSignResign.getRightTextView().setVisibility(View.VISIBLE);
+                } else {
+                    ToastUtils.toast(mContext, "请签名！");
+                }
+
+                break;
+
+            case R.id.signature_view_rewrite:
+                gsv_signature.clear();
+                break;
+            case R.id.signature_view_cancel:
+                gsv_signature.clear();
+                bottomSheetDialog.dismiss();
+                break;
             case R.id.commit_form_tv:
                 //提交
                 BaseAdapterDataBean baseAdapterDataBean = null;

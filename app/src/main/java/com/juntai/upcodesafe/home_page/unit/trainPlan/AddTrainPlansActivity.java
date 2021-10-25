@@ -41,6 +41,7 @@ public class AddTrainPlansActivity extends BaseCommitFootViewActivity {
     @Override
     protected void saveDraft() {
         // TODO: 2021-10-23 培训计划 保存草稿
+        ToastUtils.toast(mContext,"暂时没有");
 //        //保存草稿
 //        if (getBaseAdapterData(true) != null) {
 //            Hawk.put(getHawkKey(), getBaseAdapterData(true).getUnitDataBean());

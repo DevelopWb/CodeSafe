@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -44,12 +45,15 @@ import com.juntai.upcodesafe.bean.ExpiredTimeBean;
 import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.ImportantTagBean;
 import com.juntai.upcodesafe.bean.ItemFragmentBean;
+import com.juntai.upcodesafe.bean.ItemSignBean;
 import com.juntai.upcodesafe.bean.LocationBean;
 import com.juntai.upcodesafe.bean.MultipleItem;
 import com.juntai.upcodesafe.bean.PicRecycleBean;
 import com.juntai.upcodesafe.bean.TextKeyValueBean;
 import com.juntai.upcodesafe.home_page.unit.ManagerListAdapter;
 import com.juntai.upcodesafe.utils.HawkProperty;
+import com.juntai.upcodesafe.utils.StringTools;
+import com.juntai.upcodesafe.utils.UrlFormatUtil;
 import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
@@ -104,6 +108,8 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         addItemType(MultipleItem.ITEM_ADD_MANAGER, R.layout.item_add_manager);
         addItemType(MultipleItem.ITEM_BUSINESS_TYPES, R.layout.item_business_types);
         addItemType(MultipleItem.ITEM_EXPIRE_TIME, R.layout.item_text);
+        addItemType(MultipleItem.ITEM_SIGN, R.layout.item_layout_type_sign);
+
 
         this.isDetail = isDetail;
         this.mFragmentManager = mFragmentManager;
@@ -179,6 +185,36 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
     protected void convert(BaseViewHolder helper, MultipleItem item) {
 
         switch (item.getItemType()) {
+
+            case MultipleItem.ITEM_SIGN:
+                ItemSignBean signBean = (ItemSignBean) item.getObject();
+                if (signBean.isCanSign()) {
+                    helper.addOnClickListener(R.id.sign_ll);
+                }
+                int gravity = signBean.getLayoutGravity();
+                LinearLayout signLl = helper.getView(R.id.item_sign_ll);
+                ImageView signIv = helper.getView(R.id.sign_name_iv);
+                if (0 == gravity) {
+                    helper.setGone(R.id.sign_tag, true);
+                    signLl.setGravity(Gravity.LEFT);
+                } else {
+                    helper.setGone(R.id.sign_tag, false);
+                    signLl.setGravity(Gravity.RIGHT);
+                }
+                helper.setText(R.id.sign_name_tv, signBean.getSignName());
+                if (StringTools.isStringValueOk(signBean.getSignPicPath())) {
+                    if (signBean.getSignPicPath().contains(BaseInspectionActivity.SDCARD_TAG)) {
+                        ImageLoadUtil.loadImage(mContext, signBean.getSignPicPath(),
+                                signIv);
+                    }else {
+                        ImageLoadUtil.loadImage(mContext, UrlFormatUtil.getImageOriginalUrl(signBean.getSignPicPath()),
+                                signIv);
+                    }
+
+                }
+                break;
+
+
             case MultipleItem.ITEM_EXPIRE_TIME:
                 ExpiredTimeBean expiredTimeBean = (ExpiredTimeBean) item.getObject();
                 String des = mContext.getString(R.string.check_summarize);

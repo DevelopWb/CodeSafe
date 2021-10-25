@@ -12,9 +12,6 @@ import com.orhanobut.hawk.Hawk;
  * @UpdateDate: 2020/12/19 14:04
  */
 public class UserInfoManager {
-    public static String QQ_ID = null;//qqid
-    public static String WECHAT_ID = null;//wechatid
-    public static String OTHER_NICK_NAME = null;//第三方昵称
 
     /**
      * 获取用户信息
@@ -26,6 +23,13 @@ public class UserInfoManager {
         return userBean;
     }
 
+    /**
+     * 是否是企业账户
+     * @return
+     */
+    public static boolean   isEnterpriseAccount(){
+        return  getAccountTypeId()==4;
+    }
     /**
      * 判定用户是否登录
      *
