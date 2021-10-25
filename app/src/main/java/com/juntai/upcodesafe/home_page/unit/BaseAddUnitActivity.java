@@ -27,8 +27,6 @@ import okhttp3.MultipartBody;
  */
 public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
 
-    private boolean isUnitNameUnque = false;//单位名称是否唯一
-    private boolean isUnitUCCUnique = false;//社会信用代码是否唯一
     public UnitDetailBean.DataBean bean;
     private UnitDetailBean.DataBean savedUnitBean;
     public int unitId;
@@ -48,7 +46,6 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
                     .setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            initStatus(savedUnitBean);
                             adapter.setNewData(mPresenter.getUnitInfoData(savedUnitBean, false, isAddInfo()));
                         }
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {
@@ -68,14 +65,6 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
      */
     protected abstract boolean isAddInfo();
 
-    private void initStatus(UnitDetailBean.DataBean bean) {
-        if (!TextUtils.isEmpty(bean.getName())) {
-            isUnitNameUnque = true;
-        }
-        if (!TextUtils.isEmpty(bean.getUnifiedCreditCode())) {
-            isUnitUCCUnique = true;
-        }
-    }
 
     /**
      * 获取key
@@ -92,8 +81,6 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
             bean = getIntent().getParcelableExtra(PARCELABLE_KEY);
             if (bean != null) {
                 unitId = bean.getId();
-//                version = bean.getVersion();
-                initStatus(bean);
             }
             adapter.setNewData(mPresenter.getUnitInfoData(bean, false, isAddInfo()));
         }
@@ -121,14 +108,6 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
 
     @Override
     protected void commitRequest(MultipartBody.Builder builder) {
-        if (!isUnitNameUnque) {
-            ToastUtils.toast(mContext, "单位名称已存在,不可重复添加");
-            return;
-        }
-        if (!isUnitUCCUnique) {
-            ToastUtils.toast(mContext, "社会信用代码已存在,不可重复添加");
-            return;
-        }
         commit(builder);
 
     }
@@ -142,24 +121,6 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
         super.onSuccess(tag, o);
 
         switch (tag) {
-            case BaseInspectContract.INSPECTION_UNIT_NAME:
-                BaseResult result = (BaseResult) o;
-                if ("成功".equals(result.message)) {
-                    isUnitNameUnque = true;
-                } else {
-                    ToastUtils.toast(mContext, "单位名称已存在");
-                    isUnitNameUnque = false;
-                }
-                break;
-            case BaseInspectContract.INSPECTION_UNIT_UCC:
-                BaseResult baseResult = (BaseResult) o;
-                if ("成功".equals(baseResult.message)) {
-                    isUnitUCCUnique = true;
-                } else {
-                    ToastUtils.toast(mContext, "社会信用代码已存在");
-                    isUnitUCCUnique = false;
-                }
-                break;
             case AppHttpPath.MANUAL_ADD_UNIT:
             case AppHttpPath.ADD_UNIT:
                 ToastUtils.toast(mContext, "添加成功");

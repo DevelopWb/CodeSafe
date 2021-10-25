@@ -17,19 +17,17 @@ public class BaseAdapterDataBean {
 
     private  MultipartBody.Builder  builder;
     private UnitDetailBean.DataBean  unitDataBean;
+    private CheckDetailBean.DataBean  checkDetailBean;
     private  String concreteProblemsJson;//描述和图片组合的json串
-    private List<CheckDetailBean.DataBean.ConcreteProblemsBean> problems;//描述和图片组合的json串
 
-    public List<CheckDetailBean.DataBean.ConcreteProblemsBean> getProblems() {
-        if (problems == null) {
-            return new ArrayList<>();
-        }
-        return problems;
+    public CheckDetailBean.DataBean getCheckDetailBean() {
+        return checkDetailBean;
     }
 
-    public void setProblems(List<CheckDetailBean.DataBean.ConcreteProblemsBean> problems) {
-        this.problems = problems;
+    public void setCheckDetailBean(CheckDetailBean.DataBean checkDetailBean) {
+        this.checkDetailBean = checkDetailBean;
     }
+
 
     public String getConcreteProblemsJson() {
         return concreteProblemsJson == null ? "" : concreteProblemsJson;

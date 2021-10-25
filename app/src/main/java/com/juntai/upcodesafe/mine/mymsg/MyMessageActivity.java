@@ -8,7 +8,7 @@ import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseRecyclerviewActivity;
 import com.juntai.upcodesafe.bean.MyMsgBean;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectionInfoActivity;
-import com.juntai.upcodesafe.home_page.inspect.inspect.UnitInfoActivity;
+import com.juntai.upcodesafe.home_page.unit.UnitInfoActivity;
 import com.juntai.upcodesafe.mine.MyCenterContract;
 import com.juntai.upcodesafe.mine.MyCenterPresent;
 

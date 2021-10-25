@@ -12,7 +12,7 @@ import com.juntai.upcodesafe.bean.HomeBusinessBean;
 import com.juntai.upcodesafe.home_page.HomePageContract;
 import com.juntai.upcodesafe.home_page.HomePagePresent;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectContract;
-import com.juntai.upcodesafe.home_page.industryDetail.IndustryInfoActivity;
+import com.juntai.upcodesafe.home_page.unit.industryDetail.IndustryInfoActivity;
 import com.juntai.upcodesafe.utils.UserInfoManager;
 
 import java.util.List;

@@ -2,10 +2,10 @@ package com.juntai.upcodesafe;
 
 public class AppHttpPath {
 
-    public static final String BASE = "http://192.168.124.118:8080/EmergencyBureau";
+    public static final String BASE = "http://www.juntaikeji.com:20702/EmergencyBureau";
 
 
-    public static final String BASE_IMAGE = "http://192.168.124.118:9597";
+    public static final String BASE_IMAGE = "http://www.juntaikeji.com:20704";
 
 
     /**
@@ -47,8 +47,7 @@ public class AppHttpPath {
     /**
      * 检查更新
      */
-//    public static final String APP_UPDATE = BASE + "/u/appUserStaff/detectionAppVersions.shtml";
-    public static final String APP_UPDATE = BASE + "";
+    public static final String APP_UPDATE = BASE + "/u/appUserStaff/detectionAppVersions.shtml";
 
     /**
      * 获取短信验证码

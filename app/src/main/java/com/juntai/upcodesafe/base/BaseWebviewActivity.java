@@ -8,10 +8,8 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
 import com.juntai.disabled.basecomponent.mvp.BasePresenter;
-import com.juntai.disabled.basecomponent.utils.EventManager;
-import com.juntai.upcodesafe.ImageJavascriptInterface;
+import com.juntai.upcodesafe.utils.ImageJavascriptInterface;
 import com.juntai.upcodesafe.R;
-import com.juntai.upcodesafe.utils.HawkProperty;
 import com.juntai.upcodesafe.utils.HtmlFormat;
 import com.juntai.upcodesafe.utils.StringTools;
 

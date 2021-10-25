@@ -14,10 +14,9 @@ import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseAppFragment;
 import com.juntai.upcodesafe.home_page.HomePageContract;
 import com.juntai.upcodesafe.home_page.HomePagePresent;
-import com.juntai.upcodesafe.home_page.inspect.notice.EnterpriseNoticeActivity;
+import com.juntai.upcodesafe.home_page.unit.notice.EnterpriseNoticeActivity;
 import com.juntai.upcodesafe.home_page.search.SearchActivity;
 import com.juntai.upcodesafe.home_page.unit.AddUnitActivity;
-import com.juntai.upcodesafe.mine.MyCenterContract;
 import com.juntai.upcodesafe.utils.UserInfoManager;
 
 /**

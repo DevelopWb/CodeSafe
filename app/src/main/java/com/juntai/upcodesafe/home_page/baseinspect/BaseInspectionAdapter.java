@@ -1,15 +1,23 @@
 package com.juntai.upcodesafe.home_page.baseinspect;
 
+import android.content.DialogInterface;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.UnderlineSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,15 +29,18 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.juntai.disabled.basecomponent.utils.CalendarUtil;
+import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.basecomponent.utils.DisplayUtil;
 import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
+import com.juntai.disabled.basecomponent.utils.PickerManager;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.selectPics.SelectPhotosFragment;
-import com.juntai.upcodesafe.base.selectPics.ShowSelectedPicsAdapter;
 import com.juntai.upcodesafe.bean.AddDesPicBean;
 import com.juntai.upcodesafe.bean.BaseNormalRecyclerviewBean;
 import com.juntai.upcodesafe.bean.BindManagerBean;
 import com.juntai.upcodesafe.bean.DesAndPicBean;
+import com.juntai.upcodesafe.bean.ExpiredTimeBean;
 import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.ImportantTagBean;
 import com.juntai.upcodesafe.bean.ItemFragmentBean;
@@ -41,6 +52,8 @@ import com.juntai.upcodesafe.home_page.unit.ManagerListAdapter;
 import com.juntai.upcodesafe.utils.HawkProperty;
 import com.orhanobut.hawk.Hawk;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -55,7 +68,8 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
     private OnPicRecyclerviewCallBack onPicRecyclerviewCallBack;
     private boolean isDetail = false;//是否是详情模式
     private FragmentManager mFragmentManager;
-
+    public String ITEM_HEAD_TAG2 = "场所于(";
+    public String ITEM_FOOT_TAG2 = ")前改正";
 
     public void setOnPicRecyclerviewCallBack(OnPicRecyclerviewCallBack onPicRecyclerviewCallBack) {
         this.onPicRecyclerviewCallBack = onPicRecyclerviewCallBack;
@@ -89,36 +103,122 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         addItemType(MultipleItem.ITEM_ADD_MORE, R.layout.item_add_more);
         addItemType(MultipleItem.ITEM_ADD_MANAGER, R.layout.item_add_manager);
         addItemType(MultipleItem.ITEM_BUSINESS_TYPES, R.layout.item_business_types);
+        addItemType(MultipleItem.ITEM_EXPIRE_TIME, R.layout.item_text);
+
         this.isDetail = isDetail;
         this.mFragmentManager = mFragmentManager;
+    }
+
+    private void initSpannableText(TextView textView, String content) {
+
+        //  只展示已经选择的项目
+        ExpiredTimeBean expiredTimeBean = (ExpiredTimeBean) textView.getTag();
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        SpannableString spannableString = new SpannableString(content);
+        //点击事件
+        spannableString.setSpan(new ClickableSpan() {
+                                    @Override
+                                    public void onClick(@NonNull View widget) {
+                                        if (isDetail) {
+                                            return;
+                                        }
+                                        //第一个选择时间
+                                        PickerManager.getInstance().showTimePickerView(mContext,
+                                                PickerManager.getInstance().getTimeType("day"),
+                                                "选择日期", new PickerManager.OnTimePickerTimeSelectedListener() {
+                                                    @Override
+                                                    public void onTimeSelect(Date date, View v) {
+                                                        String str =
+                                                                content.replaceFirst(content.substring(getFirstHeadIndex(content, ITEM_HEAD_TAG2),
+                                                                        getFirstFootIndex(content, ITEM_FOOT_TAG2)),
+                                                                        CalendarUtil.getTimeFromDate("yyyy-MM-dd",
+                                                                                date));
+                                                        initSpannableText(textView, str);
+                                                        expiredTimeBean.setTime(CalendarUtil.getTimeFromDate("yyyy-MM" +
+                                                                "-dd", date));
+                                                    }
+                                                });
+                                    }
+                                }, getFirstHeadIndex(content, ITEM_HEAD_TAG2), getFirstFootIndex(content,
+                ITEM_FOOT_TAG2),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //下划线
+        spannableString.setSpan(new UnderlineSpan(), getFirstHeadIndex(content, ITEM_HEAD_TAG2),
+                getFirstFootIndex(content, ITEM_FOOT_TAG2),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //设置文字颜色
+        spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.colorAccent)),
+                getFirstHeadIndex(content, ITEM_HEAD_TAG2),
+                getFirstFootIndex(content, ITEM_FOOT_TAG2),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+        builder.append(spannableString);
+        textView.setText(builder);
+        // 添加这一行之后，指定区域文字点击事件才会生效
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    private int getFirstHeadIndex(String content, String str) {
+        return content.indexOf(str) + str.length();
+    }
+
+    private int getLastHeadIndex(String content, String str) {
+        return content.lastIndexOf(str) + str.length();
+    }
+
+    private int getFirstFootIndex(String content, String str) {
+        return content.indexOf(str);
+    }
+
+    private int getLastFootIndex(String content, String str) {
+        return content.lastIndexOf(str);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, MultipleItem item) {
 
         switch (item.getItemType()) {
+            case MultipleItem.ITEM_EXPIRE_TIME:
+                ExpiredTimeBean expiredTimeBean = (ExpiredTimeBean) item.getObject();
+                String des = mContext.getString(R.string.check_summarize);
+                helper.setText(R.id.single_text_tv, des);
+                /**
+                 * 总结
+                 */
+
+                TextView summarizeTv = helper.getView(R.id.single_text_tv);
+                summarizeTv.setTag(expiredTimeBean);
+                String content = mContext.getString(R.string.check_summarize);
+                if (!TextUtils.isEmpty(expiredTimeBean.getTime())) {
+                    content = content.replaceFirst(content.substring(getFirstHeadIndex(content, ITEM_HEAD_TAG2),
+                            getFirstFootIndex(content, ITEM_FOOT_TAG2)), expiredTimeBean.getTime());
+                }
+                initSpannableText(summarizeTv, content);
+
+                break;
             case MultipleItem.ITEM_BUSINESS_TYPES:
                 TextKeyValueBean businessTypeBean = (TextKeyValueBean) item.getObject();
                 AutoCompleteTextView autoCompleteTextView = helper.getView(R.id.business_type_tv);
                 autoCompleteTextView.setText(businessTypeBean.getValue());
-                List<IdNameBean.DataBean> businessTypes  = Hawk.get(HawkProperty.BUSINESS_TYPES_KEY);
-                DataValueAdapter  dataValueAdapter = new DataValueAdapter(mContext, businessTypes);
+                List<IdNameBean.DataBean> businessTypes = Hawk.get(HawkProperty.BUSINESS_TYPES_KEY);
+                DataValueAdapter dataValueAdapter = new DataValueAdapter(mContext, businessTypes);
                 autoCompleteTextView.setAdapter(dataValueAdapter);
                 dataValueAdapter.setOnNoDataCallBack(new DataValueAdapter.OnNoDataCallBack() {
                     @Override
                     public void noSearchedData() {
-                       autoCompleteTextView.postDelayed(new Runnable() {
-                           @Override
-                           public void run() {
-                               autoCompleteTextView.setText("");
-                           }
-                       },1000);
+                        autoCompleteTextView.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                autoCompleteTextView.setText("");
+                            }
+                        }, 1000);
                     }
                 });
                 autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        IdNameBean.DataBean idnameBean =dataValueAdapter.getDatas().get(position);
+                        IdNameBean.DataBean idnameBean = dataValueAdapter.getDatas().get(position);
                         autoCompleteTextView.setText(idnameBean.getName());
                         autoCompleteTextView.setSelection(autoCompleteTextView.getText().length());
                         businessTypeBean.setValue(idnameBean.getName());
@@ -130,12 +230,12 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
             case MultipleItem.ITEM_ADD_MANAGER:
                 BindManagerBean bindManagerBean = (BindManagerBean) item.getObject();
                 helper.setText(R.id.manager_name_iv, bindManagerBean.getManagerName());
-                if (bindManagerBean.getData()==null||bindManagerBean.getData().isEmpty()) {
+                if (bindManagerBean.getData() == null || bindManagerBean.getData().isEmpty()) {
                     helper.setGone(R.id.managers_name_rv, false);
                 } else {
                     helper.setGone(R.id.managers_name_rv, true);
                 }
-                RecyclerView  bindManagerRv = helper.getView(R.id.managers_name_rv);
+                RecyclerView bindManagerRv = helper.getView(R.id.managers_name_rv);
                 GridLayoutManager bindmanager = new GridLayoutManager(mContext, 2);
                 bindManagerRv.setLayoutManager(bindmanager);
                 ManagerListAdapter managerListAdapter = new ManagerListAdapter(R.layout.single_text_layout);
@@ -143,11 +243,11 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 managerListAdapter.setNewData(bindManagerBean.getData());
                 helper.addOnClickListener(R.id.manager_bind_tv);
                 if (bindManagerBean.isBound()) {
-                    helper.setTextColor(R.id.manager_bind_tv, ContextCompat.getColor(mContext,R.color.red));
-                    helper.setText(R.id.manager_bind_tv, "移除"+bindManagerBean.getBtName());
-                }else {
-                    helper.setTextColor(R.id.manager_bind_tv, ContextCompat.getColor(mContext,R.color.colorAccent));
-                    helper.setText(R.id.manager_bind_tv, "添加"+bindManagerBean.getBtName());
+                    helper.setTextColor(R.id.manager_bind_tv, ContextCompat.getColor(mContext, R.color.red));
+                    helper.setText(R.id.manager_bind_tv, "移除" + bindManagerBean.getBtName());
+                } else {
+                    helper.setTextColor(R.id.manager_bind_tv, ContextCompat.getColor(mContext, R.color.colorAccent));
+                    helper.setText(R.id.manager_bind_tv, "添加" + bindManagerBean.getBtName());
                 }
 
                 ImageLoadUtil.loadImage(mContext, bindManagerBean.getManagerIcon(), helper.getView(R.id.manager_logo_iv));
@@ -156,14 +256,6 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 if (!isDetail) {
                     helper.addOnClickListener(R.id.form_head_pic_iv);
                 }
-//                BusinessPicBean headPicBean = (BusinessPicBean) item.getObject();
-//                ImageView headIv = helper.getView(R.id.form_head_pic_iv);
-//                String headPicPath = headPicBean.getPicPath();
-//                if (!TextUtils.isEmpty(headPicPath)) {
-//                    ImageLoadUtil.loadImageNoCache(mContext, headPicPath, headIv);
-//                } else {
-//                    ImageLoadUtil.loadImage(mContext, R.mipmap.two_inch_pic, headIv);
-//                }
                 break;
             case MultipleItem.ITEM_TITILE_BIG:
                 helper.setText(R.id.item_big_title_tv, (String) item.getObject());
@@ -178,57 +270,6 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 EditText editText = helper.getView(R.id.edit_value_et);
                 initEditTextData(textValueEditBean, editText);
                 String editKey = ((TextKeyValueBean) editText.getTag()).getKey();
-//                //正则
-//                switch (editKey) {
-//                    case BusinessContract.TABLE_TITLE_CONTACT_MODE:
-//                        //联系方式
-//                        editText.setInputType(InputType.TYPE_CLASS_PHONE);
-//                        break;
-//                    case BusinessContract.TABLE_TITLE_PHONE:
-//                        //联系电话
-//                        editText.setInputType(InputType.TYPE_CLASS_PHONE);
-//                        break;
-//                    case BusinessContract.TABLE_TITLE_MOBILE_NUM:
-//                        //手机号码
-//                        editText.setInputType(InputType.TYPE_CLASS_PHONE);
-//                        break;
-//                    case BusinessContract.TABLE_TITLE_HOUSE_PHONE:
-//                        //住宅电话
-//                        editText.setInputType(InputType.TYPE_CLASS_PHONE);
-//                        break;
-//                    case BusinessContract.TABLE_TITLE_WCHAT_PHONE:
-//                        //微信手机号
-//                        editText.setInputType(InputType.TYPE_CLASS_PHONE);
-//                        break;
-//                    case BusinessContract.TABLE_TITLE_CARD_NUM:
-//                        //卡号
-//                        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-//                        break;
-//                    case BusinessContract.TABLE_TITLE_IDCARD:
-//                        //身份证号
-//                        break;
-//                    case BusinessContract.TABLE_TITLE_CHILD_IDCARD:
-//                        //儿童身份证号
-//                        break;
-//                    case BusinessContract.TABLE_TITLE_GUARDIAN_ID_CARD:
-//                        //监护人身份证号
-//                        break;
-//                    case BusinessContract.TABLE_TITLE_AGE_FAMILY:
-//                        //F年龄
-//                        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-//                        break;
-//                    case BusinessContract.TABLE_TITLE_AGE_PERSIONAL:
-//                        //P年龄
-//                        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-//                        break;
-//                    case BusinessContract.TABLE_TITLE_DISABLE_CARD_ID:
-//                        //残疾证号
-//                        break;
-//                    default:
-//                        //输入类型为普通文本
-//                        editText.setInputType(InputType.TYPE_CLASS_TEXT);
-//                        break;
-//                }
 
                 break;
             case MultipleItem.ITEM_EDIT2:
@@ -340,7 +381,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 HorPicsAdapter selectedPicsAdapter = new HorPicsAdapter(R.layout.show_selected_pic_item);
                 selectedPicsAdapter.setDelateable(!isDetail);
                 picRecycleRv.setAdapter(selectedPicsAdapter);
-                if (pics.isEmpty()) {
+                if (pics == null || pics.isEmpty()) {
                     pics.add("-1");
                 }
                 selectedPicsAdapter.setNewData((List<String>) picRecycleRv.getTag());

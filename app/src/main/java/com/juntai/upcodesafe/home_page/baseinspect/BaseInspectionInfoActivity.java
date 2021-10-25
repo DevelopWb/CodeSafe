@@ -15,11 +15,11 @@ import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseAppActivity;
 import com.juntai.upcodesafe.bean.ActionBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
-import com.juntai.upcodesafe.home_page.inspect.inspect.StartCheckActivity;
-import com.juntai.upcodesafe.home_page.inspect.inspect.checkRecord.CheckRecordActivity;
-import com.juntai.upcodesafe.home_page.inspect.inspect.rectifynotice.RectifyNoticeListActivity;
-import com.juntai.upcodesafe.home_page.inspect.inspect.response.ResponseListActivity;
-import com.juntai.upcodesafe.home_page.inspect.trainPlan.TrainPlanActivity;
+import com.juntai.upcodesafe.home_page.unit.StartCheckActivity;
+import com.juntai.upcodesafe.home_page.unit.checkRecord.CheckRecordActivity;
+import com.juntai.upcodesafe.home_page.unit.rectifynotice.RectifyNoticeListActivity;
+import com.juntai.upcodesafe.home_page.unit.response.ResponseListActivity;
+import com.juntai.upcodesafe.home_page.unit.trainPlan.TrainPlanActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;

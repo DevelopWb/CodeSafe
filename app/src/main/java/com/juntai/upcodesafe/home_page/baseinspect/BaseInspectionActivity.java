@@ -25,6 +25,7 @@ import com.juntai.upcodesafe.bean.BaseAdapterDataBean;
 import com.juntai.upcodesafe.bean.BindManagerBean;
 import com.juntai.upcodesafe.bean.CheckDetailBean;
 import com.juntai.upcodesafe.bean.DesAndPicBean;
+import com.juntai.upcodesafe.bean.ExpiredTimeBean;
 import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.ItemFragmentBean;
 import com.juntai.upcodesafe.bean.LocationBean;
@@ -229,8 +230,16 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
                     case R.id.add_more_item_ll:
                         AddDesPicBean addDesPicBean = (AddDesPicBean) multipleItem.getObject();
-                        //添加一组条目
-                        adapter.addData(adapter.getData().size() - 1, mPresenter.addDesPicLayout(addDesPicBean.getDesTitle(), addDesPicBean.getPicTitle(), 1));
+                        MultipleItem item = (MultipleItem) adapter.getData().get(adapter.getData().size() - 1);
+                        if (item.getItemType() == MultipleItem.ITEM_ADD_MORE) {
+                            //添加一组条目
+                            adapter.addData(adapter.getData().size() - 1, mPresenter.addDesPicLayout(addDesPicBean.getDesTitle(), addDesPicBean.getPicTitle(), 1));
+
+                        } else {
+                            //添加一组条目
+                            adapter.addData(adapter.getData().size() - 2, mPresenter.addDesPicLayout(addDesPicBean.getDesTitle(), addDesPicBean.getPicTitle(), 1));
+
+                        }
                         break;
                     default:
                         break;
@@ -252,9 +261,9 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         if ("-1".equals(icon_path)) {
 //                            int count = mMaxCount - (adapter.getData().size() - 1);
                             choseImage(0, BaseInspectionActivity.this, 1);
-                        }else {
+                        } else {
                             //图片路径
-                            onPicClick(adapter,position);
+                            onPicClick(adapter, position);
                         }
                         break;
                     case R.id.delete_pushed_news_iv:
@@ -358,6 +367,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     protected BaseAdapterDataBean getBaseAdapterData(boolean skipFilter) {
         List<CheckDetailBean.DataBean.ConcreteProblemsBean> arr = new ArrayList<>();
         BaseAdapterDataBean bean = new BaseAdapterDataBean();
+        CheckDetailBean.DataBean  checkDetailBean = new CheckDetailBean.DataBean();
         UnitDetailBean.DataBean unitDataBean = new UnitDetailBean.DataBean();
         MultipartBody.Builder builder = mPresenter.getPublishMultipartBody();
         List<MultipleItem> arrays = adapter.getData();
@@ -612,7 +622,21 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         arr.add(checkDesJsonBena);
                     }
 
-
+                    if (!arr.isEmpty()) {
+                        builder.addFormDataPart("problemsJson", GsonTools.createGsonString(arr));
+                        builder.addFormDataPart("planJson", GsonTools.createGsonString(arr));
+                    } else {
+                        ToastUtils.toast(mContext, "请输入最少一组情况描述和图片");
+                        return null;
+                    }
+                    break;
+                case MultipleItem.ITEM_EXPIRE_TIME:
+                    ExpiredTimeBean expiredTimeBean = (ExpiredTimeBean) array.getObject();
+                    if (TextUtils.isEmpty(expiredTimeBean.getTime())) {
+                        ToastUtils.toast(mContext, "请选择日期");
+                        return null;
+                    }
+                    checkDetailBean.setRectifyTime(expiredTimeBean.getTime());
                     break;
                 case MultipleItem.ITEM_FRAGMENT:
                     ItemFragmentBean fragmentBean = (ItemFragmentBean) array.getObject();
@@ -709,14 +733,12 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     break;
             }
         }
-        if (!arr.isEmpty()) {
-            builder.addFormDataPart("problemsJson", GsonTools.createGsonString(arr));
-            builder.addFormDataPart("planJson", GsonTools.createGsonString(arr));
-        }
+
         bean.setBuilder(builder);
         bean.setUnitDataBean(unitDataBean);
         bean.setConcreteProblemsJson(GsonTools.createGsonString(arr));
-        bean.setProblems(arr);
+        checkDetailBean.setConcreteProblems(arr);
+        bean.setCheckDetailBean(checkDetailBean);
         return bean;
     }
 
@@ -804,7 +826,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         for (String array : arrays) {
 
             if (!array.contains(SDCARD_TAG)) {
-                array = AppHttpPath.BASE_IMAGE+array;
+                array = AppHttpPath.BASE_IMAGE + array;
             }
             photos.add(array);
         }

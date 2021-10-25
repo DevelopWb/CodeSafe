@@ -17,6 +17,7 @@ import com.juntai.upcodesafe.bean.BindManagerBean;
 import com.juntai.upcodesafe.bean.CheckDetailBean;
 import com.juntai.upcodesafe.bean.CheckRecordBean;
 import com.juntai.upcodesafe.bean.DesAndPicBean;
+import com.juntai.upcodesafe.bean.ExpiredTimeBean;
 import com.juntai.upcodesafe.bean.IdNameBean;
 import com.juntai.upcodesafe.bean.ImportantTagBean;
 import com.juntai.upcodesafe.bean.ItemFragmentBean;
@@ -31,7 +32,7 @@ import com.juntai.upcodesafe.bean.TownListBean;
 import com.juntai.upcodesafe.bean.TrainPlanListBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
 import com.juntai.upcodesafe.bean.UnitsBean;
-import com.juntai.upcodesafe.home_page.inspect.inspect.rectifynotice.PicOnlyAdapter;
+import com.juntai.upcodesafe.home_page.unit.rectifynotice.PicOnlyAdapter;
 import com.juntai.upcodesafe.utils.UrlFormatUtil;
 import com.juntai.upcodesafe.utils.UserInfoManager;
 
@@ -128,7 +129,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 getCheckDetailData(dataBean), new TextKeyValueAdapter(R.layout.text_key_value_item))));
 
         List<CheckDetailBean.DataBean.ConcreteProblemsBean> problemsBeans = dataBean.getConcreteProblems();
-        if (!problemsBeans.isEmpty()) {
+        if (problemsBeans!=null&&!problemsBeans.isEmpty()) {
             for (CheckDetailBean.DataBean.ConcreteProblemsBean problemsBean : problemsBeans) {
                 List<String> pics = new ArrayList<>();
                 if (!TextUtils.isEmpty(problemsBean.getPhotoOne())) {
@@ -535,31 +536,41 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     /**
      * @return
      */
-    public List<MultipleItem> showSavedDesPics(List<CheckDetailBean.DataBean.ConcreteProblemsBean> problemsBeans) {
+    public List<MultipleItem> getCheckData(CheckDetailBean.DataBean savedCheckBean, boolean isOK) {
         List<MultipleItem> arrays = new ArrayList<>();
-        if (!problemsBeans.isEmpty()) {
-            for (CheckDetailBean.DataBean.ConcreteProblemsBean problemsBean : problemsBeans) {
-                List<String> pics = new ArrayList<>();
-                if (!TextUtils.isEmpty(problemsBean.getPhotoOne())) {
-                    pics.add(problemsBean.getPhotoOne());
+        List<CheckDetailBean.DataBean.ConcreteProblemsBean> problemsBeans = null;
+        if (savedCheckBean != null) {
+            problemsBeans = savedCheckBean.getConcreteProblems();
+            if (problemsBeans != null && !problemsBeans.isEmpty()) {
+                for (CheckDetailBean.DataBean.ConcreteProblemsBean problemsBean : problemsBeans) {
+                    List<String> pics = new ArrayList<>();
+                    if (!TextUtils.isEmpty(problemsBean.getPhotoOne())) {
+                        pics.add(problemsBean.getPhotoOne());
+                    }
+                    if (!TextUtils.isEmpty(problemsBean.getPhotoTwo())) {
+                        pics.add(problemsBean.getPhotoTwo());
+                    }
+                    if (!TextUtils.isEmpty(problemsBean.getPhotoThree())) {
+                        pics.add(problemsBean.getPhotoThree());
+                    }
+                    DesAndPicBean desAndPicBean = new DesAndPicBean();
+                    desAndPicBean.setBigTitle("检查图片");
+                    desAndPicBean.setPicRecycleBean(new PicRecycleBean(pics));
+                    desAndPicBean.setImportantTagBean(new ImportantTagBean(BaseInspectContract.CHECK_DES, false));
+                    desAndPicBean.setTextKeyValueBean(new TextKeyValueBean(BaseInspectContract.CHECK_DES, problemsBean.getConcreteProblem(), "请输入" + BaseInspectContract.CHECK_DES, 1, false));
+                    arrays.add(new MultipleItem(MultipleItem.ITEM_DES_PIC, desAndPicBean));
                 }
-                if (!TextUtils.isEmpty(problemsBean.getPhotoTwo())) {
-                    pics.add(problemsBean.getPhotoTwo());
-                }
-                if (!TextUtils.isEmpty(problemsBean.getPhotoThree())) {
-                    pics.add(problemsBean.getPhotoThree());
-                }
-                DesAndPicBean desAndPicBean = new DesAndPicBean();
-                desAndPicBean.setBigTitle("检查图片");
-                desAndPicBean.setPicRecycleBean(new PicRecycleBean(pics));
-                desAndPicBean.setImportantTagBean(new ImportantTagBean(BaseInspectContract.CHECK_DES, false));
-                desAndPicBean.setTextKeyValueBean(new TextKeyValueBean(BaseInspectContract.CHECK_DES, problemsBean.getConcreteProblem(), "请输入" + BaseInspectContract.CHECK_DES, 1, false));
-                arrays.add(new MultipleItem(MultipleItem.ITEM_DES_PIC, desAndPicBean));
+                arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MORE, new AddDesPicBean("", "", "增加更多")));
             }
-            arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MORE, new AddDesPicBean("", "", "增加更多")));
-        } else {
-            addDesPicLayout("检查情况描述", "上传检查图片", 0);
+        }else {
+            arrays = addDesPicLayout("检查情况描述", "上传检查图片", 0);
         }
+        if (!isOK) {
+            //添加整改期限
+            String time = savedCheckBean==null?"":savedCheckBean.getRectifyTime();
+            arrays.add(new MultipleItem(MultipleItem.ITEM_EXPIRE_TIME,new ExpiredTimeBean(time)));
+        }
+
         return arrays;
     }
 
@@ -570,7 +581,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
      */
     public List<MultipleItem> getTrainPlansData(List<TrainPlanListBean.DataBean> dataBeans) {
         List<MultipleItem> arrays = new ArrayList<>();
-        if (!dataBeans.isEmpty()) {
+        if (dataBeans!=null&&!dataBeans.isEmpty()) {
             for (TrainPlanListBean.DataBean problemsBean : dataBeans) {
                 List<String> pics = new ArrayList<>();
                 if (!TextUtils.isEmpty(problemsBean.getPhotoOne())) {

@@ -29,7 +29,7 @@ import com.juntai.upcodesafe.entrance.LoginActivity;
 import com.juntai.upcodesafe.home_page.homepage_fragment.HomePageFragment;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectionInfoActivity;
 import com.juntai.upcodesafe.home_page.QRScanActivity;
-import com.juntai.upcodesafe.home_page.inspect.inspect.UnitInfoActivity;
+import com.juntai.upcodesafe.home_page.unit.UnitInfoActivity;
 import com.juntai.upcodesafe.mine.MyCenterFragment;
 import com.juntai.upcodesafe.utils.UserInfoManager;
 

@@ -7,5 +7,6 @@
     <string name="add_info_notice">注意:1.只有搜索不到企业信息的时候才能使用手动添加\n\u3000\u3000 2.监管单位、属地、网格只能使用后台管理端添加</string>
     <string name="load_more">点击加载更多</string>
     <string name="load_more_no_data">没有数据了</string>
-
+    <string name="check_summarize">\u3000\u3000对上述第不合格项,责令你单位/场所于(请选择日期)前改正。\n\u3000\u3000改正期间你单位/场所应当采取措施，确保
+消防安全，对消防安全违法行为，将依法予以处罚。</string>
 </resources>

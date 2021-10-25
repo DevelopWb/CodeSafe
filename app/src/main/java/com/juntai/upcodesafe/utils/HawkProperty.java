@@ -29,7 +29,6 @@ public class HawkProperty {
     //行业种类
     public final static String BUSINESS_TYPES_KEY = "business_types_key";
     public final static String START_CHECK = "startcheck";
-    public final static String START_CHECK_ISOK = "startcheckisok";
 
     public static String ADD_UNIT_KEY = "add_unit";//手动添加单位  这个key唯一  搜索添加的时候 需要绑定单位的id
     public static String EDIT_UNIT_KEY = "edit_unit";//编辑单位  这个key唯一  搜索添加的时候 需要绑定单位的id

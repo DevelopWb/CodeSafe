@@ -12,7 +12,6 @@ import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.customview.CustomViewPager;
 import com.juntai.upcodesafe.base.customview.MainPagerAdapter;
 import com.juntai.upcodesafe.home_page.baseinspect.BaseInspectContract;
-import com.juntai.upcodesafe.home_page.inspect.inspect.checkRecord.CheckRecordFragment;
 
 /**
  * @Author: tobato
