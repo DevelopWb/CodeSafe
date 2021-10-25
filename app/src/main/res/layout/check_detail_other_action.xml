@@ -24,7 +24,7 @@
         android:textSize="14dp"
         android:textColor="@color/colorAccent"
         android:paddingTop="5dp"
-        android:text="添加整改通知书"
+        android:text="添加整改指令书"
         android:gravity="center"
         android:background="?android:attr/selectableItemBackground"/>
 </LinearLayout>

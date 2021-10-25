@@ -36,11 +36,28 @@ public class TrainPlanListBean extends BaseResult {
          * photoTwo : /test/bbb.jpg
          * photoThree : /test/bbb.jpg
          */
-
+        private int unitId;
+        private int userId;
         private String describe;
         private String photoOne;
         private String photoTwo;
         private String photoThree;
+
+        public int getUnitId() {
+            return unitId;
+        }
+
+        public void setUnitId(int unitId) {
+            this.unitId = unitId;
+        }
+
+        public int getUserId() {
+            return userId;
+        }
+
+        public void setUserId(int userId) {
+            this.userId = userId;
+        }
 
         public String getDescribe() {
             return describe;

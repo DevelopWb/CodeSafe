@@ -143,7 +143,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     pics.add(problemsBean.getPhotoThree());
                 }
                 DesAndPicBean desAndPicBean = new DesAndPicBean();
-                desAndPicBean.setBigTitle("检查图片");
+                desAndPicBean.setBigTitle("上传检查图片");
                 desAndPicBean.setPicRecycleBean(new PicRecycleBean(pics));
                 desAndPicBean.setImportantTagBean(new ImportantTagBean(BaseInspectContract.CHECK_DES, false));
                 desAndPicBean.setTextKeyValueBean(new TextKeyValueBean(BaseInspectContract.CHECK_DES, problemsBean.getConcreteProblem(), "请输入" + BaseInspectContract.CHECK_DES, 1, false));
@@ -239,20 +239,20 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL, new ImportantTagBean
                         ("监管单位", true)));
                 arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.direct_manager_icon,
-                        BaseInspectContract.BUSINESS_PRODUCTION_DEPARTMENT, bean == null ? null : bean.getDirectorList(), "为本单位的\"行业主管\"企业", bean != null && isBinded(bean.getDirectorList()))));
+                        BaseInspectContract.BUSINESS_PRODUCTION_DEPARTMENT, bean == null ? null : bean.getDirectorList(), "为本单位的\"行业主管\"企业", bean != null && isBinded(bean.getDirectorList()),bean==null?0:bean.getId())));
                 arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.direct_manager_icon,
-                        BaseInspectContract.BUSINESS_PRODUCTION_DIRECT_DEPARTMENT, bean == null ? null : bean.getSuperviseList(), "为本单位的\"直接监管责任\"企业", bean != null && isBinded(bean.getSuperviseList()))));
+                        BaseInspectContract.BUSINESS_PRODUCTION_DIRECT_DEPARTMENT, bean == null ? null : bean.getSuperviseList(), "为本单位的\"直接监管责任\"企业", bean != null && isBinded(bean.getSuperviseList()),bean==null?0:bean.getId())));
             } else if (2 == UserInfoManager.getAccountTypeId()) {
                 arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL, new ImportantTagBean("属地监管", true)));
                 arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.supervise_icon,
-                        BaseInspectContract.UNIT_TERRITORY_SUPERVISE, null, "为本区域监督（管理）企业", bean != null && bean.getTerritorySuperviseId() > 0)));
+                        BaseInspectContract.UNIT_TERRITORY_SUPERVISE, null, "为本区域监督（管理）企业", bean != null && bean.getTerritorySuperviseId() > 0,bean==null?0:bean.getId())));
                 arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.supervise_people_icon,
-                        BaseInspectContract.UNIT_UNIT_SUPERVISE_PEOPLE, bean == null ? null : bean.getSuperviseUserList(), "为本区域监督（管理）人", bean != null && isBinded(bean.getSuperviseUserList()))));
+                        BaseInspectContract.UNIT_UNIT_SUPERVISE_PEOPLE, bean == null ? null : bean.getSuperviseUserList(), "为本区域监督（管理）人", bean != null && isBinded(bean.getSuperviseUserList()),bean==null?0:bean.getId())));
             } else if (3 == UserInfoManager.getAccountTypeId()) {
                 arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL, new ImportantTagBean
                         ("监督(管理)人", true)));
                 arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MANAGER, new BindManagerBean(R.mipmap.grid_icon,
-                        BaseInspectContract.UNIT_GRID_SUPERVISE, null, "为本网格企业", bean != null && bean.getGridSuperviseId() > 0)));
+                        BaseInspectContract.UNIT_GRID_SUPERVISE, null, "为本网格企业", bean != null && bean.getGridSuperviseId() > 0,bean==null?0:bean.getId())));
 
             }
 
@@ -550,6 +550,42 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     }
 
     /**
+     * 获取添加培训的数据
+     * @return
+     */
+    public  List<MultipleItem> getTrainAddData(List<TrainPlanListBean.DataBean> list){
+        List<MultipleItem> arrays = new ArrayList<>();
+        if (list != null&&!list.isEmpty()) {
+            for (TrainPlanListBean.DataBean dataBean : list) {
+                List<String> pics = new ArrayList<>();
+                if (!TextUtils.isEmpty(dataBean.getPhotoOne())) {
+                    pics.add(dataBean.getPhotoOne());
+                }
+                if (!TextUtils.isEmpty(dataBean.getPhotoTwo())) {
+                    pics.add(dataBean.getPhotoTwo());
+                }
+                if (!TextUtils.isEmpty(dataBean.getPhotoThree())) {
+                    pics.add(dataBean.getPhotoThree());
+                }
+                DesAndPicBean desAndPicBean = new DesAndPicBean();
+                desAndPicBean.setBigTitle("培训计划照片或扫描件");
+                desAndPicBean.setPicRecycleBean(new PicRecycleBean(pics));
+                desAndPicBean.setImportantTagBean(new ImportantTagBean(BaseInspectContract.CHECK_DES, false));
+                desAndPicBean.setTextKeyValueBean(new TextKeyValueBean(BaseInspectContract.CHECK_DES, dataBean.getDescribe(), "请输入" + BaseInspectContract.CHECK_DES, 1, false));
+                arrays.add(new MultipleItem(MultipleItem.ITEM_DES_PIC, desAndPicBean));
+            }
+            arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MORE, new AddDesPicBean("培训计划描述", "培训计划照片或扫描件", "增加更多")));
+
+        }else {
+            arrays = addDesPicLayout("培训计划描述", "培训计划照片或扫描件", 0);
+        }
+
+        return arrays;
+    }
+
+
+
+    /**
      * @return
      */
     public List<MultipleItem> getCheckData(CheckDetailBean.DataBean savedCheckBean, boolean isOK) {
@@ -570,13 +606,13 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                         pics.add(problemsBean.getPhotoThree());
                     }
                     DesAndPicBean desAndPicBean = new DesAndPicBean();
-                    desAndPicBean.setBigTitle("检查图片");
+                    desAndPicBean.setBigTitle("上传检查图片");
                     desAndPicBean.setPicRecycleBean(new PicRecycleBean(pics));
                     desAndPicBean.setImportantTagBean(new ImportantTagBean(BaseInspectContract.CHECK_DES, false));
                     desAndPicBean.setTextKeyValueBean(new TextKeyValueBean(BaseInspectContract.CHECK_DES, problemsBean.getConcreteProblem(), "请输入" + BaseInspectContract.CHECK_DES, 1, false));
                     arrays.add(new MultipleItem(MultipleItem.ITEM_DES_PIC, desAndPicBean));
                 }
-                arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MORE, new AddDesPicBean("", "", "增加更多")));
+                arrays.add(new MultipleItem(MultipleItem.ITEM_ADD_MORE, new AddDesPicBean("检查情况描述", "上传检查图片", "增加更多")));
             }
         } else {
             arrays = addDesPicLayout("检查情况描述", "上传检查图片", 0);
@@ -619,8 +655,6 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 DesAndPicBean desAndPicBean = new DesAndPicBean();
                 desAndPicBean.setBigTitle(problemsBean.getDescribe());
                 desAndPicBean.setPicRecycleBean(new PicRecycleBean(pics));
-//                desAndPicBean.setImportantTagBean(new ImportantTagBean("" , false));
-//                desAndPicBean.setTextKeyValueBean(new TextKeyValueBean(BaseInspectContract.CHECK_DES , problemsBean.getDescribe(), "请输入" + BaseInspectContract.CHECK_DES, 1, false));
                 arrays.add(new MultipleItem(MultipleItem.ITEM_DES_PIC, desAndPicBean));
             }
         }

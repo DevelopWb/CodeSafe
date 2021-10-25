@@ -24,7 +24,7 @@ public class RectifyNoticeListActivity extends BaseRecordActivity {
 
     @Override
     protected String getTitleName() {
-        return "整改通知书列表";
+        return "整改指令书列表";
     }
 
     @Override

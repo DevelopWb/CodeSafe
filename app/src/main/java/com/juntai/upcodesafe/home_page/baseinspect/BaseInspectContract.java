@@ -43,7 +43,7 @@ public interface BaseInspectContract {
 
       String  RESPONSE_LIST = "本单位责任清单";
       String  CHECK_RECORD = "检查记录";
-      String  REPAIRE_NOTICE = "整改通知书";
+      String  REPAIRE_NOTICE = "整改指令书";
       String  TRAIN_PLAN = "培训计划";
       String  START_CHECK_SELF = "开始自查";
       String  START_CHECK = "开始检查";

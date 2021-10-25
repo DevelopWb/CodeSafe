@@ -17,14 +17,23 @@ public class BindManagerBean {
     private List<IdNameBean.DataBean> data;
     private String btName;
     private boolean isBound;//是否已经被绑定
+    private int  unitId;
 
+    public int getUnitId() {
+        return unitId;
+    }
 
-    public BindManagerBean(int managerIcon, String managerName, List<IdNameBean.DataBean> data, String btName, boolean isBound) {
+    public void setUnitId(int unitId) {
+        this.unitId = unitId;
+    }
+
+    public BindManagerBean(int managerIcon, String managerName, List<IdNameBean.DataBean> data, String btName, boolean isBound, int unitId) {
         this.managerIcon = managerIcon;
         this.managerName = managerName;
         this.data = data;
         this.btName = btName;
         this.isBound = isBound;
+        this.unitId = unitId;
     }
 
     public boolean isBound() {

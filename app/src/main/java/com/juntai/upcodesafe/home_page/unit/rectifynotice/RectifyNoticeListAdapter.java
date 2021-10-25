@@ -34,6 +34,6 @@ public class RectifyNoticeListAdapter extends BaseQuickAdapter<RectifyNoticeList
         iconIv.setLayoutParams(linearParams); //使设置好的布局参数应用到控件
         helper.setText(R.id.record_time_tv, item.getGmtCreate());
         helper.setGone(R.id.record_person_tv, false);
-        helper.setText(R.id.record_type_tv, "整改通知书");
+        helper.setText(R.id.record_type_tv, "整改指令书");
     }
 }

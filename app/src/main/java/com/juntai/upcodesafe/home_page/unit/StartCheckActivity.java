@@ -68,6 +68,7 @@ public class StartCheckActivity extends BaseCommitFootViewActivity {
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            savedCheckBean = null;
                             mRadioQualifiedRb.setChecked(true);
                             startLocation();
                         }

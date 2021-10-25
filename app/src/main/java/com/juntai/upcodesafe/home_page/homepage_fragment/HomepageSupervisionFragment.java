@@ -24,6 +24,8 @@ public class HomepageSupervisionFragment extends HomePageBaseSupervisionFragment
 
     private TabLayout mTabTb;
     private CustomViewPager mViewpageVp;
+    HomepageChildBusinessFragment  childBusinessFragment1 = HomepageChildBusinessFragment.newInstance(BaseInspectContract.UNIT_DIRECTOR);
+    HomepageChildBusinessFragment  childBusinessFragment2 = HomepageChildBusinessFragment.newInstance(BaseInspectContract.UNIT_SUPERVISE);
 
     @Override
     protected View getChildFragmentView() {
@@ -33,6 +35,12 @@ public class HomepageSupervisionFragment extends HomePageBaseSupervisionFragment
         mTabTb.setTabMode(TabLayout.MODE_FIXED);
         mViewpageVp = (CustomViewPager) view.findViewById(R.id.viewpage_vp);
         return view;
+    }
+
+    @Override
+    protected void refreshData() {
+//        childBusinessFragment1.
+
     }
 
     private void initTab() {
@@ -75,8 +83,8 @@ public class HomepageSupervisionFragment extends HomePageBaseSupervisionFragment
     protected SparseArray<Fragment> getFragments() {
         SparseArray<Fragment> arrays = new SparseArray<>();
 
-        arrays.append(0, HomepageChildBusinessFragment.newInstance(BaseInspectContract.UNIT_DIRECTOR));
-        arrays.append(1, HomepageChildBusinessFragment.newInstance(BaseInspectContract.UNIT_SUPERVISE));
+        arrays.append(0,childBusinessFragment1 );
+        arrays.append(1, childBusinessFragment2);
 
         return arrays;
     }

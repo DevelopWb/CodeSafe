@@ -18,7 +18,18 @@ public class BaseAdapterDataBean {
     private  MultipartBody.Builder  builder;
     private UnitDetailBean.DataBean  unitDataBean;
     private CheckDetailBean.DataBean  checkDetailBean;
-    private  String concreteProblemsJson;//描述和图片组合的json串
+    List<TrainPlanListBean.DataBean>  trainDesPics;
+
+    public List<TrainPlanListBean.DataBean> getTrainDesPics() {
+        if (trainDesPics == null) {
+            return new ArrayList<>();
+        }
+        return trainDesPics;
+    }
+
+    public void setTrainDesPics(List<TrainPlanListBean.DataBean> trainDesPics) {
+        this.trainDesPics = trainDesPics;
+    }
 
     public CheckDetailBean.DataBean getCheckDetailBean() {
         return checkDetailBean;
@@ -29,13 +40,6 @@ public class BaseAdapterDataBean {
     }
 
 
-    public String getConcreteProblemsJson() {
-        return concreteProblemsJson == null ? "" : concreteProblemsJson;
-    }
-
-    public void setConcreteProblemsJson(String concreteProblemsJson) {
-        this.concreteProblemsJson = concreteProblemsJson == null ? "" : concreteProblemsJson;
-    }
 
     public MultipartBody.Builder getBuilder() {
         return builder;

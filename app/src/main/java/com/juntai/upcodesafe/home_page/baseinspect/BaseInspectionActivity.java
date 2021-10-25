@@ -39,10 +39,12 @@ import com.juntai.upcodesafe.bean.MultipleItem;
 import com.juntai.upcodesafe.bean.PicRecycleBean;
 import com.juntai.upcodesafe.bean.TextKeyValueBean;
 import com.juntai.upcodesafe.bean.TownListBean;
+import com.juntai.upcodesafe.bean.TrainPlanListBean;
 import com.juntai.upcodesafe.bean.UnitDetailBean;
 import com.juntai.upcodesafe.utils.HawkProperty;
 import com.juntai.upcodesafe.utils.StringTools;
 import com.juntai.upcodesafe.utils.UserInfoManager;
+import com.mob.wrappers.UMSSDKWrapper;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.io.File;
@@ -135,7 +137,6 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
 
 
-
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 currentPosition = position;
@@ -209,27 +210,39 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         //添加或者移除企业
                         bindManagerBean = (BindManagerBean) multipleItem.getObject();
                         List<IdNameBean.DataBean> bindManagers = bindManagerBean.getData();
-                        if (bindManagerBean.isBound()) {
-                            if (getCurrentManagerId() > 0) {
-                                //调用删除的接口
+                        if (bindManagers == null||bindManagers.isEmpty()) {
+                            //网格 或者属地
+                            if (bindManagerBean.isBound()) {
                                 mPresenter.deleteUnitManager(getBaseBuilder().add("typeId", getManagerType())
-                                        .add("id", String.valueOf(getCurrentManagerId())).build(), AppHttpPath.DELETE_UNIT_MANAGER);
-                            } else {
-                                //本地添加的数据 不用调用接口删除 直接更改状态
-                                bindManagerBean.setBound(false);
-                                Iterator iterator = bindManagers.iterator();
-                                while (iterator.hasNext()) {
-                                    IdNameBean.DataBean bean = (IdNameBean.DataBean) iterator.next();
-                                    if (UserInfoManager.getDepartmentName().equals(bean.getName())) {
-                                        iterator.remove();
-                                    }
-                                }
+                                        .add("id", String.valueOf(bindManagerBean.getUnitId())).build(), AppHttpPath.DELETE_UNIT_MANAGER);
+                            }else {
+                                bindManagerBean.setBound(true);
                             }
 
-                        } else {
-                            bindManagers.add(bindManagers.size(), new IdNameBean.DataBean(UserInfoManager.getDepartmentName()));
-                            bindManagerBean.setBound(true);
+                        }else {
+                            if (bindManagerBean.isBound()) {
+                                if (getCurrentManagerId() > 0) {
+                                    //调用删除的接口
+                                    mPresenter.deleteUnitManager(getBaseBuilder().add("typeId", getManagerType())
+                                            .add("id", String.valueOf(getCurrentManagerId())).build(), AppHttpPath.DELETE_UNIT_MANAGER);
+                                } else {
+                                    //本地添加的数据 不用调用接口删除 直接更改状态
+                                    bindManagerBean.setBound(false);
+                                    Iterator iterator = bindManagers.iterator();
+                                    while (iterator.hasNext()) {
+                                        IdNameBean.DataBean bean = (IdNameBean.DataBean) iterator.next();
+                                        if (UserInfoManager.getDepartmentName().equals(bean.getName())) {
+                                            iterator.remove();
+                                        }
+                                    }
+                                }
+
+                            } else {
+                                bindManagers.add(bindManagers.size(), new IdNameBean.DataBean(UserInfoManager.getDepartmentName()));
+                                bindManagerBean.setBound(true);
+                            }
                         }
+
                         bindManagerBean.setData(bindManagers);
                         adapter.notifyItemChanged(position);
                         break;
@@ -330,9 +343,16 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     private int getCurrentManagerId() {
         List<IdNameBean.DataBean> arrays = bindManagerBean.getData();
         for (IdNameBean.DataBean array : arrays) {
-            if (UserInfoManager.getDepartmentName().equals(array.getName())) {
-                return array.getId();
+            if (UserInfoManager.getAccountTypeId()==1) {
+                if (UserInfoManager.getDepartmentName().equals(array.getName())) {
+                    return array.getId();
+                }
+            }else {
+                if (UserInfoManager.getUserName().equals(array.getName())) {
+                    return array.getId();
+                }
             }
+
         }
         return 0;
     }
@@ -377,6 +397,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
      */
     protected BaseAdapterDataBean getBaseAdapterData(boolean skipFilter) {
         List<CheckDetailBean.DataBean.ConcreteProblemsBean> arr = new ArrayList<>();
+        List<TrainPlanListBean.DataBean> trainDesPics = new ArrayList<>();
         BaseAdapterDataBean bean = new BaseAdapterDataBean();
         CheckDetailBean.DataBean checkDetailBean = new CheckDetailBean.DataBean();
         UnitDetailBean.DataBean unitDataBean = new UnitDetailBean.DataBean();
@@ -595,12 +616,13 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                 case MultipleItem.ITEM_DES_PIC:
                     DesAndPicBean desAndPicBean = (DesAndPicBean) array.getObject();
                     PicRecycleBean picRecycleBean = desAndPicBean.getPicRecycleBean();
+                    TrainPlanListBean.DataBean  trainDesPicBean = new TrainPlanListBean.DataBean();
                     CheckDetailBean.DataBean.ConcreteProblemsBean checkDesJsonBena = new CheckDetailBean.DataBean.ConcreteProblemsBean();
-                    checkDesJsonBena.setUserId(UserInfoManager.getUserId());
-                    checkDesJsonBena.setUnitId(HawkProperty.getUnitBean().getId());
+                    trainDesPicBean.setUserId(UserInfoManager.getUserId());
+                    trainDesPicBean.setUnitId(HawkProperty.getUnitBean().getId());
                     if (!TextUtils.isEmpty(desAndPicBean.getTextKeyValueBean().getValue())) {
                         checkDesJsonBena.setConcreteProblem(desAndPicBean.getTextKeyValueBean().getValue());
-                        checkDesJsonBena.setDescribe(desAndPicBean.getTextKeyValueBean().getValue());
+                        trainDesPicBean.setDescribe(desAndPicBean.getTextKeyValueBean().getValue());
                     }
                     if (!picRecycleBean.getPics().isEmpty()) {
                         for (int i = 0; i < picRecycleBean.getPics().size(); i++) {
@@ -609,12 +631,15 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 switch (i) {
                                     case 0:
                                         checkDesJsonBena.setPhotoOne(pic);
+                                        trainDesPicBean.setPhotoOne(pic);
                                         break;
                                     case 1:
                                         checkDesJsonBena.setPhotoTwo(pic);
+                                        trainDesPicBean.setPhotoTwo(pic);
                                         break;
                                     case 2:
                                         checkDesJsonBena.setPhotoThree(pic);
+                                        trainDesPicBean.setPhotoThree(pic);
                                         break;
                                     default:
                                         break;
@@ -628,22 +653,20 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
                     } else {
                         arr.add(checkDesJsonBena);
+                        trainDesPics.add(trainDesPicBean);
                     }
 
-                    if (!arr.isEmpty()) {
-                        builder.addFormDataPart("problemsJson", GsonTools.createGsonString(arr));
-                        builder.addFormDataPart("planJson", GsonTools.createGsonString(arr));
-                    } else {
-                        ToastUtils.toast(mContext, "请输入最少一组情况描述和图片");
-                        return null;
-                    }
+
                     break;
                 case MultipleItem.ITEM_EXPIRE_TIME:
                     ExpiredTimeBean expiredTimeBean = (ExpiredTimeBean) array.getObject();
-                    if (TextUtils.isEmpty(expiredTimeBean.getTime())) {
-                        ToastUtils.toast(mContext, "请选择日期");
-                        return null;
+                    if (!skipFilter) {
+                        if (TextUtils.isEmpty(expiredTimeBean.getTime())) {
+                            ToastUtils.toast(mContext, "请选择日期");
+                            return null;
+                        }
                     }
+
                     builder.addFormDataPart("rectifyTime", expiredTimeBean.getTime());
 
                     checkDetailBean.setRectifyTime(expiredTimeBean.getTime());
@@ -651,9 +674,11 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                 case MultipleItem.ITEM_SIGN:
                     //签名
                     ItemSignBean signBean = (ItemSignBean) array.getObject();
-                    if (!StringTools.isStringValueOk(signBean.getSignPicPath())) {
-                        ToastUtils.toast(mContext, "请签名");
-                        return null;
+                    if (!skipFilter) {
+                        if (!StringTools.isStringValueOk(signBean.getSignPicPath())) {
+                            ToastUtils.toast(mContext, "请签名");
+                            return null;
+                        }
                     }
                     checkDetailBean.setSignPhoto(signBean.getSignPicPath());
                     builder.addFormDataPart("signPicture", "signPicture",
@@ -755,12 +780,23 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     break;
             }
         }
-
+        if (!arr.isEmpty()) {
+            builder.addFormDataPart("problemsJson", GsonTools.createGsonString(arr));
+        }
+//        else {
+//            if (!skipFilter) {
+//                ToastUtils.toast(mContext, "请输入最少一组情况描述和图片");
+//                return null;
+//            }
+//        }
+        if (!trainDesPics.isEmpty()) {
+            builder.addFormDataPart("planJson", GsonTools.createGsonString(trainDesPics));
+        }
         bean.setBuilder(builder);
         bean.setUnitDataBean(unitDataBean);
-        bean.setConcreteProblemsJson(GsonTools.createGsonString(arr));
         checkDetailBean.setConcreteProblems(arr);
         bean.setCheckDetailBean(checkDetailBean);
+        bean.setTrainDesPics(trainDesPics);
         return bean;
     }
 
@@ -857,6 +893,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                 .putExtra("paths", photos)
                 .putExtra("item", position));
     }
+
     /**
      * 展示签名的画板
      */
@@ -877,6 +914,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
 
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

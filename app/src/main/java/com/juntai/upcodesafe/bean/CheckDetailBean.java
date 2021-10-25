@@ -268,33 +268,8 @@ public class CheckDetailBean extends BaseResult {
             private String photoOne;
             private String photoTwo;
             private String photoThree;
-            private String describe;
-            private int unitId;
-            private int userId;
 
-            public String getDescribe() {
-                return describe == null ? "" : describe;
-            }
 
-            public void setDescribe(String describe) {
-                this.describe = describe == null ? "" : describe;
-            }
-
-            public int getUnitId() {
-                return unitId;
-            }
-
-            public void setUnitId(int unitId) {
-                this.unitId = unitId;
-            }
-
-            public int getUserId() {
-                return userId;
-            }
-
-            public void setUserId(int userId) {
-                this.userId = userId;
-            }
 
             public String getConcreteProblem() {
                 return concreteProblem;

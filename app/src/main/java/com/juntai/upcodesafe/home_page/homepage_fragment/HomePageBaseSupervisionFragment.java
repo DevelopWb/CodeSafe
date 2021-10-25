@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.juntai.disabled.basecomponent.base.BaseActivity;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.upcodesafe.R;
 import com.juntai.upcodesafe.base.BaseAppFragment;
@@ -106,7 +107,7 @@ public abstract class HomePageBaseSupervisionFragment extends BaseAppFragment<Ho
                 break;
             case R.id.add_enterprise_iv:
                 // 添加企业
-                startActivity(new Intent(mContext, AddUnitActivity.class));
+                startActivityForResult(new Intent(mContext, AddUnitActivity.class), BaseActivity.BASE_REQUEST_RESULT);
                 break;
             case R.id.notice_cl:
                 startActivity(new Intent(mContext, EnterpriseNoticeActivity.class));
@@ -114,4 +115,14 @@ public abstract class HomePageBaseSupervisionFragment extends BaseAppFragment<Ho
         }
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode== BaseActivity.BASE_REQUEST_RESULT) {
+            refreshData();
+        }
+    }
+
+    protected abstract void refreshData();
 }

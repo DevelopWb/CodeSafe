@@ -34,7 +34,7 @@ public class RectifyNoticeDetailActivity extends BaseInspectionActivity {
 
     @Override
     protected String getTitleName() {
-        return "整改通知书";
+        return "整改指令书";
     }
 
     @Override

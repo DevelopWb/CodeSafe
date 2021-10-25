@@ -27,7 +27,7 @@ public class AddRectifyNoticeActivity extends BaseInspectionActivity implements 
 
     @Override
     protected String getTitleName() {
-        return "添加整改通知书";
+        return "添加整改指令书";
     }
 
     @Override
