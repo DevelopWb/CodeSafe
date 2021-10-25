@@ -37,7 +37,7 @@
     <ImageView
         android:id="@+id/scan_home_iv"
         android:layout_width="60dp"
-        android:padding="15dp"
+        android:padding="5dp"
         android:layout_height="60dp"
         android:src="@mipmap/scan_sel"
         app:layout_constraintBottom_toBottomOf="parent"

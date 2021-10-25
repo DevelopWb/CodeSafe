@@ -884,7 +884,9 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         for (String array : arrays) {
 
             if (!array.contains(SDCARD_TAG)) {
-                array = AppHttpPath.BASE_IMAGE + array;
+                if (!array.contains(AppHttpPath.BASE_IMAGE)) {
+                    array = AppHttpPath.BASE_IMAGE + array;
+                }
             }
             photos.add(array);
         }

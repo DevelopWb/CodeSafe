@@ -58,6 +58,7 @@ public class StartCheckActivity extends BaseCommitFootViewActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             if (1== savedCheckBean.getQualified()) {
                                 mRadioQualifiedRb.setChecked(true);
+                                adapter.setNewData(mPresenter.getCheckData(savedCheckBean,true));
                             } else {
                                 mRadioUnqualifiedRb.setChecked(true);
                             }
